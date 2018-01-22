@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class NetDraftJDatabase {
 
-    Connection mDbConnection = null;
+    private Connection mDbConnection = null;
 
     /**
      * TODO doc
@@ -87,22 +87,34 @@ public class NetDraftJDatabase {
         sqlStatement = 
                 "SELECT "
                     + "cards.multiverseID, "
-                    + "cards.suggest_text_1 AS card_name, "
                     + "cards.number, "
+                    // Card data
+                    + "cards.suggest_text_1 AS card_name, "
                     + "cards.supertype, "
+                    + "cards.subtype, "
+                    + "cards.manacost, "
+                    + "cards.power, "
+                    + "cards.toughness, "
+                    + "cards.loyalty, "
+                    + "cards.cardtext, "
+                    // Fluff
+                    + "cards.flavor, "
+                    + "cards.artist, "
+                    + "cards.watermark, "
+                    // Set information
                     + "sets.code AS set_code, "
                     + "sets.code_mtgi AS set_code_mtgi "
                 + "FROM (cards JOIN sets ON cards.expansion = sets.code) ";
         String orderLogic = "ORDER BY sets.date DESC";
 
-        if (card.mCardName != null && !card.mCardName.isEmpty()) {
+        if (card.getName() != null && !card.getName().isEmpty()) {
             sqlStatement += "WHERE cards.suggest_text_1 = ? ";
             sqlStatement += orderLogic;
             pstmt = mDbConnection.prepareStatement(sqlStatement);
-            pstmt.setString(1, card.mCardName);
+            pstmt.setString(1, card.getName());
         }
-        else if (card.mMultiverseId != 0) {
-            sqlStatement += "WHERE cards.multiverseID = " + card.mMultiverseId + " ";
+        else if (card.getMultiverseId() != 0) {
+            sqlStatement += "WHERE cards.multiverseID = " + card.getMultiverseId() + " ";
             sqlStatement += orderLogic;
             pstmt = mDbConnection.prepareStatement(sqlStatement);
         }
@@ -114,12 +126,7 @@ public class NetDraftJDatabase {
 
         ResultSet resultSet = pstmt.executeQuery();
 
-        card.mMultiverseId = resultSet.getInt(resultSet.findColumn("multiverseID"));
-        card.mCardName = resultSet.getString(resultSet.findColumn("card_name"));
-        card.mCardNumber = resultSet.getString(resultSet.findColumn("number"));
-        card.mCardType = resultSet.getString(resultSet.findColumn("supertype"));
-        card.mSetCode = resultSet.getString(resultSet.findColumn("set_code"));
-        card.mMagicCardsInfoSetCode = resultSet.getString(resultSet.findColumn("set_code_mtgi"));
+        card.setDataFromQuery(resultSet);
 
         /* Clean up */
         resultSet.close();

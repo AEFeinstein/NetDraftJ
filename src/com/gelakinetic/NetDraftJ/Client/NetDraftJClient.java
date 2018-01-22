@@ -155,8 +155,8 @@ public class NetDraftJClient extends Listener {
     public void pickCard(MtgCard card) {
         if (false == pickedCard) {
             pickedCard = true;
-            client.sendTCP(new PickResponse(card.mMultiverseId, mUuid));
-            mAllPicks.add(card.mCardName);
+            client.sendTCP(new PickResponse(card.getMultiverseId(), mUuid));
+            mAllPicks.add(card.getName());
         }
     }
 

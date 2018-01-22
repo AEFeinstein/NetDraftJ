@@ -233,7 +233,7 @@ public class NetDraftJServer extends Listener {
             while ((line = fileReader.readLine()) != null) {
                 MtgCard card = new MtgCard(line);
                 database.loadCard(card);
-                cubeList.add(card.mMultiverseId);
+                cubeList.add(card.getMultiverseId());
             }
 
             // Clean up

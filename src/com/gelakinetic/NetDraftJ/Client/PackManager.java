@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,7 +20,7 @@ import com.gelakinetic.NetDraftJ.Database.NetDraftJDatabase;
 
 public class PackManager {
 
-    static final ExecutorService threadPool = Executors.newFixedThreadPool(1);
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
     /**
      * TODO doc
@@ -49,7 +48,7 @@ public class PackManager {
                     // Custom button text
                     Object[] options = { "Yes, please", "No, thanks" };
                     int choice = JOptionPane.showOptionDialog(netDraftJClient.getUi().getFrame(),
-                            "Sure you want to draft " + card.mCardName + "?", "Double Checking",
+                            "Sure you want to draft " + card.getName() + "?", "Double Checking",
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
                     switch (choice) {
@@ -57,7 +56,7 @@ public class PackManager {
                             netDraftJClient.getUi().removeCard(lblCard);
                             netDraftJClient.getUi().removeCardListeners();
                             netDraftJClient.getUi().redrawCards();
-                            netDraftJClient.getUi().appendText("1 " + card.mCardName + '\n');
+                            netDraftJClient.getUi().appendText("1 " + card.getName() + '\n');
                             netDraftJClient.pickCard(card);
                             break;
                         }
@@ -77,12 +76,12 @@ public class PackManager {
                 public void run() {
                     NetDraftJDatabase database = new NetDraftJDatabase();
                     try {
-                        // TODO hover tooltip with oracle text?
                         database.loadCard(card);
                         String filename = downloadImage(card);
                         lblCard.setIcon(new ImageIcon(filename));
                         lblCard.setHorizontalAlignment(SwingConstants.CENTER);
                         lblCard.setVerticalAlignment(SwingConstants.CENTER);
+                        lblCard.setToolTipText(card.getToolTipText());
                         netDraftJClient.getUi().redrawCard(lblCard);
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -105,7 +104,7 @@ public class PackManager {
 
         String cardLanguage = "en";
 
-        String mImageKey = Integer.toString(card.mMultiverseId) + cardLanguage;
+        String mImageKey = Integer.toString(card.getMultiverseId()) + cardLanguage;
 
         /* Check disk cache in background thread first */
         if (Files.exists(Paths.get("cache", mImageKey))) {
@@ -130,13 +129,13 @@ public class PackManager {
                      * Non-English have to come from magiccards.info. Try there
                      * first
                      */
-                    picUrl = new URL(getMtgiPicUrl(card, cardLanguage));
+                    picUrl = new URL(card.getMtgiPicUrl(cardLanguage));
                     /* If this fails, try next time with the English version */
                     cardLanguage = "en";
                 }
                 else if (!triedScryfall) {
                     /* Try downloading the image from Scryfall next */
-                    picUrl = new URL(getScryfallImageUri(card));
+                    picUrl = new URL(card.getScryfallImageUri());
                     /*
                      * If this fails, try next time with the Magiccards.info
                      * version
@@ -145,14 +144,13 @@ public class PackManager {
                 }
                 else if (!triedMtgi) {
                     /* Try downloading the image from magiccards.info next */
-                    picUrl = new URL(getMtgiPicUrl(card, cardLanguage));
+                    picUrl = new URL(card.getMtgiPicUrl(cardLanguage));
                     /* If this fails, try next time with the gatherer version */
                     triedMtgi = true;
                 }
                 else {
                     /* Try downloading the image from gatherer */
-                    picUrl = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="
-                            + card.mMultiverseId + "&type=card");
+                    picUrl = new URL(card.getGathererPicUrl(cardLanguage));
                     /* If this fails, give up */
                     triedGatherer = true;
                 }
@@ -182,78 +180,6 @@ public class PackManager {
             }
         }
         return null;
-    }
-
-    /**
-     * Jumps through hoops and returns a correctly formatted URL for
-     * magiccards.info's image.
-     *
-     * @param cardName
-     *            The name of the card
-     * @param magicCardsInfoSetCode
-     *            The set of the card
-     * @param cardNumber
-     *            The number of the card
-     * @param cardLanguage
-     *            The language of the card
-     * @return a URL to the card's image
-     */
-    private static String getMtgiPicUrl(MtgCard card, String language) {
-
-        final String mtgiExtras = "http://magiccards.info/extras/";
-        String picURL;
-        if (card.mCardType.toLowerCase().contains("Ongoing".toLowerCase()) ||
-        /* extra space to not confuse with planeswalker */
-                card.mCardType.toLowerCase().contains("Plane ".toLowerCase())
-                || card.mCardType.toLowerCase().contains("Phenomenon".toLowerCase())
-                || card.mCardType.toLowerCase().contains("Scheme".toLowerCase())) {
-            switch (card.mSetCode) {
-                case "PC2":
-                    picURL = mtgiExtras + "plane/planechase-2012-edition/" + card.mCardName + ".jpg";
-                    picURL = picURL.replace(" ", "-").replace("?", "").replace(",", "").replace("'", "").replace("!",
-                            "");
-                    break;
-                case "PCH":
-                    if (card.mCardName.equalsIgnoreCase("tazeem")) {
-                        card.mCardName = "tazeem-release-promo";
-                    }
-                    else if (card.mCardName.equalsIgnoreCase("celestine reef")) {
-                        card.mCardName = "celestine-reef-pre-release-promo";
-                    }
-                    else if (card.mCardName.equalsIgnoreCase("horizon boughs")) {
-                        card.mCardName = "horizon-boughs-gateway-promo";
-                    }
-                    picURL = mtgiExtras + "plane/planechase/" + card.mCardName + ".jpg";
-                    picURL = picURL.replace(" ", "-").replace("?", "").replace(",", "").replace("'", "").replace("!",
-                            "");
-                    break;
-                case "ARC":
-                    picURL = mtgiExtras + "scheme/archenemy/" + card.mCardName + ".jpg";
-                    picURL = picURL.replace(" ", "-").replace("?", "").replace(",", "").replace("'", "").replace("!",
-                            "");
-                    break;
-                default:
-                    picURL = "http://magiccards.info/scans/" + language + "/" + card.mMagicCardsInfoSetCode + "/"
-                            + card.mCardNumber + ".jpg";
-                    break;
-            }
-        }
-        else {
-            picURL = "http://magiccards.info/scans/" + language + "/" + card.mMagicCardsInfoSetCode + "/"
-                    + card.mCardNumber + ".jpg";
-        }
-        return picURL.toLowerCase(Locale.ENGLISH);
-    }
-
-    /**
-     * Easily gets the uri for the image for a card by multiverseid.
-     *
-     * @param multiverseId
-     *            the multiverse id of the card
-     * @return uri of the card image
-     */
-    private static String getScryfallImageUri(MtgCard card) {
-        return "https://api.scryfall.com/cards/multiverse/" + card.mMultiverseId + "?format=image&version=normal";
     }
 
 }

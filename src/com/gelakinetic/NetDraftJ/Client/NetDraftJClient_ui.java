@@ -20,6 +20,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -48,6 +49,9 @@ public class NetDraftJClient_ui {
                         | UnsupportedLookAndFeelException e) {
                     e.printStackTrace();
                 }
+                
+                // Show tooltips virtually forever
+                ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 
                 try {
                     NetDraftJClient_ui window = new NetDraftJClient_ui();
