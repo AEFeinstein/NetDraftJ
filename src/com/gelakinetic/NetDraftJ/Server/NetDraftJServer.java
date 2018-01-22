@@ -93,6 +93,7 @@ public class NetDraftJServer extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof ConnectionRequest) {
+            // TODO dont accept connection requests if a draft is ongoing
             ConnectionRequest request = (ConnectionRequest) object;
 
             // Logging
@@ -180,35 +181,44 @@ public class NetDraftJServer extends Listener {
      * 
      * @param ipAddress
      */
-    public boolean startServer(String ipAddress) {
+    public void startServer(String ipAddress) {
 
-        File cubeFile = mUi.pickCubeFile();
-        if (null == cubeFile) {
-            mUi.appendText("User didn't pick a file");
-        }
-        else {
-            mUi.appendText("Loading " + cubeFile.getName());
-            if (false == loadCubeList(cubeFile)) {
-                mUi.appendText("Failed to open cube file");
-                return false;
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                mUi.setButtonEnabled(false);
+                File cubeFile = mUi.pickCubeFile();
+                if (null == cubeFile) {
+                    mUi.appendText("User didn't pick a file");
+                }
+                else {
+                    mUi.appendText("Loading " + cubeFile.getName());
+                    if (false == loadCubeList(cubeFile)) {
+                        mUi.appendText("Failed to open cube file");
+                        return;
+                    }
+                    mUi.appendText(cubeFile.getName() + " loaded");
+                }
+
+                // Start the server!
+                server = new Server();
+                server.start();
+                try {
+                    server.bind(PORT);
+                } catch (IOException e) {
+                    mUi.appendText(e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                MessageUtils.registerAll(server.getKryo());
+                server.addListener(NetDraftJServer.this);
+
+                mUi.appendText("Server started on " + ipAddress + ":" + PORT);
+                mUi.setButtonEnabled(true);
+                return;
             }
-            mUi.appendText(cubeFile.getName() + " loaded");
-        }
-
-        // Start the server!
-        server = new Server();
-        server.start();
-        try {
-            server.bind(PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        MessageUtils.registerAll(server.getKryo());
-        server.addListener(this);
-
-        mUi.appendText("Server started on " + ipAddress + ":" + PORT);
-        return true;
+        }).start();
     }
 
     /**

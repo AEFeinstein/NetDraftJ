@@ -1,6 +1,5 @@
 package com.gelakinetic.NetDraftJ.Server;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,12 +16,11 @@ import javax.swing.SwingUtilities;
 
 public class NetDraftJServer_ui {
 
-    // TODO ensure swing ops are invoked later
-
     private NetDraftJServer mServer;
 
     private JFrame mFrame;
     private JTextPane mTextPane;
+    private JButton btnStartTheGame;
 
     /**
      * Create the application.
@@ -57,13 +55,19 @@ public class NetDraftJServer_ui {
         mFrame.getContentPane().add(mTextPane);
         mTextPane.setText("");
 
-        JButton btnStartTheGame = new JButton("Start the Game");
+        btnStartTheGame = new JButton("Start the Game");
         btnStartTheGame.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnStartTheGame.setEnabled(false);
-                mServer.clickStartGameButton(e);
+                SwingUtilities.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        btnStartTheGame.setEnabled(false);
+                        mServer.clickStartGameButton(e);
+                    }
+                });
             }
         });
         mFrame.getContentPane().add(btnStartTheGame);
@@ -116,10 +120,11 @@ public class NetDraftJServer_ui {
         });
     }
 
-    public Component getFrame() {
-        return mFrame;
-    }
-
+    /**
+     * TODO doc TODO not invoked later
+     * 
+     * @return
+     */
     public File pickCubeFile() {
         // Try to load the cube file
         final JFileChooser fc = new JFileChooser("./");
@@ -129,5 +134,20 @@ public class NetDraftJServer_ui {
         else {
             return null;
         }
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @param enabled
+     */
+    public void setButtonEnabled(boolean enabled) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                btnStartTheGame.setEnabled(enabled);
+            }
+        });
     }
 }

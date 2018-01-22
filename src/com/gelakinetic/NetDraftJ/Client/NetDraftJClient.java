@@ -54,7 +54,7 @@ public class NetDraftJClient extends Listener {
         if (object instanceof ConnectionResponse) {
             ConnectionResponse request = (ConnectionResponse) object;
             if (request.getConnectionStatus()) {
-                mUi.appendText("Connected to " + connection.getRemoteAddressTCP().toString() + '\n');
+                mUi.appendText("Connected to " + connection.getRemoteAddressTCP().toString());
             }
             else {
                 mUi.appendText("Connection to server failed");
@@ -68,21 +68,21 @@ public class NetDraftJClient extends Listener {
         else if (object instanceof StartDraftInfo) {
             StartDraftInfo sdi = (StartDraftInfo) object;
             StringBuilder sb = new StringBuilder();
-            sb.append("Seating Order\n");
-            sb.append("-------------\n");
+            sb.append("<html>Seating Order<br>");
+            sb.append("-------------<br>");
             for (String player : sdi.getSeatingOrder()) {
                 sb.append(player);
-                sb.append('\n');
+                sb.append("<br>");
             }
-            sb.append('\n');
-            sb.append("Picks\n");
-            sb.append("-------------\n");
+            sb.append("<br>");
+            sb.append("Picks<br>");
+            sb.append("-------------<br></html>");
             mUi.appendText(sb.toString());
         }
         else if (object instanceof DraftOverNotification) {
             // DraftOverNotification don = (DraftOverNotification) object;
 
-            mUi.appendText("\nDraft is complete.\n\n");
+            mUi.appendText("<html><br>Draft is complete.<br><br></html>");
 
             File saveFile = mUi.getSaveFile();
             if (null != saveFile) {
