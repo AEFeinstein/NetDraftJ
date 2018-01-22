@@ -1,5 +1,10 @@
 package com.gelakinetic.NetDraftJ.Database;
 
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -305,5 +310,91 @@ public class MtgCard {
 
         mSetCode = resultSet.getString(resultSet.findColumn("set_code"));
         mMagicCardsInfoSetCode = resultSet.getString(resultSet.findColumn("set_code_mtgi"));
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @return
+     */
+    public String downloadImage() {
+        String cardLanguage = "en";
+
+        String mImageKey = Integer.toString(getMultiverseId()) + cardLanguage;
+
+        /* Check disk cache in background thread first */
+        if (Files.exists(Paths.get("cache", mImageKey))) {
+            return Paths.get("cache", mImageKey).toString();
+        }
+
+        /* Download the image */
+        boolean bRetry = true;
+
+        boolean triedMtgi = false;
+        boolean triedGatherer = false;
+        boolean triedScryfall = false;
+
+        while (bRetry) {
+
+            bRetry = false;
+
+            try {
+                URL picUrl;
+                if (!cardLanguage.equalsIgnoreCase("en")) {
+                    /*
+                     * Non-English have to come from magiccards.info. Try there
+                     * first
+                     */
+                    picUrl = new URL(getMtgiPicUrl(cardLanguage));
+                    /* If this fails, try next time with the English version */
+                    cardLanguage = "en";
+                }
+                else if (!triedScryfall) {
+                    /* Try downloading the image from Scryfall next */
+                    picUrl = new URL(getScryfallImageUri());
+                    /*
+                     * If this fails, try next time with the Magiccards.info
+                     * version
+                     */
+                    triedScryfall = true;
+                }
+                else if (!triedMtgi) {
+                    /* Try downloading the image from magiccards.info next */
+                    picUrl = new URL(getMtgiPicUrl(cardLanguage));
+                    /* If this fails, try next time with the gatherer version */
+                    triedMtgi = true;
+                }
+                else {
+                    /* Try downloading the image from gatherer */
+                    picUrl = new URL(getGathererPicUrl(cardLanguage));
+                    /* If this fails, give up */
+                    triedGatherer = true;
+                }
+
+                /* Download the bitmap */
+                if (!Files.exists(Paths.get("cache"))) {
+                    Files.createDirectory(Paths.get("cache"));
+                }
+                Path output = Paths.get("cache", mImageKey);
+                Files.copy(picUrl.openStream(), output, StandardCopyOption.REPLACE_EXISTING);
+
+                /* Gatherer is always tried last. If that fails, give up */
+                if (!triedGatherer) {
+                    bRetry = true;
+                }
+
+                return output.toString();
+
+            } catch (Exception e) {
+                /* Something went wrong */
+                e.printStackTrace();
+
+                /* Gatherer is always tried last. If that fails, give up */
+                if (!triedGatherer) {
+                    bRetry = true;
+                }
+            }
+        }
+        return null;
     }
 }

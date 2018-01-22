@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.swing.JFileChooser;
-
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -184,21 +182,19 @@ public class NetDraftJServer extends Listener {
      */
     public boolean startServer(String ipAddress) {
 
-        // Try to load the cube file
-        final JFileChooser fc = new JFileChooser("./");
-        if (JFileChooser.APPROVE_OPTION == fc.showOpenDialog(mUi.getFrame())) {
-            mUi.appendText("Loading " + fc.getSelectedFile().getName());
-            if (false == loadCubeList(fc.getSelectedFile())) {
+        File cubeFile = mUi.pickCubeFile();
+        if (null == cubeFile) {
+            mUi.appendText("User didn't pick a file");
+        }
+        else {
+            mUi.appendText("Loading " + cubeFile.getName());
+            if (false == loadCubeList(cubeFile)) {
                 mUi.appendText("Failed to open cube file");
                 return false;
             }
+            mUi.appendText(cubeFile.getName() + " loaded");
         }
-        else {
-            mUi.appendText("User didn't pick a file");
-            return false;
-        }
-        mUi.appendText(fc.getSelectedFile().getName() + " loaded");
-
+        
         // Start the server!
         server = new Server();
         server.start();

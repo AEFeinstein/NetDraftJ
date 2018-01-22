@@ -1,12 +1,10 @@
 package com.gelakinetic.NetDraftJ.Client;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JFileChooser;
-import javax.swing.SwingUtilities;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -54,72 +52,55 @@ public class NetDraftJClient extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof ConnectionResponse) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    ConnectionResponse request = (ConnectionResponse) object;
-                    if (request.getConnectionStatus()) {
-                        mUi.appendText("Connected to " + connection.getRemoteAddressTCP().toString() + '\n');
-                    }
-                    else {
-                        mUi.appendText("Connection to server failed");
-                    }
-                }
-            });
+            ConnectionResponse request = (ConnectionResponse) object;
+            if (request.getConnectionStatus()) {
+                mUi.appendText("Connected to " + connection.getRemoteAddressTCP().toString() + '\n');
+            }
+            else {
+                mUi.appendText("Connection to server failed");
+            }
         }
         else if (object instanceof PickRequest) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    PickRequest response = (PickRequest) object;
-                    PackManager.loadPack(NetDraftJClient.this, response.getPack());
-                    pickedCard = false;
-                }
-            });
+            PickRequest response = (PickRequest) object;
+            mUi.loadPack(response.getPack());
+            pickedCard = false;
         }
         else if (object instanceof StartDraftInfo) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    StartDraftInfo sdi = (StartDraftInfo) object;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("Seating Order\n");
-                    sb.append("-------------\n");
-                    for (String player : sdi.getSeatingOrder()) {
-                        sb.append(player);
-                        sb.append('\n');
-                    }
-                    sb.append('\n');
-                    sb.append("Picks\n");
-                    sb.append("-------------\n");
-                    mUi.appendText(sb.toString());
-                }
-            });
+            StartDraftInfo sdi = (StartDraftInfo) object;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Seating Order\n");
+            sb.append("-------------\n");
+            for (String player : sdi.getSeatingOrder()) {
+                sb.append(player);
+                sb.append('\n');
+            }
+            sb.append('\n');
+            sb.append("Picks\n");
+            sb.append("-------------\n");
+            mUi.appendText(sb.toString());
         }
         else if (object instanceof DraftOverNotification) {
             // DraftOverNotification don = (DraftOverNotification) object;
 
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
+            mUi.appendText("\nDraft is complete.\n\n");
 
-                    mUi.appendText("\nDraft is complete.\n\n");
-
-                    JFileChooser fc = new JFileChooser("./");
-                    fc.setDialogTitle("Save Drafted Cards");
-                    if (JFileChooser.APPROVE_OPTION == fc.showSaveDialog(mUi.getFrame())) {
-                        mUi.appendText("Saving to " + fc.getSelectedFile().getAbsolutePath());
-                        try {
-                            BufferedWriter bw = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
-                            for (String cardName : mAllPicks) {
-                                bw.write("1 " + cardName + '\n');
-                            }
-                            bw.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            File saveFile = mUi.getSaveFile();
+            if (null != saveFile) {
+                mUi.appendText("Saving to " + saveFile.getAbsolutePath());
+                try {
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
+                    for (String cardName : mAllPicks) {
+                        bw.write("1 " + cardName + '\n');
                     }
-                    else {
-                        mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
-                    }
+                    bw.close();
+                } catch (IOException e) {
+                    mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
+                    e.printStackTrace();
                 }
-            });
+            }
+            else {
+                mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
+            }
         }
     }
 

@@ -6,11 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 
 public class NetDraftJServer_ui {
 
@@ -51,7 +54,6 @@ public class NetDraftJServer_ui {
         mTextPane.setEditable(false);
         mFrame.getContentPane().add(mTextPane);
         mTextPane.setText("");
-        appendText("Server IP Address: " + ipAddress);
 
         JButton btnStartTheGame = new JButton("Start the Game");
         btnStartTheGame.addActionListener(new ActionListener() {
@@ -104,11 +106,26 @@ public class NetDraftJServer_ui {
      * @param text
      */
     public void appendText(String text) {
-        mTextPane.setText(mTextPane.getText() + '\n' + text);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mTextPane.setText(mTextPane.getText() + '\n' + text);
+            }
+        });
     }
 
     public Component getFrame() {
         return mFrame;
     }
 
+    public File pickCubeFile() {
+        // Try to load the cube file
+        final JFileChooser fc = new JFileChooser("./");
+        if (JFileChooser.APPROVE_OPTION == fc.showOpenDialog(mFrame)) {
+            return fc.getSelectedFile();
+        }
+        else {
+            return null;
+        }
+    }
 }
