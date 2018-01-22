@@ -3,9 +3,9 @@ package com.gelakinetic.NetDraftJ.Server;
 import java.util.ArrayList;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.gelakinetic.NetDraftJ.messages.ConnectionRequest;
-import com.gelakinetic.NetDraftJ.messages.DraftOverNotification;
-import com.gelakinetic.NetDraftJ.messages.PickRequest;
+import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
+import com.gelakinetic.NetDraftJ.Messages.DraftOverNotification;
+import com.gelakinetic.NetDraftJ.Messages.PickRequest;
 
 public class Player {
     private Connection mConnection;

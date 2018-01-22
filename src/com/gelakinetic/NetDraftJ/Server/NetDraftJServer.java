@@ -19,11 +19,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.gelakinetic.NetDraftJ.Database.MtgCard;
 import com.gelakinetic.NetDraftJ.Database.NetDraftJDatabase;
-import com.gelakinetic.NetDraftJ.messages.ConnectionRequest;
-import com.gelakinetic.NetDraftJ.messages.ConnectionResponse;
-import com.gelakinetic.NetDraftJ.messages.MessageUtils;
-import com.gelakinetic.NetDraftJ.messages.PickResponse;
-import com.gelakinetic.NetDraftJ.messages.StartDraftInfo;
+import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
+import com.gelakinetic.NetDraftJ.Messages.ConnectionResponse;
+import com.gelakinetic.NetDraftJ.Messages.MessageUtils;
+import com.gelakinetic.NetDraftJ.Messages.PickResponse;
+import com.gelakinetic.NetDraftJ.Messages.StartDraftInfo;
 
 public class NetDraftJServer extends Listener {
 

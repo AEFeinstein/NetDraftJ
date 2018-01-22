@@ -1,4 +1,4 @@
-package com.gelakinetic.NetDraftJ.messages;
+package com.gelakinetic.NetDraftJ.Messages;
 
 public class PickResponse {
     private long mUuid;

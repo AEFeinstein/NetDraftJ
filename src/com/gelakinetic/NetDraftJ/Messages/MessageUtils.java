@@ -1,4 +1,4 @@
-package com.gelakinetic.NetDraftJ.messages;
+package com.gelakinetic.NetDraftJ.Messages;
 
 import com.esotericsoftware.kryo.Kryo;
 
