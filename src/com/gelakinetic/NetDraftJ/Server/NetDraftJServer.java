@@ -194,7 +194,7 @@ public class NetDraftJServer extends Listener {
             }
             mUi.appendText(cubeFile.getName() + " loaded");
         }
-        
+
         // Start the server!
         server = new Server();
         server.start();

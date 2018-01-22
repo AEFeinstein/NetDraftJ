@@ -40,6 +40,8 @@ import com.gelakinetic.NetDraftJ.Server.NetDraftJServer_ui;
 
 public class NetDraftJClient_ui {
 
+    // TODO ensure swing ops are invoked later
+
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
     private NetDraftJClient mClient;

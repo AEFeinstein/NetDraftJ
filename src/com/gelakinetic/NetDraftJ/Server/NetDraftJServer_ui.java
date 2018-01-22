@@ -17,6 +17,8 @@ import javax.swing.SwingUtilities;
 
 public class NetDraftJServer_ui {
 
+    // TODO ensure swing ops are invoked later
+
     private NetDraftJServer mServer;
 
     private JFrame mFrame;

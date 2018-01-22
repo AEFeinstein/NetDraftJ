@@ -84,27 +84,39 @@ public class NetDraftJDatabase {
 
         String sqlStatement = null;
         PreparedStatement pstmt = null;
-        sqlStatement = 
-                "SELECT "
-                    + "cards.multiverseID, "
-                    + "cards.number, "
-                    // Card data
-                    + "cards.suggest_text_1 AS card_name, "
-                    + "cards.supertype, "
-                    + "cards.subtype, "
-                    + "cards.manacost, "
-                    + "cards.power, "
-                    + "cards.toughness, "
-                    + "cards.loyalty, "
-                    + "cards.cardtext, "
-                    // Fluff
-                    + "cards.flavor, "
-                    + "cards.artist, "
-                    + "cards.watermark, "
-                    // Set information
-                    + "sets.code AS set_code, "
-                    + "sets.code_mtgi AS set_code_mtgi "
-                + "FROM (cards JOIN sets ON cards.expansion = sets.code) ";
+        sqlStatement = "SELECT "
+                // Multiverse ID
+                + "cards.multiverseID, "
+                // Card number
+                + "cards.number, "
+                // Card name
+                + "cards.suggest_text_1 AS card_name, "
+                // Supertype
+                + "cards.supertype, "
+                // Subtype
+                + "cards.subtype, "
+                // Mana Cost
+                + "cards.manacost, "
+                // Power
+                + "cards.power, "
+                // Toughness
+                + "cards.toughness, "
+                // Loyalty
+                + "cards.loyalty, "
+                // Card Text
+                + "cards.cardtext, "
+                // Flavor Text
+                + "cards.flavor, "
+                // Artist
+                + "cards.artist, "
+                // Watermark
+                + "cards.watermark, "
+                // Set code
+                + "sets.code AS set_code, "
+                // Set code (magiccards.info)
+                + "sets.code_mtgi AS set_code_mtgi "
+                // Join the tables on set code
+                + "FROM (cards JOIN sets ON cards.expansion = sets.code)";
         String orderLogic = "ORDER BY sets.date DESC";
 
         if (card.getName() != null && !card.getName().isEmpty()) {
