@@ -111,6 +111,14 @@ public class NetDraftJClient extends Listener {
      * @param serverIp
      */
     public void connectToServer(String name, String serverIp) {
+        if (null == name || name.isEmpty()) {
+            mUi.appendText("Name can't be empty");
+            return;
+        }
+        else if (null == serverIp || serverIp.isEmpty()) {
+            mUi.appendText("Server IP address can't be empty");
+            return;
+        }
         try {
             client = new Client();
             client.start();
@@ -123,8 +131,12 @@ public class NetDraftJClient extends Listener {
                 client.sendTCP(request);
                 mUuid = request.getUuid();
             }
+            else {
+                mUi.appendText("Connection failed");
+            }
         } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
+            mUi.appendText("EXCEPTION: " + e.getMessage());
         }
     }
 
