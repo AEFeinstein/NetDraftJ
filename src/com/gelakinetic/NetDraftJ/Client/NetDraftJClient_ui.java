@@ -91,7 +91,6 @@ public class NetDraftJClient_ui {
     public NetDraftJClient_ui() {
         initialize();
         this.mClient = new NetDraftJClient(this);
-        loadPack(new int[] {/*227061,*/ 439320});
     }
 
     /**
