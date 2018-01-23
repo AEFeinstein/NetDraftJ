@@ -1,5 +1,6 @@
 package com.gelakinetic.NetDraftJ.Database;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,26 +25,28 @@ public class NetDraftJDatabase {
      * @return
      */
     public boolean openConnection() {
-        try {
-            /* Open up the database */
-            Class.forName("org.sqlite.JDBC");
-            mDbConnection = DriverManager.getConnection("jdbc:sqlite::resource:mtg.sqlite");
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            /* For exceptions, just print them out and exit cleanly */
-            e.printStackTrace();
+        if ((new File("res\\mtg.sqlite")).exists()) {
+            try {
+                /* Open up the database */
+                Class.forName("org.sqlite.JDBC");
+                mDbConnection = DriverManager.getConnection("jdbc:sqlite:res\\mtg.sqlite");
+                return true;
+            } catch (SQLException | ClassNotFoundException e) {
+                /* For exceptions, just print them out and exit cleanly */
+                e.printStackTrace();
+            }
         }
-
-        try {
-            /* Open up the database */
-            Class.forName("org.sqlite.JDBC");
-            mDbConnection = DriverManager.getConnection("jdbc:sqlite:res\\mtg.sqlite");
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            /* For exceptions, just print them out and exit cleanly */
-            e.printStackTrace();
+        else {
+            try {
+                /* Open up the database */
+                Class.forName("org.sqlite.JDBC");
+                mDbConnection = DriverManager.getConnection("jdbc:sqlite::resource:mtg.sqlite");
+                return true;
+            } catch (SQLException | ClassNotFoundException e) {
+                /* For exceptions, just print them out and exit cleanly */
+                e.printStackTrace();
+            }
         }
-
         return false;
     }
 
