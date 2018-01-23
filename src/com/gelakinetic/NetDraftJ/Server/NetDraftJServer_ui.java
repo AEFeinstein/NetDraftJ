@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
+import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
+
 public class NetDraftJServer_ui {
 
     private NetDraftJServer mServer;
@@ -22,10 +24,15 @@ public class NetDraftJServer_ui {
     private JTextPane mTextPane;
     private JButton btnStartTheGame;
 
+    private NetDraftJClient_ui mClientUi;
+
     /**
      * Create the application.
+     * 
+     * @param actionListener
      */
-    public NetDraftJServer_ui(String ipAddress) {
+    public NetDraftJServer_ui(String ipAddress, NetDraftJClient_ui clientUi) {
+        mClientUi = clientUi;
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -149,5 +156,14 @@ public class NetDraftJServer_ui {
                 btnStartTheGame.setEnabled(enabled);
             }
         });
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @param enabled
+     */
+    public void setHostMenuItemEnabled(boolean enabled) {
+        mClientUi.setHostMenuItemEnabled(enabled);
     }
 }

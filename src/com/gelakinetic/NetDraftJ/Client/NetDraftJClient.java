@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -55,9 +57,11 @@ public class NetDraftJClient extends Listener {
             ConnectionResponse request = (ConnectionResponse) object;
             if (request.getConnectionStatus()) {
                 mUi.appendText("Connected to " + connection.getRemoteAddressTCP().toString());
+                mUi.setConnectMenuItemEnabled(false);
+                mUi.setHostMenuItemEnabled(false);
             }
             else {
-                mUi.appendText("Connection to server failed");
+                mUi.appendText("Connection rejected");
             }
         }
         else if (object instanceof PickRequest) {
@@ -83,24 +87,7 @@ public class NetDraftJClient extends Listener {
             // DraftOverNotification don = (DraftOverNotification) object;
 
             mUi.appendText("<html><br>Draft is complete.<br><br></html>");
-
-            File saveFile = mUi.getSaveFile();
-            if (null != saveFile) {
-                mUi.appendText("Saving to " + saveFile.getAbsolutePath());
-                try {
-                    BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
-                    for (String cardName : mAllPicks) {
-                        bw.write("1 " + cardName + '\n');
-                    }
-                    bw.close();
-                } catch (IOException e) {
-                    mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
-                    e.printStackTrace();
-                }
-            }
-            else {
-                mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
-            }
+            this.saveDraftedCards();
         }
     }
 
@@ -155,10 +142,38 @@ public class NetDraftJClient extends Listener {
 
     /**
      * TODO doc
-     * 
-     * @return
      */
-    public NetDraftJClient_ui getUi() {
-        return mUi;
+    public void saveDraftedCards() {
+        // Only save cards if some have been drafted
+        if (!mAllPicks.isEmpty()) {
+            // Prompt the user to save a file
+            File saveFile = mUi.getSaveFile();
+
+            // Make sure the user picked a file
+            if (null == saveFile) {
+                mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
+                return;
+            }
+
+            // Make sure the file ends in .dec
+            final String EXTENSION = "dec";
+            if (!FilenameUtils.getExtension(saveFile.getName()).equalsIgnoreCase(EXTENSION)) {
+                saveFile = new File(saveFile.getParentFile(),
+                        FilenameUtils.getBaseName(saveFile.getName()) + "." + EXTENSION);
+            }
+
+            // Save the file
+            mUi.appendText("Saving to " + saveFile.getAbsolutePath());
+            try {
+                BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
+                for (String cardName : mAllPicks) {
+                    bw.write("1 " + cardName + '\n');
+                }
+                bw.close();
+            } catch (IOException e) {
+                mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
+                e.printStackTrace();
+            }
+        }
     }
 }

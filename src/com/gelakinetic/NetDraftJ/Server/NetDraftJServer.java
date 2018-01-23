@@ -43,6 +43,7 @@ public class NetDraftJServer extends Listener {
     private int packSize;
     private int numPacks;
     private Direction currentPackDirection = Direction.RIGHT;
+    boolean draftStarted = false;
 
     /**
      * TODO doc
@@ -51,6 +52,7 @@ public class NetDraftJServer extends Listener {
      */
     public NetDraftJServer(NetDraftJServer_ui netDraftJServer_ui) {
         mUi = netDraftJServer_ui;
+        draftStarted = false;
     }
 
     /**
@@ -93,19 +95,28 @@ public class NetDraftJServer extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof ConnectionRequest) {
-            // TODO dont accept connection requests if a draft is ongoing
             ConnectionRequest request = (ConnectionRequest) object;
+            if (!draftStarted) {
+                // Draft hasn't started, so let the player join
 
-            // Logging
-            mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");
+                // Logging
+                mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");
 
-            // Let the player know they've joined
-            ConnectionResponse response = new ConnectionResponse();
-            connection.sendTCP(response);
+                // Let the player know they've joined
+                connection.sendTCP(new ConnectionResponse(true));
 
-            // Save the player's information
-            Player player = new Player(connection, request, 0);
-            players.add(player);
+                // Save the player's information
+                Player player = new Player(connection, request, 0);
+                players.add(player);
+
+            }
+            else {
+                // Logging
+                mUi.appendText("Rejected " + request.getUuid() + ": " + request.getName());
+
+                // Let the player know they've been rejected
+                connection.sendTCP(new ConnectionResponse(false));
+            }
         }
         else if (object instanceof PickResponse) {
             PickResponse response = (PickResponse) object;
@@ -216,6 +227,8 @@ public class NetDraftJServer extends Listener {
 
                 mUi.appendText("Server started on " + ipAddress + ":" + PORT);
                 mUi.setButtonEnabled(true);
+                mUi.setHostMenuItemEnabled(false);
+                draftStarted = false;
                 return;
             }
         }).start();
@@ -288,6 +301,9 @@ public class NetDraftJServer extends Listener {
      * @param e
      */
     public void clickStartGameButton(ActionEvent e) {
+
+        // Mark the draft as started
+        draftStarted = true;
 
         // Randomize seating
         Collections.shuffle(players);

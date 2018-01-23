@@ -8,6 +8,10 @@ public class ConnectionResponse {
         mConnectionStatus = true;
     }
 
+    public ConnectionResponse(boolean status) {
+        mConnectionStatus = status;
+    }
+
     public boolean getConnectionStatus() {
         return mConnectionStatus;
     }

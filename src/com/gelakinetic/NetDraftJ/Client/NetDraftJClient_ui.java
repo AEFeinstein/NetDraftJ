@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -51,6 +52,9 @@ public class NetDraftJClient_ui {
     private JPanel mPackGridLayout;
     private JPanel mTextBoxLayout;
 
+    private JMenuItem mntmHost;
+    private JMenuItem mntmConnect;
+
     /**
      * Launch the application.
      */
@@ -87,6 +91,7 @@ public class NetDraftJClient_ui {
     public NetDraftJClient_ui() {
         initialize();
         this.mClient = new NetDraftJClient(this);
+        loadPack(new int[] {/*227061,*/ 439320});
     }
 
     /**
@@ -103,8 +108,7 @@ public class NetDraftJClient_ui {
         JMenu mnFile = new JMenu("File");
         menuBar.add(mnFile);
 
-        // TODO change to disconnect once connected?
-        JMenuItem mntmConnect = new JMenuItem("Connect");
+        mntmConnect = new JMenuItem("Connect");
         mntmConnect.addActionListener(new ActionListener() {
 
             @Override
@@ -127,14 +131,13 @@ public class NetDraftJClient_ui {
         });
         mnFile.add(mntmConnect);
 
-        // TODO disable once connected
-        JMenuItem mntmHost = new JMenuItem("Host");
+        mntmHost = new JMenuItem("Host");
         mntmHost.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new NetDraftJServer_ui(NetDraftJServer.getPublicIp());
+                    new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this);
                 } catch (UnknownHostException e1) {
                     e1.printStackTrace();
                 }
@@ -147,8 +150,7 @@ public class NetDraftJClient_ui {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO save all the drafted cards here
-
+                mClient.saveDraftedCards();
             }
         });
         mnFile.add(mntmSaveDraftedCards);
@@ -233,80 +235,121 @@ public class NetDraftJClient_ui {
      */
     void loadPack(int[] pack) {
 
-        SwingUtilities.invokeLater(new Runnable() {
+        // First create all of the ImageLabels
+        ArrayList<ImageLabel> labels = new ArrayList<ImageLabel>(pack.length);
+        for (int i = 0; i < pack.length; i++) {
+            final MtgCard card = new MtgCard(pack[i]);
 
-            @Override
-            public void run() {
-                // First clear out the grid
-                mPackGridLayout.removeAll();
+            ImageLabel lblCard = new ImageLabel();
+            lblCard.setHorizontalAlignment(SwingConstants.CENTER);
+            lblCard.setVerticalAlignment(SwingConstants.CENTER);
+            lblCard.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent arg0) {
 
-                for (int i = 0; i < pack.length; i++) {
-                    final MtgCard card = new MtgCard(pack[i]);
+                    // Custom button text
+                    Object[] options = { "Yes, please", "No, thanks" };
+                    int choice = JOptionPane.showOptionDialog(mFrame, "Sure you want to draft " + card.getName() + "?",
+                            "Double Checking", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+                            options[1]);
 
-                    ImageLabel lblCard = new ImageLabel();
-                    lblCard.setHorizontalAlignment(SwingConstants.CENTER);
-                    lblCard.setVerticalAlignment(SwingConstants.CENTER);
-
-                    lblCard.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent arg0) {
-
-                            // Custom button text
-                            Object[] options = { "Yes, please", "No, thanks" };
-                            int choice = JOptionPane.showOptionDialog(mFrame,
-                                    "Sure you want to draft " + card.getName() + "?", "Double Checking",
-                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-
-                            switch (choice) {
-                                case JOptionPane.YES_OPTION: {
-                                    mPackGridLayout.remove(lblCard);
-                                    synchronized (mPackGridLayout.getTreeLock()) {
-                                        for (Component component : mPackGridLayout.getComponents()) {
-                                            for (MouseListener ml : component.getMouseListeners()) {
-                                                component.removeMouseListener(ml);
-                                            }
-                                        }
+                    switch (choice) {
+                        case JOptionPane.YES_OPTION: {
+                            mPackGridLayout.remove(lblCard);
+                            synchronized (mPackGridLayout.getTreeLock()) {
+                                for (Component component : mPackGridLayout.getComponents()) {
+                                    for (MouseListener ml : component.getMouseListeners()) {
+                                        component.removeMouseListener(ml);
                                     }
-                                    appendText(card.getName(), card.getToolTipText());
-                                    mClient.pickCard(card);
-                                    break;
-                                }
-                                default:
-                                case JOptionPane.NO_OPTION: {
-                                    break;
                                 }
                             }
-                            mPackGridLayout.repaint();
-                            mPackGridLayout.validate();
+                            appendText(card.getName(), card.getToolTipText());
+                            mClient.pickCard(card);
+                            break;
                         }
-                    });
+                        default:
+                        case JOptionPane.NO_OPTION: {
+                            break;
+                        }
+                    }
+                    mPackGridLayout.repaint();
+                    mPackGridLayout.validate();
+                }
+            });
 
-                    mPackGridLayout.add(lblCard);
+            labels.add(lblCard);
 
-                    threadPool.submit(new Runnable() {
+            // Queue up a bunch of threads to download the images
+            threadPool.submit(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            NetDraftJDatabase database = new NetDraftJDatabase();
-                            try {
-                                database.loadCard(card);
-                                String filename = card.downloadImage();
+                @Override
+                public void run() {
+                    NetDraftJDatabase database = new NetDraftJDatabase();
+                    try {
+                        database.loadCard(card);
+                        String filename = card.downloadImage();
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
                                 lblCard.setIcon(new ImageIcon(filename));
                                 lblCard.setHorizontalAlignment(SwingConstants.CENTER);
                                 lblCard.setVerticalAlignment(SwingConstants.CENTER);
                                 lblCard.setToolTipText(card.getToolTipText());
                                 lblCard.repaint();
                                 lblCard.validate();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
                             }
-                            database.closeConnection();
+                        });
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    database.closeConnection();
 
-                        }
-                    });
                 }
+            });
+        }
+
+        // Then add all the labels to the UI
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                // First clear out the grid
+                mPackGridLayout.removeAll();
+                // Then add all the cards
+                for (ImageLabel label : labels) {
+                    mPackGridLayout.add(label);
+                }
+                // Then repaint the UI
                 mPackGridLayout.repaint();
                 mPackGridLayout.validate();
+            }
+        });
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @param enabled
+     */
+    public void setHostMenuItemEnabled(boolean enabled) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mntmHost.setEnabled(enabled);
+            }
+        });
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @param enabled
+     */
+    void setConnectMenuItemEnabled(boolean enabled) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mntmConnect.setEnabled(enabled);
             }
         });
     }

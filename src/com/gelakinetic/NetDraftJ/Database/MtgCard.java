@@ -1,5 +1,7 @@
 package com.gelakinetic.NetDraftJ.Database;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -337,6 +339,7 @@ public class MtgCard {
         while (bRetry) {
 
             bRetry = false;
+            Path output = Paths.get("cache", mImageKey);
 
             try {
                 URL picUrl;
@@ -375,8 +378,11 @@ public class MtgCard {
                 if (!Files.exists(Paths.get("cache"))) {
                     Files.createDirectory(Paths.get("cache"));
                 }
-                Path output = Paths.get("cache", mImageKey);
                 Files.copy(picUrl.openStream(), output, StandardCopyOption.REPLACE_EXISTING);
+                long filesize = new File(output.toString()).length();
+                if (10000 > filesize) {
+                    throw new Exception("Image too small, " + picUrl.toString() + ", " + filesize);
+                }
 
                 /* Gatherer is always tried last. If that fails, give up */
                 if (!triedGatherer) {
@@ -389,6 +395,12 @@ public class MtgCard {
                 /* Something went wrong */
                 e.printStackTrace();
 
+                try {
+                    Files.delete(output);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                
                 /* Gatherer is always tried last. If that fails, give up */
                 if (!triedGatherer) {
                     bRetry = true;
