@@ -251,13 +251,18 @@ public class NetDraftJServer extends Listener {
             // multiverseID
             while ((line = fileReader.readLine()) != null) {
                 MtgCard card = new MtgCard(line);
-                database.loadCard(card);
-                cubeList.add(card.getMultiverseId());
+                if (database.loadCard(card)) {
+                    cubeList.add(card.getMultiverseId());
+                }
             }
 
             // Clean up
             fileReader.close();
             database.closeConnection();
+
+            if (cubeList.isEmpty()) {
+                return false;
+            }
 
             // Shuffle the cube
             Collections.shuffle(cubeList);
@@ -291,7 +296,9 @@ public class NetDraftJServer extends Listener {
      * TODO doc
      */
     public void stopServer() {
-        server.stop();
+        if (null != server) {
+            server.stop();
+        }
         server = null;
     }
 

@@ -76,10 +76,10 @@ public class NetDraftJDatabase {
      * @return
      * @throws SQLException
      */
-    public MtgCard loadCard(MtgCard card) throws SQLException {
+    public boolean loadCard(MtgCard card) throws SQLException {
 
         if (null == mDbConnection) {
-            return card;
+            return false;
         }
 
         /* Perform the query */
@@ -136,17 +136,17 @@ public class NetDraftJDatabase {
         else {
             /* Clean up */
             statement.close();
-            return card;
+            return false;
         }
 
         ResultSet resultSet = pstmt.executeQuery();
 
-        card.setDataFromQuery(resultSet);
+        boolean retval = card.setDataFromQuery(resultSet);
 
         /* Clean up */
         resultSet.close();
         statement.close();
 
-        return card;
+        return retval;
     }
 }

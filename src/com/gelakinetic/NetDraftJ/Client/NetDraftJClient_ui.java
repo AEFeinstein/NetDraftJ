@@ -285,19 +285,20 @@ public class NetDraftJClient_ui {
                 public void run() {
                     NetDraftJDatabase database = new NetDraftJDatabase();
                     try {
-                        database.loadCard(card);
-                        String filename = card.downloadImage();
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                lblCard.setIcon(new ImageIcon(filename));
-                                lblCard.setHorizontalAlignment(SwingConstants.CENTER);
-                                lblCard.setVerticalAlignment(SwingConstants.CENTER);
-                                lblCard.setToolTipText(card.getToolTipText());
-                                lblCard.repaint();
-                                lblCard.validate();
-                            }
-                        });
+                        if (database.loadCard(card)) {
+                            String filename = card.downloadImage();
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    lblCard.setIcon(new ImageIcon(filename));
+                                    lblCard.setHorizontalAlignment(SwingConstants.CENTER);
+                                    lblCard.setVerticalAlignment(SwingConstants.CENTER);
+                                    lblCard.setToolTipText(card.getToolTipText());
+                                    lblCard.repaint();
+                                    lblCard.validate();
+                                }
+                            });
+                        }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

@@ -293,25 +293,29 @@ public class MtgCard {
      * @param resultSet
      * @throws SQLException
      */
-    public void setDataFromQuery(ResultSet resultSet) throws SQLException {
-        mMultiverseId = resultSet.getInt(resultSet.findColumn("multiverseID"));
-        mCardNumber = resultSet.getString(resultSet.findColumn("number"));
-
-        mName = resultSet.getString(resultSet.findColumn("card_name"));
-        mSuperType = resultSet.getString(resultSet.findColumn("supertype"));
-        mSubType = resultSet.getString(resultSet.findColumn("subtype"));
-        mManaCost = resultSet.getString(resultSet.findColumn("manacost"));
-        mPower = resultSet.getDouble(resultSet.findColumn("power"));
-        mToughness = resultSet.getDouble(resultSet.findColumn("toughness"));
-        mLoyalty = resultSet.getDouble(resultSet.findColumn("loyalty"));
-        mText = resultSet.getString(resultSet.findColumn("cardtext"));
-
-        mFlavor = resultSet.getString(resultSet.findColumn("flavor"));
-        mArtist = resultSet.getString(resultSet.findColumn("artist"));
-        mWatermark = resultSet.getString(resultSet.findColumn("watermark"));
-
-        mSetCode = resultSet.getString(resultSet.findColumn("set_code"));
-        mMagicCardsInfoSetCode = resultSet.getString(resultSet.findColumn("set_code_mtgi"));
+    public boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
+        if(!resultSet.isClosed()) {
+            mMultiverseId = resultSet.getInt(resultSet.findColumn("multiverseID"));
+            mCardNumber = resultSet.getString(resultSet.findColumn("number"));
+    
+            mName = resultSet.getString(resultSet.findColumn("card_name"));
+            mSuperType = resultSet.getString(resultSet.findColumn("supertype"));
+            mSubType = resultSet.getString(resultSet.findColumn("subtype"));
+            mManaCost = resultSet.getString(resultSet.findColumn("manacost"));
+            mPower = resultSet.getDouble(resultSet.findColumn("power"));
+            mToughness = resultSet.getDouble(resultSet.findColumn("toughness"));
+            mLoyalty = resultSet.getDouble(resultSet.findColumn("loyalty"));
+            mText = resultSet.getString(resultSet.findColumn("cardtext"));
+    
+            mFlavor = resultSet.getString(resultSet.findColumn("flavor"));
+            mArtist = resultSet.getString(resultSet.findColumn("artist"));
+            mWatermark = resultSet.getString(resultSet.findColumn("watermark"));
+    
+            mSetCode = resultSet.getString(resultSet.findColumn("set_code"));
+            mMagicCardsInfoSetCode = resultSet.getString(resultSet.findColumn("set_code_mtgi"));
+            return true;
+        }
+        return false;
     }
 
     /**
