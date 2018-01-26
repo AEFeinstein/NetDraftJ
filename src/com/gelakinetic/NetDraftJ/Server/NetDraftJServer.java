@@ -300,6 +300,7 @@ public class NetDraftJServer extends Listener {
             server.stop();
         }
         server = null;
+        mUi.setHostMenuItemEnabled(true);
     }
 
     /**

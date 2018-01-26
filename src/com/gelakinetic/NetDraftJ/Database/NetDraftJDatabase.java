@@ -117,19 +117,23 @@ public class NetDraftJDatabase {
                 // Set code
                 + "sets.code AS set_code, "
                 // Set code (magiccards.info)
-                + "sets.code_mtgi AS set_code_mtgi "
+                + "sets.code_mtgi AS set_code_mtgi, "
+                // Set code (magiccards.info)
+                + "sets.suggest_text_1 AS set_name "
                 // Join the tables on set code
-                + "FROM (cards JOIN sets ON cards.expansion = sets.code)";
+                + "FROM (cards JOIN sets ON cards.expansion = sets.code) "
+                + "WHERE (set_name NOT LIKE 'Masterpiece%') AND (set_name != 'Commander Anthology') AND ";
+                
         String orderLogic = "ORDER BY sets.date DESC";
 
         if (card.getName() != null && !card.getName().isEmpty()) {
-            sqlStatement += "WHERE cards.suggest_text_1 = ? ";
+            sqlStatement += "(cards.suggest_text_1 = ?) ";
             sqlStatement += orderLogic;
             pstmt = mDbConnection.prepareStatement(sqlStatement);
             pstmt.setString(1, card.getName());
         }
         else if (card.getMultiverseId() != 0) {
-            sqlStatement += "WHERE cards.multiverseID = " + card.getMultiverseId() + " ";
+            sqlStatement += "(cards.multiverseID = " + card.getMultiverseId() + ") ";
             sqlStatement += orderLogic;
             pstmt = mDbConnection.prepareStatement(sqlStatement);
         }
