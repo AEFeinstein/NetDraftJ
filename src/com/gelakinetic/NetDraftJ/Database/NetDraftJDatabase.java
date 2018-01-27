@@ -122,8 +122,9 @@ public class NetDraftJDatabase {
                 + "sets.suggest_text_1 AS set_name "
                 // Join the tables on set code
                 + "FROM (cards JOIN sets ON cards.expansion = sets.code) "
-                + "WHERE (set_name NOT LIKE 'Masterpiece%') AND (set_name != 'Commander Anthology') AND ";
-                
+                + "WHERE (set_name NOT LIKE 'Masterpiece%') AND " + "(set_name != 'Zendikar Expeditions') AND "
+                + "(set_name != 'From the Vault: Transform') AND " + "(set_name != 'Commander Anthology') AND ";
+
         String orderLogic = "ORDER BY sets.date DESC";
 
         if (card.getName() != null && !card.getName().isEmpty()) {
