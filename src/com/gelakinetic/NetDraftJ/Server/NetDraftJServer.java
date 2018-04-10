@@ -277,7 +277,6 @@ public class NetDraftJServer extends Listener {
                         while (true) {
                             synchronized (players) {
                                 for (int i = 0; i < players.size(); i++) {
-//                                    players.get(i).sendPing();
                                     if (!players.get(i).isConnected()) {
                                         if (!draftStarted) {
                                             // If they disconnect before the draft starts, drop em
