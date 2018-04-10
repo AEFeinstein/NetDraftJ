@@ -45,6 +45,8 @@ public class NetDraftJServer extends Listener {
     private Direction currentPackDirection = Direction.RIGHT;
     boolean draftStarted = false;
 
+    private Thread disconnectCheckThread;
+
     /**
      * TODO doc
      * 
@@ -60,22 +62,24 @@ public class NetDraftJServer extends Listener {
      */
     private void dealPacks() {
 
-        // Mark another pack as dealt
-        numPacks--;
+        synchronized (players) {
+            // Mark another pack as dealt
+            numPacks--;
 
-        // Reverse the pack direction
-        if (currentPackDirection == Direction.LEFT) {
-            currentPackDirection = Direction.RIGHT;
-        }
-        else {
-            currentPackDirection = Direction.LEFT;
-        }
+            // Reverse the pack direction
+            if (currentPackDirection == Direction.LEFT) {
+                currentPackDirection = Direction.RIGHT;
+            }
+            else {
+                currentPackDirection = Direction.LEFT;
+            }
 
-        // Deal out the packs
-        for (Player player : players) {
-            player.clearPack();
-            for (int packIdx = 0; packIdx < packSize; packIdx++) {
-                player.addCardToPack(cubeList.get(cubeIdx++));
+            // Deal out the packs
+            for (Player player : players) {
+                player.clearPack();
+                for (int packIdx = 0; packIdx < packSize; packIdx++) {
+                    player.addCardToPack(cubeList.get(cubeIdx++));
+                }
             }
         }
     }
@@ -84,8 +88,10 @@ public class NetDraftJServer extends Listener {
      * TODO doc
      */
     protected void sendPlayersPacks() {
-        for (Player player : players) {
-            player.sendPickRequest();
+        synchronized (players) {
+            for (Player player : players) {
+                player.sendPickRequest();
+            }
         }
     }
 
@@ -94,67 +100,70 @@ public class NetDraftJServer extends Listener {
      */
     @Override
     public void received(Connection connection, Object object) {
-        if (object instanceof ConnectionRequest) {
-            ConnectionRequest request = (ConnectionRequest) object;
-            if (!draftStarted) {
-                // Draft hasn't started, so let the player join
+        synchronized (players) {
 
-                // Logging
-                mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");
+            if (object instanceof ConnectionRequest) {
+                ConnectionRequest request = (ConnectionRequest) object;
+                if (!draftStarted) {
+                    // Draft hasn't started, so let the player join
 
-                // Let the player know they've joined
-                connection.sendTCP(new ConnectionResponse(true));
+                    // Logging
+                    mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");
 
-                // Save the player's information
-                Player player = new Player(connection, request, 0);
-                players.add(player);
+                    // Let the player know they've joined
+                    connection.sendTCP(new ConnectionResponse(true));
 
-            }
-            else {
-                // Logging
-                mUi.appendText("Rejected " + request.getUuid() + ": " + request.getName());
+                    // Save the player's information
+                    Player player = new Player(connection, request, 0);
+                    players.add(player);
 
-                // Let the player know they've been rejected
-                connection.sendTCP(new ConnectionResponse(false));
-            }
-        }
-        else if (object instanceof PickResponse) {
-            PickResponse response = (PickResponse) object;
-            boolean allPicked = true;
-
-            // Find the player reporting a pick
-            for (Player player : players) {
-                if (response.getUuid() == player.getUuid()) {
-                    // Mark that card as picked
-                    player.pickCard(response.getPick());
-                }
-                // Check if any player hasn't made a pick yet
-                if (false == player.getPicked()) {
-                    allPicked = false;
-                }
-            }
-
-            // If all players have made their picks
-            if (allPicked) {
-                // If the packs are empty and there are more to be drafted
-                if (players.get(0).getPack().size() == 0) {
-                    if (numPacks > 0) {
-                        // deal new ones
-                        dealPacks();
-                        sendPlayersPacks();
-                    }
-                    else {
-                        for (Player player : players) {
-                            player.sendDraftOverNotification();
-                        }
-                    }
                 }
                 else {
-                    // If everyone picked and there are still packs in cards,
-                    // shift them
-                    shiftPacks(currentPackDirection);
-                    // Then send them to the players for picking
-                    sendPlayersPacks();
+                    // Logging
+                    mUi.appendText("Rejected " + request.getUuid() + ": " + request.getName());
+
+                    // Let the player know they've been rejected
+                    connection.sendTCP(new ConnectionResponse(false));
+                }
+            }
+            else if (object instanceof PickResponse) {
+                PickResponse response = (PickResponse) object;
+                boolean allPicked = true;
+
+                // Find the player reporting a pick
+                for (Player player : players) {
+                    if (response.getUuid() == player.getUuid()) {
+                        // Mark that card as picked
+                        player.pickCard(response.getPick());
+                    }
+                    // Check if any player hasn't made a pick yet
+                    if (false == player.getPicked()) {
+                        allPicked = false;
+                    }
+                }
+
+                // If all players have made their picks
+                if (allPicked) {
+                    // If the packs are empty and there are more to be drafted
+                    if (players.get(0).getPack().size() == 0) {
+                        if (numPacks > 0) {
+                            // deal new ones
+                            dealPacks();
+                            sendPlayersPacks();
+                        }
+                        else {
+                            for (Player player : players) {
+                                player.sendDraftOverNotification();
+                            }
+                        }
+                    }
+                    else {
+                        // If everyone picked and there are still packs in cards,
+                        // shift them
+                        shiftPacks(currentPackDirection);
+                        // Then send them to the players for picking
+                        sendPlayersPacks();
+                    }
                 }
             }
         }
@@ -166,23 +175,26 @@ public class NetDraftJServer extends Listener {
      * @param dir
      */
     void shiftPacks(Direction dir) {
-        switch (dir) {
-            case LEFT: {
-                ArrayList<Integer> packZero = players.get(0).getPack();
-                for (int i = 0; i < players.size() - 1; i++) {
-                    players.get(i).setPack(players.get(i + 1).getPack());
-                }
-                players.get(players.size() - 1).setPack(packZero);
-                break;
-            }
-            case RIGHT: {
-                ArrayList<Integer> lastPack = players.get(players.size() - 1).getPack();
-                for (int i = players.size() - 1; i > 0; i--) {
-                    players.get(i).setPack(players.get(i - 1).getPack());
-                }
-                players.get(0).setPack(lastPack);
+        synchronized (players) {
 
-                break;
+            switch (dir) {
+                case LEFT: {
+                    ArrayList<Integer> packZero = players.get(0).getPack();
+                    for (int i = 0; i < players.size() - 1; i++) {
+                        players.get(i).setPack(players.get(i + 1).getPack());
+                    }
+                    players.get(players.size() - 1).setPack(packZero);
+                    break;
+                }
+                case RIGHT: {
+                    ArrayList<Integer> lastPack = players.get(players.size() - 1).getPack();
+                    for (int i = players.size() - 1; i > 0; i--) {
+                        players.get(i).setPack(players.get(i - 1).getPack());
+                    }
+                    players.get(0).setPack(lastPack);
+
+                    break;
+                }
             }
         }
     }
@@ -229,6 +241,38 @@ public class NetDraftJServer extends Listener {
                 mUi.setButtonEnabled(true);
                 mUi.setHostMenuItemEnabled(false);
                 draftStarted = false;
+
+                disconnectCheckThread = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        while (true) {
+                            synchronized (players) {
+                                for (int i = 0; i < players.size(); i++) {
+                                    if (!players.get(i).isConnected()) {
+                                        if (!draftStarted) {
+                                            // If they disconnect before the draft starts, drop em
+                                            mUi.appendText(players.get(i).getName() + " left the draft");
+                                            players.remove(i);
+                                            i--;
+                                        }
+                                        else {
+                                            // If they disconnect after the draft starts, wait for a reconnect
+                                            mUi.appendText(
+                                                    players.get(i).getName() + " disconnected. Waiting for reconnect");
+                                        }
+                                    }
+                                }
+                            }
+                            try {
+                                Thread.sleep(1000 * 8);
+                            } catch (InterruptedException e) {
+                                return;
+                            }
+                        }
+                    }
+                });
+                disconnectCheckThread.run();
                 return;
             }
         }).start();
@@ -301,6 +345,9 @@ public class NetDraftJServer extends Listener {
         }
         server = null;
         mUi.setHostMenuItemEnabled(true);
+        if (null != disconnectCheckThread) {
+            disconnectCheckThread.stop();
+        }
     }
 
     /**
@@ -310,31 +357,33 @@ public class NetDraftJServer extends Listener {
      */
     public void clickStartGameButton(ActionEvent e) {
 
-        // Mark the draft as started
-        draftStarted = true;
+        synchronized (players) {
+            // Mark the draft as started
+            draftStarted = true;
 
-        // Randomize seating
-        Collections.shuffle(players);
+            // Randomize seating
+            Collections.shuffle(players);
 
-        // Tell everyone the seating order
-        StartDraftInfo sdi = new StartDraftInfo();
-        sdi.setSeatingOrder(players);
-        server.sendToAllTCP(sdi);
+            // Tell everyone the seating order
+            StartDraftInfo sdi = new StartDraftInfo();
+            sdi.setSeatingOrder(players);
+            server.sendToAllTCP(sdi);
 
-        // Figure out pack size and number of packs
-        packSize = (players.size() * 2) - 1;
-        numPacks = (int) Math.ceil(45 / (float) packSize);
+            // Figure out pack size and number of packs
+            packSize = (players.size() * 2) - 1;
+            numPacks = (int) Math.ceil(45 / (float) packSize);
 
-        if (packSize * numPacks > cubeList.size()) {
-            int cardsPerPlayer = (int) Math.floor(cubeList.size() / (double) players.size());
-            packSize = (int) Math.floor(cardsPerPlayer / 3.0f);
+            if (packSize * numPacks > cubeList.size()) {
+                int cardsPerPlayer = (int) Math.floor(cubeList.size() / (double) players.size());
+                packSize = (int) Math.floor(cardsPerPlayer / 3.0f);
+            }
+            cubeIdx = 0;
+
+            // Deal out the packs
+            dealPacks();
+
+            // Send the packs to the drafters
+            sendPlayersPacks();
         }
-        cubeIdx = 0;
-
-        // Deal out the packs
-        dealPacks();
-
-        // Send the packs to the drafters
-        sendPlayersPacks();
     }
 }

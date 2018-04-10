@@ -66,4 +66,8 @@ public class Player {
     public long getUuid() {
         return mUuid;
     }
+
+    public boolean isConnected() {
+        return mConnection.isConnected();
+    }
 }
