@@ -10,11 +10,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -154,6 +160,9 @@ public class NetDraftJClient_ui {
         });
         mnFile.add(mntmSaveDraftedCards);
 
+        JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime().toString());
+        mnFile.add(mnDate);
+        
         mFrame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 
         JSplitPane splitPane = new JSplitPane();
@@ -352,5 +361,39 @@ public class NetDraftJClient_ui {
                 mntmConnect.setEnabled(enabled);
             }
         });
+    }
+    
+    /**
+     * @return The date this class file was built
+     */
+    private static Date getClassBuildTime() {
+        Date d = null;
+        Class<?> currentClass = new Object() {
+        }.getClass().getEnclosingClass();
+        URL resource = currentClass.getResource(currentClass.getSimpleName() + ".class");
+        if (resource != null) {
+            if (resource.getProtocol().equals("file")) {
+                try {
+                    d = new Date(new File(resource.toURI()).lastModified());
+                } catch (URISyntaxException ignored) {
+                }
+            }
+            else if (resource.getProtocol().equals("jar")) {
+                String path = resource.getPath();
+                d = new Date(new File(path.substring(5, path.indexOf("!"))).lastModified());
+            }
+            else if (resource.getProtocol().equals("zip")) {
+                String path = resource.getPath();
+                File jarFileOnDisk = new File(path.substring(0, path.indexOf("!")));
+                try (JarFile jf = new JarFile(jarFileOnDisk)) {
+                    ZipEntry ze = jf.getEntry(path.substring(path.indexOf("!") + 2));// Skip the ! and the /
+                    long zeTimeLong = ze.getTime();
+                    Date zeTimeDate = new Date(zeTimeLong);
+                    d = zeTimeDate;
+                } catch (IOException | RuntimeException ignored) {
+                }
+            }
+        }
+        return d;
     }
 }
