@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -162,7 +164,7 @@ public class NetDraftJClient_ui {
 
         JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime().toString());
         mnFile.add(mnDate);
-        
+
         mFrame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 
         JSplitPane splitPane = new JSplitPane();
@@ -184,6 +186,19 @@ public class NetDraftJClient_ui {
         mTextBoxLayout.setBorder(new EmptyBorder(0, 8, 0, 8));
         scrollPane.setViewportView(mTextBoxLayout);
         mTextBoxLayout.setLayout(new BoxLayout(mTextBoxLayout, BoxLayout.Y_AXIS));
+
+        mFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?",
+                        "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
+
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                   mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
     }
 
     /**
@@ -362,7 +377,7 @@ public class NetDraftJClient_ui {
             }
         });
     }
-    
+
     /**
      * @return The date this class file was built
      */
