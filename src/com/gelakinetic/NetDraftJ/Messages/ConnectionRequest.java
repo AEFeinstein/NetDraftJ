@@ -38,6 +38,11 @@ public class ConnectionRequest {
         }
     }
 
+    public ConnectionRequest(String name, long uuid) {
+        this.mName = name;
+        this.mUuid = uuid;
+    }
+
     public long getUuid() {
         return mUuid;
     }

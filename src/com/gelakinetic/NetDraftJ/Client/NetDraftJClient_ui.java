@@ -63,10 +63,22 @@ public class NetDraftJClient_ui {
     private JMenuItem mntmHost;
     private JMenuItem mntmConnect;
 
+    private static boolean mHasStaticUuid;
+    private static long mStaticUuid;
+
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+
+        if (args.length > 0) {
+            try {
+                mStaticUuid = Long.parseLong(args[0]);
+                mHasStaticUuid = true;
+            } catch (Exception e) {
+                mHasStaticUuid = false;
+            }
+        }
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -193,9 +205,10 @@ public class NetDraftJClient_ui {
                         "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
 
                 if (confirmed == JOptionPane.YES_OPTION) {
-                    mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                } else {
-                   mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                }
+                else {
+                    mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
         });
@@ -410,5 +423,13 @@ public class NetDraftJClient_ui {
             }
         }
         return d;
+    }
+
+    public boolean hasStaticUuid() {
+        return mHasStaticUuid;
+    }
+
+    public long getUuid() {
+        return mStaticUuid;
     }
 }

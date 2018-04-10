@@ -11,6 +11,7 @@ public class MessageUtils {
         kryo.register(PickRequest.class);
         kryo.register(PickResponse.class);
         kryo.register(DraftOverNotification.class);
+        kryo.register(PreviousPicksInfo.class);
 
         kryo.register(String[].class);
         kryo.register(int[].class);

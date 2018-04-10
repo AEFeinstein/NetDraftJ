@@ -114,16 +114,44 @@ public class NetDraftJServer extends Listener {
                     connection.sendTCP(new ConnectionResponse(true));
 
                     // Save the player's information
-                    Player player = new Player(connection, request, 0);
+                    Player player = new Player(connection, request);
                     players.add(player);
 
                 }
                 else {
-                    // Logging
-                    mUi.appendText("Rejected " + request.getUuid() + ": " + request.getName());
+                    boolean reconnected = false;
+                    for (Player player : players) {
+                        if (player.getUuid() == request.getUuid() && player.isDetached()) {
+                            reconnected = true;
 
-                    // Let the player know they've been rejected
-                    connection.sendTCP(new ConnectionResponse(false));
+                            player.initalize(connection, request);
+
+                            // Let the player know they've joined
+                            connection.sendTCP(new ConnectionResponse(true));
+
+                            // Send the reconnected player their seating info
+                            player.sendSeatingOrder(players);
+
+                            // Send picked list
+                            player.sendPreviousPicks();
+
+                            // Send the reconnected player their pick request
+                            player.sendPickRequest();
+
+                            // Logging
+                            mUi.appendText("Reconnected " + request.getUuid() + ": " + request.getName());
+
+                            break;
+                        }
+                    }
+
+                    if (!reconnected) {
+                        // Logging
+                        mUi.appendText("Rejected " + request.getUuid() + ": " + request.getName());
+
+                        // Let the player know they've been rejected
+                        connection.sendTCP(new ConnectionResponse(false));
+                    }
                 }
             }
             else if (object instanceof PickResponse) {
@@ -249,6 +277,7 @@ public class NetDraftJServer extends Listener {
                         while (true) {
                             synchronized (players) {
                                 for (int i = 0; i < players.size(); i++) {
+                                    players.get(i).sendPing();
                                     if (!players.get(i).isConnected()) {
                                         if (!draftStarted) {
                                             // If they disconnect before the draft starts, drop em
@@ -256,8 +285,9 @@ public class NetDraftJServer extends Listener {
                                             players.remove(i);
                                             i--;
                                         }
-                                        else {
+                                        else if (!players.get(i).isDetached()) {
                                             // If they disconnect after the draft starts, wait for a reconnect
+                                            players.get(i).setDetached(true);
                                             mUi.appendText(
                                                     players.get(i).getName() + " disconnected. Waiting for reconnect");
                                         }

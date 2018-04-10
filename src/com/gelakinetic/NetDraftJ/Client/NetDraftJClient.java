@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
@@ -12,12 +13,14 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.gelakinetic.NetDraftJ.Database.MtgCard;
+import com.gelakinetic.NetDraftJ.Database.NetDraftJDatabase;
 import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
 import com.gelakinetic.NetDraftJ.Messages.ConnectionResponse;
 import com.gelakinetic.NetDraftJ.Messages.DraftOverNotification;
 import com.gelakinetic.NetDraftJ.Messages.MessageUtils;
 import com.gelakinetic.NetDraftJ.Messages.PickRequest;
 import com.gelakinetic.NetDraftJ.Messages.PickResponse;
+import com.gelakinetic.NetDraftJ.Messages.PreviousPicksInfo;
 import com.gelakinetic.NetDraftJ.Messages.StartDraftInfo;
 import com.gelakinetic.NetDraftJ.Server.NetDraftJServer;
 
@@ -43,6 +46,9 @@ public class NetDraftJClient extends Listener {
         this.mUi = ui;
         this.pickedCard = false;
         this.mAllPicks = new ArrayList<>();
+        if (ui.hasStaticUuid()) {
+            this.mUuid = ui.getUuid();
+        }
     }
 
     /**
@@ -83,6 +89,24 @@ public class NetDraftJClient extends Listener {
             sb.append("-------------<br></html>");
             mUi.appendText(sb.toString());
         }
+        else if (object instanceof PreviousPicksInfo) {
+            // Load up the previous pick information
+            PreviousPicksInfo ppi = (PreviousPicksInfo) object;
+
+            NetDraftJDatabase database = new NetDraftJDatabase();
+
+            for (int multiverseId : ppi.getPicks()) {
+                MtgCard card = new MtgCard(multiverseId);
+                try {
+                    database.loadCard(card);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mUi.appendText(card.getName(), card.getToolTipText());
+                mAllPicks.add(card.getName());
+            }
+            database.closeConnection();
+        }
         else if (object instanceof DraftOverNotification) {
             // DraftOverNotification don = (DraftOverNotification) object;
 
@@ -114,7 +138,13 @@ public class NetDraftJClient extends Listener {
             client.addListener(this);
 
             if (client.isConnected()) {
-                ConnectionRequest request = new ConnectionRequest(name);
+                ConnectionRequest request;
+                if (mUi.hasStaticUuid()) {
+                    request = new ConnectionRequest(name, mUuid);
+                }
+                else {
+                    request = new ConnectionRequest(name);
+                }
                 client.sendTCP(request);
                 mUuid = request.getUuid();
             }

@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
 import com.gelakinetic.NetDraftJ.Messages.DraftOverNotification;
 import com.gelakinetic.NetDraftJ.Messages.PickRequest;
+import com.gelakinetic.NetDraftJ.Messages.PreviousPicksInfo;
+import com.gelakinetic.NetDraftJ.Messages.StartDraftInfo;
 
 public class Player {
     private Connection mConnection;
@@ -14,14 +16,24 @@ public class Player {
     private ArrayList<Integer> mPack;
     private ArrayList<Integer> mPicks;
     private boolean mPicked;
+    private boolean isDetached;
 
-    public Player(Connection connection, ConnectionRequest request, int seatingOrder) {
+    public Player(Connection connection, ConnectionRequest request) {
+        this.initalize(connection, request);
+    }
+
+    public void initalize(Connection connection, ConnectionRequest request) {
         this.mConnection = connection;
         this.mName = request.getName();
         this.mUuid = request.getUuid();
-        mPack = new ArrayList<>();
-        mPicks = new ArrayList<>();
+        if (mPack == null) {
+            mPack = new ArrayList<>();
+        }
+        if (mPicks == null) {
+            mPicks = new ArrayList<>();
+        }
         mPicked = false;
+        isDetached = false;
     }
 
     public void clearPack() {
@@ -69,5 +81,31 @@ public class Player {
 
     public boolean isConnected() {
         return mConnection.isConnected();
+    }
+
+    public void setDetached(boolean state) {
+        isDetached = state;
+    }
+
+    public boolean isDetached() {
+        return isDetached;
+    }
+
+    public void sendSeatingOrder(ArrayList<Player> players) {
+        StartDraftInfo sdi = new StartDraftInfo();
+        sdi.setSeatingOrder(players);
+        mConnection.sendTCP(sdi);
+    }
+
+    public void sendPreviousPicks() {
+        mConnection.sendTCP(new PreviousPicksInfo(mPicks));
+    }
+
+    public void setConnection(Connection connection) {
+        mConnection = connection;
+    }
+
+    public void sendPing() {
+        mConnection.updateReturnTripTime();
     }
 }
