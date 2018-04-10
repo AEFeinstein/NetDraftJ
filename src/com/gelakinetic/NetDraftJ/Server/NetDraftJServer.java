@@ -90,7 +90,7 @@ public class NetDraftJServer extends Listener {
     protected void sendPlayersPacks() {
         synchronized (players) {
             for (Player player : players) {
-                player.sendPickRequest();
+                player.sendPickRequest(false);
             }
         }
     }
@@ -136,7 +136,7 @@ public class NetDraftJServer extends Listener {
                             player.sendPreviousPicks();
 
                             // Send the reconnected player their pick request
-                            player.sendPickRequest();
+                            player.sendPickRequest(true);
 
                             // Logging
                             mUi.appendText("Reconnected " + request.getUuid() + ": " + request.getName());

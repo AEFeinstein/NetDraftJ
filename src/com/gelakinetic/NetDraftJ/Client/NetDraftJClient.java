@@ -73,7 +73,7 @@ public class NetDraftJClient extends Listener {
         else if (object instanceof PickRequest) {
             PickRequest response = (PickRequest) object;
             mUi.loadPack(response.getPack());
-            pickedCard = false;
+            pickedCard = response.getPicked();
         }
         else if (object instanceof StartDraftInfo) {
             StartDraftInfo sdi = (StartDraftInfo) object;

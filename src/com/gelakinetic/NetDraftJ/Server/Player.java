@@ -31,8 +31,8 @@ public class Player {
         }
         if (mPicks == null) {
             mPicks = new ArrayList<>();
+            mPicked = false;
         }
-        mPicked = false;
         isDetached = false;
     }
 
@@ -52,9 +52,11 @@ public class Player {
         mPack = lastPack;
     }
 
-    public void sendPickRequest() {
-        mPicked = false;
-        mConnection.sendTCP(new PickRequest(mPack));
+    public void sendPickRequest(boolean isReconnect) {
+        if (!isReconnect) {
+            mPicked = false;
+        }
+        mConnection.sendTCP(new PickRequest(mPack, mPicked));
     }
 
     void pickCard(Integer multiverseId) {
