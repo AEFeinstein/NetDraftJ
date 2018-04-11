@@ -45,7 +45,9 @@ import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.PlainDocument;
 
+import com.gelakinetic.NetDraftJ.Client.TextInputFilter.inputType;
 import com.gelakinetic.NetDraftJ.Database.MtgCard;
 import com.gelakinetic.NetDraftJ.Database.NetDraftJDatabase;
 import com.gelakinetic.NetDraftJ.Server.NetDraftJServer;
@@ -138,7 +140,11 @@ public class NetDraftJClient_ui {
                     @Override
                     public void run() {
                         JTextField playerName = new JTextField();
+                        ((PlainDocument) playerName.getDocument())
+                                .setDocumentFilter(new TextInputFilter(inputType.USERNAME));
                         JTextField server = new JTextField();
+                        ((PlainDocument) server.getDocument())
+                                .setDocumentFilter(new TextInputFilter(inputType.IP_ADDRESS));
                         final JComponent[] inputs = new JComponent[] { new JLabel("Username"), playerName,
                                 new JLabel("Server IP Address"), server };
                         int result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
