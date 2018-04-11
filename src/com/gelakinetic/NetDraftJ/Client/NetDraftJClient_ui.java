@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -52,7 +53,8 @@ import com.gelakinetic.NetDraftJ.Server.NetDraftJServer_ui;
 
 public class NetDraftJClient_ui {
 
-    private static final ExecutorService threadPool = Executors.newFixedThreadPool(1);
+    private static final ExecutorService threadPool = Executors
+            .newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private NetDraftJClient mClient;
 
@@ -137,8 +139,8 @@ public class NetDraftJClient_ui {
                     public void run() {
                         JTextField playerName = new JTextField();
                         JTextField server = new JTextField();
-                        final JComponent[] inputs = new JComponent[] { new JLabel("Name"), playerName,
-                                new JLabel("Server"), server };
+                        final JComponent[] inputs = new JComponent[] { new JLabel("Username"), playerName,
+                                new JLabel("Server IP Address"), server };
                         int result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
                                 JOptionPane.PLAIN_MESSAGE);
                         if (result == JOptionPane.OK_OPTION) {
@@ -177,6 +179,16 @@ public class NetDraftJClient_ui {
         JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime().toString());
         mnFile.add(mnDate);
 
+        JMenuItem mnExit = new JMenuItem("Exit");
+        mnExit.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showExitDialog(true);
+            }
+        });
+        mnFile.add(mnExit);
+
         mFrame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 
         JSplitPane splitPane = new JSplitPane();
@@ -201,17 +213,39 @@ public class NetDraftJClient_ui {
 
         mFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?",
-                        "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
-
-                if (confirmed == JOptionPane.YES_OPTION) {
-                    mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                }
-                else {
-                    mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                }
+                showExitDialog(false);
             }
         });
+
+        mFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("icon.png")));
+        mFrame.setTitle("NetDraftJ");
+
+        mFrame.setExtendedState(mFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+        // Random rand = new Random(System.currentTimeMillis());
+        // int testPack[] = new int[15];
+        // for(int i = 0; i < testPack.length; i++) {
+        // testPack[i] = rand.nextInt(1000) + 1;
+        // }
+        // loadPack(testPack);
+    }
+
+    /**
+     * TODO doc
+     */
+    private void showExitDialog(boolean isMenu) {
+        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to exit?", "Leaving So Soon?",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+            mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            if (isMenu) {
+                mFrame.dispose();
+            }
+        }
+        else {
+            mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     /**
@@ -360,6 +394,7 @@ public class NetDraftJClient_ui {
                 mPackGridLayout.repaint();
                 mPackGridLayout.validate();
             }
+
         });
     }
 
