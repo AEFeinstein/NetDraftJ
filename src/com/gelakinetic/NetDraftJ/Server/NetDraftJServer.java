@@ -11,7 +11,6 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -109,7 +108,7 @@ public class NetDraftJServer extends Listener {
                 if (!draftStarted) {
                     // Draft hasn't started, so let the player join
 
-                    if (request.getBuildTimestamp() == NetDraftJClient_ui.getClassBuildTime().getTime()) {
+                    if (request.getBuildTimestamp() == NetDraftJClient_ui.getClassBuildTime(this).getTime()) {
 
                         // Logging
                         mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");

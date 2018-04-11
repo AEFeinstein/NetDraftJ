@@ -14,16 +14,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
+import java.util.jar.Manifest;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -182,7 +183,7 @@ public class NetDraftJClient_ui {
         });
         mnFile.add(mntmSaveDraftedCards);
 
-        JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime().toString());
+        JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime(this).toString());
         mnFile.add(mnDate);
 
         JMenuItem mnExit = new JMenuItem("Exit");
@@ -433,37 +434,27 @@ public class NetDraftJClient_ui {
     }
 
     /**
+     * @param obj
      * @return The date this class file was built
      */
-    public static Date getClassBuildTime() {
-        Date d = null;
-        Class<?> currentClass = new Object() {
-        }.getClass().getEnclosingClass();
-        URL resource = currentClass.getResource(currentClass.getSimpleName() + ".class");
-        if (resource != null) {
-            if (resource.getProtocol().equals("file")) {
+    public static Date getClassBuildTime(Object obj) {
+        try {
+            Enumeration<URL> resources = obj.getClass().getClassLoader().getResources("META-INF/MANIFEST.MF");
+            while (resources.hasMoreElements()) {
                 try {
-                    d = new Date(new File(resource.toURI()).lastModified());
-                } catch (URISyntaxException ignored) {
+                    // Open a manifest, check if it has the Built-Date
+                    // If it throws an exception, the while loop will continue executing
+                    Manifest manifest = new Manifest(resources.nextElement().openStream());
+                    String buildDate = manifest.getMainAttributes().getValue("Built-Date");
+                    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(buildDate);
+                } catch (IOException | ParseException | NullPointerException E) {
+                    // Some error, keep looking through manifests
                 }
             }
-            else if (resource.getProtocol().equals("jar")) {
-                String path = resource.getPath();
-                d = new Date(new File(path.substring(5, path.indexOf("!"))).lastModified());
-            }
-            else if (resource.getProtocol().equals("zip")) {
-                String path = resource.getPath();
-                File jarFileOnDisk = new File(path.substring(0, path.indexOf("!")));
-                try (JarFile jf = new JarFile(jarFileOnDisk)) {
-                    ZipEntry ze = jf.getEntry(path.substring(path.indexOf("!") + 2));// Skip the ! and the /
-                    long zeTimeLong = ze.getTime();
-                    Date zeTimeDate = new Date(zeTimeLong);
-                    d = zeTimeDate;
-                } catch (IOException | RuntimeException ignored) {
-                }
-            }
+        } catch (IOException E) {
+            // Couldn't read resources, probably a debug build
         }
-        return d;
+        return new Date(0);
     }
 
     public boolean hasStaticUuid() {

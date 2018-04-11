@@ -23,7 +23,7 @@ public class ConnectionRequest {
 
     public ConnectionRequest(String name) {
         this.mName = name;
-        this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime().getTime();
+        this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime(this).getTime();
         try {
             // Try reading the UUID
             BufferedReader br = new BufferedReader(new FileReader(UUID_FILE));
@@ -45,7 +45,7 @@ public class ConnectionRequest {
     public ConnectionRequest(String name, long uuid) {
         this.mName = name;
         this.mUuid = uuid;
-        this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime().getTime();
+        this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime(this).getTime();
     }
 
     public long getUuid() {
