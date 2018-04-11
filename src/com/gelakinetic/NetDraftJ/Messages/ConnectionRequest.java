@@ -7,10 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
+import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
+
 public class ConnectionRequest {
 
     private String mName;
     private long mUuid;
+    private long mBuildTimestamp;
 
     private static final String UUID_FILE = "uuid";
 
@@ -20,6 +23,7 @@ public class ConnectionRequest {
 
     public ConnectionRequest(String name) {
         this.mName = name;
+        this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime().getTime();
         try {
             // Try reading the UUID
             BufferedReader br = new BufferedReader(new FileReader(UUID_FILE));
@@ -41,6 +45,7 @@ public class ConnectionRequest {
     public ConnectionRequest(String name, long uuid) {
         this.mName = name;
         this.mUuid = uuid;
+        this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime().getTime();
     }
 
     public long getUuid() {
@@ -49,5 +54,9 @@ public class ConnectionRequest {
 
     public String getName() {
         return mName;
+    }
+
+    public long getBuildTimestamp() {
+        return mBuildTimestamp;
     }
 }

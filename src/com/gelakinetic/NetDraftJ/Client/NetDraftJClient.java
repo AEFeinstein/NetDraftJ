@@ -60,14 +60,14 @@ public class NetDraftJClient extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof ConnectionResponse) {
-            ConnectionResponse request = (ConnectionResponse) object;
-            if (request.getConnectionStatus()) {
+            ConnectionResponse response = (ConnectionResponse) object;
+            if (response.getConnectionStatus()) {
                 mUi.appendText("Connected to " + connection.getRemoteAddressTCP().toString());
                 mUi.setConnectMenuItemEnabled(false);
                 mUi.setHostMenuItemEnabled(false);
             }
             else {
-                mUi.appendText("Connection rejected");
+                mUi.appendText("Connection rejected: " + response.getMessage());
             }
         }
         else if (object instanceof PickRequest) {

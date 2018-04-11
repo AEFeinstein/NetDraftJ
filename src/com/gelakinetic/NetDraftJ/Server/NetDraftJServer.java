@@ -11,10 +11,12 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
 import com.gelakinetic.NetDraftJ.Database.MtgCard;
 import com.gelakinetic.NetDraftJ.Database.NetDraftJDatabase;
 import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
@@ -107,15 +109,25 @@ public class NetDraftJServer extends Listener {
                 if (!draftStarted) {
                     // Draft hasn't started, so let the player join
 
-                    // Logging
-                    mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");
+                    if (request.getBuildTimestamp() == NetDraftJClient_ui.getClassBuildTime().getTime()) {
 
-                    // Let the player know they've joined
-                    connection.sendTCP(new ConnectionResponse(true));
+                        // Logging
+                        mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");
 
-                    // Save the player's information
-                    Player player = new Player(connection, request);
-                    players.add(player);
+                        // Let the player know they've joined
+                        connection.sendTCP(new ConnectionResponse(true, null));
+
+                        // Save the player's information
+                        Player player = new Player(connection, request);
+                        players.add(player);
+                    }
+                    else {
+                        // Logging
+                        mUi.appendText("Rejected (build mismatch)" + request.getUuid() + ": " + request.getName());
+
+                        // Let the player know they've been rejected
+                        connection.sendTCP(new ConnectionResponse(false, "Build Mismatch"));
+                    }
 
                 }
                 else {
@@ -127,7 +139,7 @@ public class NetDraftJServer extends Listener {
                             player.initalize(connection, request);
 
                             // Let the player know they've joined
-                            connection.sendTCP(new ConnectionResponse(true));
+                            connection.sendTCP(new ConnectionResponse(true, null));
 
                             // Send the reconnected player their seating info
                             player.sendSeatingOrder(players);
@@ -147,10 +159,10 @@ public class NetDraftJServer extends Listener {
 
                     if (!reconnected) {
                         // Logging
-                        mUi.appendText("Rejected " + request.getUuid() + ": " + request.getName());
+                        mUi.appendText("Rejected (draft started)" + request.getUuid() + ": " + request.getName());
 
                         // Let the player know they've been rejected
-                        connection.sendTCP(new ConnectionResponse(false));
+                        connection.sendTCP(new ConnectionResponse(false, "Draft Already Started"));
                     }
                 }
             }

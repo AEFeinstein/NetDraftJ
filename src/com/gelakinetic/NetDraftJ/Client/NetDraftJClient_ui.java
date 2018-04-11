@@ -394,7 +394,7 @@ public class NetDraftJClient_ui {
     /**
      * @return The date this class file was built
      */
-    private static Date getClassBuildTime() {
+    public static Date getClassBuildTime() {
         Date d = null;
         Class<?> currentClass = new Object() {
         }.getClass().getEnclosingClass();
