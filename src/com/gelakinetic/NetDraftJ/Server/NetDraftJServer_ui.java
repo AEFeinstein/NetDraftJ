@@ -16,6 +16,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
 import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
+import javax.swing.JScrollPane;
 
 public class NetDraftJServer_ui {
 
@@ -26,6 +27,7 @@ public class NetDraftJServer_ui {
     private JButton btnStartTheGame;
 
     private NetDraftJClient_ui mClientUi;
+    private JScrollPane scrollPane;
 
     /**
      * Create the application.
@@ -58,9 +60,12 @@ public class NetDraftJServer_ui {
         mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mFrame.getContentPane().setLayout(new BoxLayout(mFrame.getContentPane(), BoxLayout.Y_AXIS));
 
+        scrollPane = new JScrollPane();
+        mFrame.getContentPane().add(scrollPane);
+
         mTextPane = new JTextPane();
+        scrollPane.setViewportView(mTextPane);
         mTextPane.setEditable(false);
-        mFrame.getContentPane().add(mTextPane);
         mTextPane.setText("");
 
         btnStartTheGame = new JButton("Start the Game");
@@ -72,8 +77,10 @@ public class NetDraftJServer_ui {
 
                     @Override
                     public void run() {
-                        btnStartTheGame.setEnabled(false);
-                        mServer.clickStartGameButton(e);
+                        if (mServer.clickStartGameButton(e)) {
+                            btnStartTheGame.setEnabled(false);
+                        }
+                        ;
                     }
                 });
             }

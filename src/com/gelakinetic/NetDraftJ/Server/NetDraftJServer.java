@@ -22,7 +22,6 @@ import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
 import com.gelakinetic.NetDraftJ.Messages.ConnectionResponse;
 import com.gelakinetic.NetDraftJ.Messages.MessageUtils;
 import com.gelakinetic.NetDraftJ.Messages.PickResponse;
-import com.gelakinetic.NetDraftJ.Messages.StartDraftInfo;
 
 public class NetDraftJServer extends Listener {
 
@@ -66,6 +65,9 @@ public class NetDraftJServer extends Listener {
         synchronized (players) {
             // Mark another pack as dealt
             numPacks--;
+
+            // Logging
+            mUi.appendText("Deal out the next pack, " + numPacks + " pack(s) left");
 
             // Reverse the pack direction
             if (currentPackDirection == Direction.LEFT) {
@@ -174,6 +176,8 @@ public class NetDraftJServer extends Listener {
                     if (response.getUuid() == player.getUuid()) {
                         // Mark that card as picked
                         player.pickCard(response.getPick());
+                        // Logging
+                        mUi.appendText(player.getName() + " picked a card");
                     }
                     // Check if any player hasn't made a pick yet
                     if (false == player.getPicked()) {
@@ -186,17 +190,24 @@ public class NetDraftJServer extends Listener {
                     // If the packs are empty and there are more to be drafted
                     if (players.get(0).getPack().size() == 0) {
                         if (numPacks > 0) {
+
                             // deal new ones
                             dealPacks();
                             sendPlayersPacks();
                         }
                         else {
+                            // Logging
+                            mUi.appendText("Draft over");
+
                             for (Player player : players) {
                                 player.sendDraftOverNotification();
                             }
                         }
                     }
                     else {
+                        // Logging
+                        mUi.appendText("Pass the packs, " + players.get(0).getPack().size() + " cards left");
+
                         // If everyone picked and there are still packs in cards,
                         // shift them
                         shiftPacks(currentPackDirection);
@@ -394,10 +405,25 @@ public class NetDraftJServer extends Listener {
      * TODO doc
      * 
      * @param e
+     * @return true if the draft started, false otherwise
      */
-    public void clickStartGameButton(ActionEvent e) {
+    public boolean clickStartGameButton(ActionEvent e) {
 
         synchronized (players) {
+
+            // Make sure uuids are actually unique
+            for (Player one : players) {
+                for (Player two : players) {
+                    if (one != two) {
+                        if (one.getUuid() == two.getUuid()) {
+                            // Logging
+                            mUi.appendText("UUIDs aren't unique!");
+                            return false;
+                        }
+                    }
+                }
+            }
+
             // Mark the draft as started
             draftStarted = true;
 
@@ -405,9 +431,12 @@ public class NetDraftJServer extends Listener {
             Collections.shuffle(players);
 
             // Tell everyone the seating order
-            StartDraftInfo sdi = new StartDraftInfo();
-            sdi.setSeatingOrder(players);
-            server.sendToAllTCP(sdi);
+            for (Player player : players) {
+                player.sendSeatingOrder(players);
+            }
+
+            // Logging
+            mUi.appendText("Send the seating orders");
 
             // Figure out pack size and number of packs
             packSize = (players.size() * 2) - 1;
@@ -424,6 +453,8 @@ public class NetDraftJServer extends Listener {
 
             // Send the packs to the drafters
             sendPlayersPacks();
+
+            return true;
         }
     }
 }
