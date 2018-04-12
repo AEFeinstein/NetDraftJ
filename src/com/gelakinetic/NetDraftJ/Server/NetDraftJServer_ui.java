@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
@@ -100,6 +101,7 @@ public class NetDraftJServer_ui {
 
             @Override
             public void windowClosing(WindowEvent e) {
+                showExitDialog(false);
             }
 
             @Override
@@ -111,6 +113,24 @@ public class NetDraftJServer_ui {
             public void windowActivated(WindowEvent e) {
             }
         });
+    }
+
+    /**
+     * TODO doc
+     */
+    private void showExitDialog(boolean isMenu) {
+        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to close the server?", "Close the Server",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+            mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            if (isMenu) {
+                mFrame.dispose();
+            }
+        }
+        else {
+            mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     /**

@@ -46,7 +46,7 @@ public class NetDraftJServer extends Listener {
     private Direction currentPackDirection = Direction.RIGHT;
     boolean draftStarted = false;
 
-    private Thread disconnectCheckThread;
+    private boolean mStopDisconnectCheckThread = false;
 
     /**
      * TODO doc
@@ -281,7 +281,7 @@ public class NetDraftJServer extends Listener {
                 mUi.setHostMenuItemEnabled(false);
                 draftStarted = false;
 
-                disconnectCheckThread = new Thread(new Runnable() {
+                new Thread(new Runnable() {
 
                     @Override
                     public void run() {
@@ -309,10 +309,12 @@ public class NetDraftJServer extends Listener {
                             } catch (InterruptedException e) {
                                 return;
                             }
+                            if (mStopDisconnectCheckThread) {
+                                return;
+                            }
                         }
                     }
-                });
-                disconnectCheckThread.run();
+                }).run();
                 return;
             }
         }).start();
@@ -385,9 +387,7 @@ public class NetDraftJServer extends Listener {
         }
         server = null;
         mUi.setHostMenuItemEnabled(true);
-        if (null != disconnectCheckThread) {
-            disconnectCheckThread.stop();
-        }
+        mStopDisconnectCheckThread = true;
     }
 
     /**
