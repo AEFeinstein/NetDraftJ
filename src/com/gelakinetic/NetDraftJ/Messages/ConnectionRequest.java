@@ -21,7 +21,7 @@ public class ConnectionRequest {
         mName = "";
     }
 
-    public ConnectionRequest(String name) {
+    public ConnectionRequest(String name, NetDraftJClient_ui mUi) {
         this.mName = name;
         this.mBuildTimestamp = NetDraftJClient_ui.getClassBuildTime(this).getTime();
         try {
@@ -37,6 +37,8 @@ public class ConnectionRequest {
                 bw.write(Long.toString(mUuid));
                 bw.close();
             } catch (IOException e1) {
+                mUi.showErrorDialog(
+                        "Cannot write UUID file. Please move NetDraftJ somewhere with write permissions and restart it.");
                 e1.printStackTrace();
             }
         }

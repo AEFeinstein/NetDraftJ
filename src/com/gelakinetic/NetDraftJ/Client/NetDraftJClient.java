@@ -143,7 +143,7 @@ public class NetDraftJClient extends Listener {
                     request = new ConnectionRequest(name, mUuid);
                 }
                 else {
-                    request = new ConnectionRequest(name);
+                    request = new ConnectionRequest(name, mUi);
                 }
                 client.sendTCP(request);
                 mUuid = request.getUuid();

@@ -457,11 +457,30 @@ public class NetDraftJClient_ui {
         return new Date(0);
     }
 
+    /**
+     * TODO doc
+     * 
+     * @return
+     */
     public boolean hasStaticUuid() {
         return mHasStaticUuid;
     }
 
+    /**
+     * TODO doc
+     * 
+     * @return
+     */
     public long getUuid() {
         return mStaticUuid;
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @param message
+     */
+    public void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(mFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
