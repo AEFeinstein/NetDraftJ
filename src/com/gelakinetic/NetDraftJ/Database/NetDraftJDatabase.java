@@ -108,6 +108,8 @@ public class NetDraftJDatabase {
                 + "cards.loyalty, "
                 // Card Text
                 + "cards.cardtext, "
+                // Card Text
+                + "cards.color, "
                 // Flavor Text
                 + "cards.flavor, "
                 // Artist

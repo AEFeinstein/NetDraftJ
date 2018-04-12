@@ -102,7 +102,7 @@ public class NetDraftJClient extends Listener {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                mUi.appendText(card.getName(), card.getToolTipText());
+                mUi.appendText(card.getName(), card.getToolTipText(), card.getColor());
                 mAllPicks.add(card.getName());
             }
             database.closeConnection();
@@ -168,6 +168,15 @@ public class NetDraftJClient extends Listener {
             client.sendTCP(new PickResponse(card.getMultiverseId(), mUuid));
             mAllPicks.add(card.getName());
         }
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @return
+     */
+    public int getPickedCardCount() {
+        return mAllPicks.size();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.gelakinetic.NetDraftJ.Client;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -53,6 +54,10 @@ import com.gelakinetic.NetDraftJ.Database.MtgCard;
 import com.gelakinetic.NetDraftJ.Database.NetDraftJDatabase;
 import com.gelakinetic.NetDraftJ.Server.NetDraftJServer;
 import com.gelakinetic.NetDraftJ.Server.NetDraftJServer_ui;
+
+import net.miginfocom.layout.AC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.swing.MigLayout;
 
 public class NetDraftJClient_ui {
 
@@ -216,7 +221,12 @@ public class NetDraftJClient_ui {
         mTextBoxLayout = new JPanel();
         mTextBoxLayout.setBorder(new EmptyBorder(0, 8, 0, 8));
         scrollPane.setViewportView(mTextBoxLayout);
-        mTextBoxLayout.setLayout(new BoxLayout(mTextBoxLayout, BoxLayout.Y_AXIS));
+
+        // Layout, Column and Row constraints as arguments.
+        MigLayout migLayout = new MigLayout(new LC().fillX().wrapAfter(1), new AC().count(1).align("left").fill(),
+                new AC());
+
+        mTextBoxLayout.setLayout(migLayout);
 
         mFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -235,6 +245,14 @@ public class NetDraftJClient_ui {
         // testPack[i] = rand.nextInt(1000) + 1;
         // }
         // loadPack(testPack);
+
+        // appendText("WHITE", "", "W");
+        // appendText("BLUE", "", "U");
+        // appendText("BLACK", "", "B");
+        // appendText("RED", "", "R");
+        // appendText("GREEN", "", "G");
+        // appendText("YELLOW", "", "WU");
+        // appendText("NONE", "", "CAL");
     }
 
     /**
@@ -261,7 +279,7 @@ public class NetDraftJClient_ui {
      * @param string
      */
     public void appendText(String string) {
-        appendText(string, null);
+        appendText(string, null, null);
     }
 
     /**
@@ -270,7 +288,7 @@ public class NetDraftJClient_ui {
      * @param string
      * @param tooltipText
      */
-    public void appendText(String string, String tooltipText) {
+    public void appendText(String string, String tooltipText, String colorStr) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -280,6 +298,56 @@ public class NetDraftJClient_ui {
                 if (null != tooltipText) {
                     label.setToolTipText(tooltipText);
                 }
+                if (null != colorStr) {
+                    Color bgColor = null;
+
+                    String colorStrFilt = colorStr.replaceAll("[^WUBRGwubrg]", "").toLowerCase();
+                    if (colorStrFilt.length() == 1) {
+                        switch (colorStrFilt.charAt(0)) {
+                            case 'w': {
+                                bgColor = Color.WHITE;
+                                break;
+                            }
+                            case 'u': {
+                                bgColor = Color.BLUE;
+                                break;
+                            }
+                            case 'b': {
+                                bgColor = Color.BLACK;
+                                break;
+                            }
+                            case 'r': {
+                                bgColor = Color.RED;
+                                break;
+                            }
+                            case 'g': {
+                                bgColor = Color.GREEN.darker();
+                                break;
+                            }
+                        }
+                    }
+                    else if (colorStrFilt.length() > 1) {
+                        bgColor = Color.YELLOW;
+                    }
+                    else {
+                        bgColor = null;
+                    }
+
+                    if (null != bgColor) {
+                        label.setOpaque(true);
+                        label.setBackground(bgColor);
+
+                        float greyscale = (0.3f * bgColor.getRed()) + (0.59f * bgColor.getGreen())
+                                + (0.11f * bgColor.getBlue());
+                        if (greyscale > 128) {
+                            label.setForeground(Color.BLACK);
+                        }
+                        else {
+                            label.setForeground(Color.WHITE);
+                        }
+                    }
+                }
+
                 mTextBoxLayout.add(label);
                 mTextBoxLayout.repaint();
                 mTextBoxLayout.validate();
@@ -340,8 +408,9 @@ public class NetDraftJClient_ui {
                                     }
                                 }
                             }
-                            appendText(card.getName(), card.getToolTipText());
                             mClient.pickCard(card);
+                            appendText(mClient.getPickedCardCount() + ":  " + card.getName(), card.getToolTipText(),
+                                    card.getColor());
                             break;
                         }
                         default:

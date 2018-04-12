@@ -31,6 +31,7 @@ public class MtgCard {
     private String mManaCost = null;
     private String mSuperType = null;
     private String mSubType = null;
+    private String mColor = null;
 
     private String mText = null;
 
@@ -188,8 +189,7 @@ public class MtgCard {
     }
 
     /**
-     * Jumps through hoops and returns a correctly formatted URL for
-     * magiccards.info's image.
+     * Jumps through hoops and returns a correctly formatted URL for magiccards.info's image.
      *
      * @param cardName
      *            The name of the card
@@ -294,23 +294,24 @@ public class MtgCard {
      * @throws SQLException
      */
     public boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
-        if(!resultSet.isClosed()) {
+        if (!resultSet.isClosed()) {
             mMultiverseId = resultSet.getInt(resultSet.findColumn("multiverseID"));
             mCardNumber = resultSet.getString(resultSet.findColumn("number"));
-    
+
             mName = resultSet.getString(resultSet.findColumn("card_name"));
             mSuperType = resultSet.getString(resultSet.findColumn("supertype"));
             mSubType = resultSet.getString(resultSet.findColumn("subtype"));
+            mColor = resultSet.getString(resultSet.findColumn("color"));
             mManaCost = resultSet.getString(resultSet.findColumn("manacost"));
             mPower = resultSet.getDouble(resultSet.findColumn("power"));
             mToughness = resultSet.getDouble(resultSet.findColumn("toughness"));
             mLoyalty = resultSet.getDouble(resultSet.findColumn("loyalty"));
             mText = resultSet.getString(resultSet.findColumn("cardtext"));
-    
+
             mFlavor = resultSet.getString(resultSet.findColumn("flavor"));
             mArtist = resultSet.getString(resultSet.findColumn("artist"));
             mWatermark = resultSet.getString(resultSet.findColumn("watermark"));
-    
+
             mSetCode = resultSet.getString(resultSet.findColumn("set_code"));
             mMagicCardsInfoSetCode = resultSet.getString(resultSet.findColumn("set_code_mtgi"));
             return true;
@@ -349,8 +350,7 @@ public class MtgCard {
                 URL picUrl;
                 if (!cardLanguage.equalsIgnoreCase("en")) {
                     /*
-                     * Non-English have to come from magiccards.info. Try there
-                     * first
+                     * Non-English have to come from magiccards.info. Try there first
                      */
                     picUrl = new URL(getMtgiPicUrl(cardLanguage));
                     /* If this fails, try next time with the English version */
@@ -360,8 +360,7 @@ public class MtgCard {
                     /* Try downloading the image from Scryfall next */
                     picUrl = new URL(getScryfallImageUri());
                     /*
-                     * If this fails, try next time with the Magiccards.info
-                     * version
+                     * If this fails, try next time with the Magiccards.info version
                      */
                     triedScryfall = true;
                 }
@@ -404,7 +403,7 @@ public class MtgCard {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                
+
                 /* Gatherer is always tried last. If that fails, give up */
                 if (!triedGatherer) {
                     bRetry = true;
@@ -412,5 +411,14 @@ public class MtgCard {
             }
         }
         return null;
+    }
+
+    /**
+     * TODO doc
+     * 
+     * @return
+     */
+    public String getColor() {
+        return this.mColor;
     }
 }

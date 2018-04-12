@@ -14,5 +14,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/NetDraftJ/lib/commons-io-2.6-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

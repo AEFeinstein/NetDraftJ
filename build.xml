@@ -1,91 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse.ant.import?>
 <project basedir="." default="build" name="NetDraftJ">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../Program Files/eclipse/eclipse/"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
-    <property name="dir.buildfile" value="." />
-    <property name="dir.jarfile" value="${dir.buildfile}" />
-    <path id="NetDraftJ.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="lib/sqlite-jdbc-3.21.0.jar"/>
-        <pathelement location="lib/kryonet-2.21-all.jar"/>
-        <pathelement location="lib/commons-io-2.6.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="res">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <src path="res"/>
-            <classpath refid="NetDraftJ.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="NetDraftJ">
-        <java classname="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" failonerror="true" fork="yes">
-            <classpath refid="NetDraftJ.classpath"/>
-        </java>
-    </target>
-    <target name="NetDraftJ_uuid_1">
-        <java classname="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" failonerror="true" fork="yes">
-            <arg line="1"/>
-            <classpath refid="NetDraftJ.classpath"/>
-        </java>
-    </target>
-    <target name="NetDraftJ_uuid_2">
-        <java classname="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" failonerror="true" fork="yes">
-            <arg line="2"/>
-            <classpath refid="NetDraftJ.classpath"/>
-        </java>
-    </target>
-    <target name="create_run_jar" depends="cleanall,build-project">
-        <tstamp>
-            <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
-        </tstamp>
-        <jar destfile="${dir.jarfile}/NetDraftJ.jar" filesetmanifest="mergewithoutmain">
-            <manifest>
-                <attribute name="Main-Class" value="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" />
-                <attribute name="Built-Date" value="${TODAY}" />
-                <attribute name="Class-Path" value="." />
-            </manifest>
-            <fileset dir="./bin" />
-            <zipfileset excludes="META-INF/*.SF" src="./lib/sqlite-jdbc-3.21.0.jar" />
-            <zipfileset excludes="META-INF/*.SF" src="./lib/kryonet-2.21-all.jar" />
-            <zipfileset excludes="META-INF/*.SF" src="./lib/commons-io-2.6.jar" />
-        </jar>
-    </target>
+	<property environment="env" />
+	<property name="ECLIPSE_HOME" value="../../../../Program Files/eclipse/eclipse/" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+	<property name="dir.buildfile" value="." />
+	<property name="dir.jarfile" value="${dir.buildfile}" />
+	<path id="NetDraftJ.classpath">
+		<pathelement location="bin" />
+		<pathelement location="lib/sqlite-jdbc-3.21.0.jar" />
+		<pathelement location="lib/kryonet-2.21-all.jar" />
+		<pathelement location="lib/commons-io-2.6.jar" />
+		<pathelement location="lib/miglayout15-swing.jar" />
+	</path>
+	<target name="init">
+		<mkdir dir="bin" />
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="res">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="build-subprojects,build-project" name="build" />
+	<target name="build-subprojects" />
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src" />
+			<src path="res" />
+			<classpath refid="NetDraftJ.classpath" />
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar" />
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</unzip>
+	</target>
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+		<antcall target="build" />
+	</target>
+	<target name="NetDraftJ">
+		<java classname="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" failonerror="true" fork="yes">
+			<classpath refid="NetDraftJ.classpath" />
+		</java>
+	</target>
+	<target name="NetDraftJ_uuid_1">
+		<java classname="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" failonerror="true" fork="yes">
+			<arg line="1" />
+			<classpath refid="NetDraftJ.classpath" />
+		</java>
+	</target>
+	<target name="NetDraftJ_uuid_2">
+		<java classname="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" failonerror="true" fork="yes">
+			<arg line="2" />
+			<classpath refid="NetDraftJ.classpath" />
+		</java>
+	</target>
+	<target name="create_run_jar" depends="cleanall,build-project">
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<jar destfile="${dir.jarfile}/NetDraftJ.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" />
+				<attribute name="Built-Date" value="${TODAY}" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="./bin" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/sqlite-jdbc-3.21.0.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/kryonet-2.21-all.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/commons-io-2.6.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/miglayout15-swing.jar" />
+		</jar>
+	</target>
 </project>
