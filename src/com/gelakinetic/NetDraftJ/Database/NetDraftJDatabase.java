@@ -16,7 +16,11 @@ public class NetDraftJDatabase {
      * TODO doc
      */
     public NetDraftJDatabase() {
-        this.openConnection();
+        try {
+            this.openConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -24,36 +28,21 @@ public class NetDraftJDatabase {
      * 
      * @return
      */
-    public boolean openConnection() {
+    private void openConnection() throws SQLException, ClassNotFoundException {
         if ((new File("res\\mtg.sqlite")).exists()) {
-            try {
-                /* Open up the database */
-                Class.forName("org.sqlite.JDBC");
-                mDbConnection = DriverManager.getConnection("jdbc:sqlite:res\\mtg.sqlite");
-                return true;
-            } catch (SQLException | ClassNotFoundException e) {
-                /* For exceptions, just print them out and exit cleanly */
-                e.printStackTrace();
-            }
+            /* Open up the database */
+            Class.forName("org.sqlite.JDBC");
+            mDbConnection = DriverManager.getConnection("jdbc:sqlite:res\\mtg.sqlite");
         }
         else {
-            try {
-                /* Open up the database */
-                Class.forName("org.sqlite.JDBC");
-                mDbConnection = DriverManager.getConnection("jdbc:sqlite::resource:mtg.sqlite");
-                return true;
-            } catch (SQLException | ClassNotFoundException e) {
-                /* For exceptions, just print them out and exit cleanly */
-                e.printStackTrace();
-            }
+            /* Open up the database */
+            Class.forName("org.sqlite.JDBC");
+            mDbConnection = DriverManager.getConnection("jdbc:sqlite::resource:mtg.sqlite");
         }
-        return false;
     }
 
     /**
      * TODO doc
-     * 
-     * @param mDbConnection
      */
     public void closeConnection() {
         /* Close the database */
@@ -72,7 +61,6 @@ public class NetDraftJDatabase {
      * TODO doc
      * 
      * @param card
-     * @param mDbConnection
      * @return
      * @throws SQLException
      */
@@ -85,8 +73,8 @@ public class NetDraftJDatabase {
         /* Perform the query */
         Statement statement = mDbConnection.createStatement();
 
-        String sqlStatement = null;
-        PreparedStatement pstmt = null;
+        String sqlStatement;
+        PreparedStatement pstmt;
         sqlStatement = "SELECT "
                 // Multiverse ID
                 + "cards.multiverseID, "

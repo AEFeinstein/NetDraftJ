@@ -4,6 +4,7 @@ public class PickResponse {
     private long mUuid;
     private int mPick;
 
+    @SuppressWarnings("unused")
     public PickResponse() {
 
     }

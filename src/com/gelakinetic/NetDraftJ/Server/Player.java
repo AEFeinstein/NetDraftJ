@@ -18,11 +18,11 @@ public class Player {
     private boolean mPicked;
     private boolean isDetached;
 
-    public Player(Connection connection, ConnectionRequest request) {
-        this.initalize(connection, request);
+    Player(Connection connection, ConnectionRequest request) {
+        this.initialize(connection, request);
     }
 
-    public void initalize(Connection connection, ConnectionRequest request) {
+    void initialize(Connection connection, ConnectionRequest request) {
         this.mConnection = connection;
         this.mName = request.getName();
         this.mUuid = request.getUuid();
@@ -36,7 +36,7 @@ public class Player {
         isDetached = false;
     }
 
-    public void clearPack() {
+    void clearPack() {
         mPack.clear();
     }
 
@@ -44,15 +44,15 @@ public class Player {
         mPack.add(multiverseId);
     }
 
-    public ArrayList<Integer> getPack() {
+    ArrayList<Integer> getPack() {
         return mPack;
     }
 
-    public void setPack(ArrayList<Integer> lastPack) {
+    void setPack(ArrayList<Integer> lastPack) {
         mPack = lastPack;
     }
 
-    public void sendPickRequest(boolean isReconnect) {
+    void sendPickRequest(boolean isReconnect) {
         if (!isReconnect) {
             mPicked = false;
         }
@@ -65,7 +65,7 @@ public class Player {
         mPicks.add(multiverseId);
     }
 
-    public void sendDraftOverNotification() {
+    void sendDraftOverNotification() {
         mConnection.sendTCP(new DraftOverNotification(mPicks));
     }
 
@@ -73,41 +73,34 @@ public class Player {
         return mName;
     }
 
-    public boolean getPicked() {
+    boolean getPicked() {
         return mPicked;
     }
 
-    public long getUuid() {
+    long getUuid() {
         return mUuid;
     }
 
-    public boolean isConnected() {
-        return mConnection.isConnected();
+    boolean isDisconnected() {
+        return !mConnection.isConnected();
     }
 
-    public void setDetached(boolean state) {
-        isDetached = state;
+    void setDetached() {
+        isDetached = true;
     }
 
-    public boolean isDetached() {
+    boolean isDetached() {
         return isDetached;
     }
 
-    public void sendSeatingOrder(ArrayList<Player> players) {
+    void sendSeatingOrder(ArrayList<Player> players) {
         StartDraftInfo sdi = new StartDraftInfo();
         sdi.setSeatingOrder(players);
         mConnection.sendTCP(sdi);
     }
 
-    public void sendPreviousPicks() {
+    void sendPreviousPicks() {
         mConnection.sendTCP(new PreviousPicksInfo(mPicks));
     }
 
-    public void setConnection(Connection connection) {
-        mConnection = connection;
-    }
-
-    public void sendPing() {
-        mConnection.updateReturnTripTime();
-    }
 }

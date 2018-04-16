@@ -124,10 +124,9 @@ public class MtgCard {
      * TODO doc
      * 
      * @param stat
-     * @param displaySign
      * @return
      */
-    private static String getPrintedPTL(double stat, boolean displaySign) {
+    private static String getPrintedPTL(double stat) {
         if (stat == STAR) {
             return "*";
         }
@@ -157,15 +156,9 @@ public class MtgCard {
         }
         else {
             if (stat == (int) stat) {
-                if (displaySign) {
-                    return String.format(Locale.US, "%+d", (int) stat);
-                }
                 return String.format(Locale.US, "%d", (int) stat);
             }
             else {
-                if (displaySign) {
-                    return String.format(Locale.US, "%+.1f", stat);
-                }
                 return String.format(Locale.US, "%.1f", stat);
             }
         }
@@ -178,10 +171,10 @@ public class MtgCard {
      */
     private String getPTLString() {
         if (mPower != NO_ONE_CARES || mToughness != NO_ONE_CARES) {
-            return getPrintedPTL(mPower, false) + " / " + getPrintedPTL(mToughness, false);
+            return getPrintedPTL(mPower) + " / " + getPrintedPTL(mToughness);
         }
         else if (mLoyalty != NO_ONE_CARES) {
-            return getPrintedPTL(mLoyalty, false);
+            return getPrintedPTL(mLoyalty);
         }
         else {
             return null;
@@ -191,17 +184,9 @@ public class MtgCard {
     /**
      * Jumps through hoops and returns a correctly formatted URL for magiccards.info's image.
      *
-     * @param cardName
-     *            The name of the card
-     * @param magicCardsInfoSetCode
-     *            The set of the card
-     * @param cardNumber
-     *            The number of the card
-     * @param cardLanguage
-     *            The language of the card
      * @return a URL to the card's image
      */
-    public String getMtgiPicUrl(String language) {
+    private String getMtgiPicUrl(String language) {
 
         final String mtgiExtras = "http://magiccards.info/extras/";
         String picURL;
@@ -251,21 +236,18 @@ public class MtgCard {
     /**
      * Easily gets the uri for the image for a card by multiverseid.
      *
-     * @param multiverseId
-     *            the multiverse id of the card
      * @return uri of the card image
      */
-    public String getScryfallImageUri() {
+    private String getScryfallImageUri() {
         return "https://api.scryfall.com/cards/multiverse/" + mMultiverseId + "?format=image&version=normal";
     }
 
     /**
      * TODO doc
      * 
-     * @param cardLanguage
      * @return
      */
-    public String getGathererPicUrl(String cardLanguage) {
+    private String getGathererPicUrl() {
         return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + mMultiverseId + "&type=card";
     }
 
@@ -293,7 +275,7 @@ public class MtgCard {
      * @param resultSet
      * @throws SQLException
      */
-    public boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
+    boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
         if (!resultSet.isClosed()) {
             mMultiverseId = resultSet.getInt(resultSet.findColumn("multiverseID"));
             mCardNumber = resultSet.getString(resultSet.findColumn("number"));
@@ -348,15 +330,7 @@ public class MtgCard {
 
             try {
                 URL picUrl;
-                if (!cardLanguage.equalsIgnoreCase("en")) {
-                    /*
-                     * Non-English have to come from magiccards.info. Try there first
-                     */
-                    picUrl = new URL(getMtgiPicUrl(cardLanguage));
-                    /* If this fails, try next time with the English version */
-                    cardLanguage = "en";
-                }
-                else if (!triedScryfall) {
+                if (!triedScryfall) {
                     /* Try downloading the image from Scryfall next */
                     picUrl = new URL(getScryfallImageUri());
                     /*
@@ -372,7 +346,7 @@ public class MtgCard {
                 }
                 else {
                     /* Try downloading the image from gatherer */
-                    picUrl = new URL(getGathererPicUrl(cardLanguage));
+                    picUrl = new URL(getGathererPicUrl());
                     /* If this fails, give up */
                     triedGatherer = true;
                 }

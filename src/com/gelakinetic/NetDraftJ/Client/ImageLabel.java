@@ -16,11 +16,7 @@ class ImageLabel extends JLabel {
     private static final long serialVersionUID = -2929247308012414202L;
     private BufferedImage _myimage;
 
-    public ImageLabel(String text) {
-        super(text);
-    }
-
-    public ImageLabel() {
+    ImageLabel() {
         super();
     }
 
@@ -80,7 +76,7 @@ class ImageLabel extends JLabel {
      *            The Image to be converted
      * @return The converted BufferedImage
      */
-    public static BufferedImage toBufferedImage(Image img) {
+    private static BufferedImage toBufferedImage(Image img) {
         if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }

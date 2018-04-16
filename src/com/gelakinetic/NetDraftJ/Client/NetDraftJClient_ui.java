@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,25 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.jar.Manifest;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.PlainDocument;
 
@@ -64,7 +43,7 @@ public class NetDraftJClient_ui {
     private static final ExecutorService threadPool = Executors
             .newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    private NetDraftJClient mClient;
+    private final NetDraftJClient mClient;
 
     private JFrame mFrame;
     private JPanel mPackGridLayout;
@@ -90,35 +69,32 @@ public class NetDraftJClient_ui {
             }
         }
 
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        EventQueue.invokeLater(() -> {
 
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                        | UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                }
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                    | UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
 
-                // Show tooltips virtually forever
-                ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+            // Show tooltips virtually forever
+            ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 
-                try {
-                    NetDraftJClient_ui window = new NetDraftJClient_ui();
-                    window.mFrame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                NetDraftJClient_ui window = new NetDraftJClient_ui();
+                window.mFrame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
 
     /**
      * Create the application.
-     * 
-     * @param mClient
+     *
      */
-    public NetDraftJClient_ui() {
+    private NetDraftJClient_ui() {
         initialize();
         this.mClient = new NetDraftJClient(this);
     }
@@ -129,7 +105,7 @@ public class NetDraftJClient_ui {
     private void initialize() {
         mFrame = new JFrame();
         mFrame.setBounds(100, 100, 1024, 768);
-        mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JMenuBar menuBar = new JMenuBar();
         mFrame.setJMenuBar(menuBar);
@@ -138,67 +114,36 @@ public class NetDraftJClient_ui {
         menuBar.add(mnFile);
 
         mntmConnect = new JMenuItem("Connect");
-        mntmConnect.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        JTextField playerName = new JTextField();
-                        ((PlainDocument) playerName.getDocument())
-                                .setDocumentFilter(new TextInputFilter(inputType.USERNAME));
-                        JTextField server = new JTextField();
-                        ((PlainDocument) server.getDocument())
-                                .setDocumentFilter(new TextInputFilter(inputType.IP_ADDRESS));
-                        final JComponent[] inputs = new JComponent[] { new JLabel("Username"), playerName,
-                                new JLabel("Server IP Address"), server };
-                        int result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
-                                JOptionPane.PLAIN_MESSAGE);
-                        if (result == JOptionPane.OK_OPTION) {
-                            mClient.connectToServer(playerName.getText(), server.getText());
-                        }
-                    }
-                });
+        mntmConnect.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            JTextField playerName = new JTextField();
+            ((PlainDocument) playerName.getDocument())
+                    .setDocumentFilter(new TextInputFilter(inputType.USERNAME));
+            JTextField server = new JTextField();
+            ((PlainDocument) server.getDocument())
+                    .setDocumentFilter(new TextInputFilter(inputType.IP_ADDRESS));
+            final JComponent[] inputs = new JComponent[] { new JLabel("Username"), playerName,
+                    new JLabel("Server IP Address"), server };
+            int result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                mClient.connectToServer(playerName.getText(), server.getText());
             }
-        });
+        }));
         mnFile.add(mntmConnect);
 
         mntmHost = new JMenuItem("Host");
-        mntmHost.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this);
-                } catch (UnknownHostException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
+        mntmHost.addActionListener(e -> new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this));
         mnFile.add(mntmHost);
 
         JMenuItem mntmSaveDraftedCards = new JMenuItem("Save Drafted Cards");
-        mntmSaveDraftedCards.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mClient.saveDraftedCards();
-            }
-        });
+        mntmSaveDraftedCards.addActionListener(e -> mClient.saveDraftedCards());
         mnFile.add(mntmSaveDraftedCards);
 
         JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime(this).toString());
         mnFile.add(mnDate);
 
         JMenuItem mnExit = new JMenuItem("Exit");
-        mnExit.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showExitDialog(true);
-            }
-        });
+        mnExit.addActionListener(e -> showExitDialog(true));
         mnFile.add(mnExit);
 
         mFrame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
@@ -263,13 +208,13 @@ public class NetDraftJClient_ui {
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
-            mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             if (isMenu) {
                 mFrame.dispose();
             }
         }
         else {
-            mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            mFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         }
     }
 
@@ -278,7 +223,7 @@ public class NetDraftJClient_ui {
      * 
      * @param string
      */
-    public void appendText(String string) {
+    void appendText(String string) {
         appendText(string, null, null);
     }
 
@@ -288,70 +233,67 @@ public class NetDraftJClient_ui {
      * @param string
      * @param tooltipText
      */
-    public void appendText(String string, String tooltipText, String colorStr) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JLabel label = new JLabel(string);
-                // Set the label's font size to the newly determined size.
-                label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 16));
-                if (null != tooltipText) {
-                    label.setToolTipText(tooltipText);
-                }
-                if (null != colorStr) {
-                    Color bgColor = null;
+    void appendText(String string, String tooltipText, String colorStr) {
+        SwingUtilities.invokeLater(() -> {
+            JLabel label = new JLabel(string);
+            // Set the label's font size to the newly determined size.
+            label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 16));
+            if (null != tooltipText) {
+                label.setToolTipText(tooltipText);
+            }
+            if (null != colorStr) {
+                Color bgColor = null;
 
-                    String colorStrFilt = colorStr.replaceAll("[^WUBRGwubrg]", "").toLowerCase();
-                    if (colorStrFilt.length() == 1) {
-                        switch (colorStrFilt.charAt(0)) {
-                            case 'w': {
-                                bgColor = Color.WHITE;
-                                break;
-                            }
-                            case 'u': {
-                                bgColor = Color.BLUE;
-                                break;
-                            }
-                            case 'b': {
-                                bgColor = Color.BLACK;
-                                break;
-                            }
-                            case 'r': {
-                                bgColor = Color.RED;
-                                break;
-                            }
-                            case 'g': {
-                                bgColor = Color.GREEN.darker();
-                                break;
-                            }
+                String colorStrFilt = colorStr.replaceAll("[^WUBRGwubrg]", "").toLowerCase();
+                if (colorStrFilt.length() == 1) {
+                    switch (colorStrFilt.charAt(0)) {
+                        case 'w': {
+                            bgColor = Color.WHITE;
+                            break;
+                        }
+                        case 'u': {
+                            bgColor = Color.BLUE;
+                            break;
+                        }
+                        case 'b': {
+                            bgColor = Color.BLACK;
+                            break;
+                        }
+                        case 'r': {
+                            bgColor = Color.RED;
+                            break;
+                        }
+                        case 'g': {
+                            bgColor = Color.GREEN.darker();
+                            break;
                         }
                     }
-                    else if (colorStrFilt.length() > 1) {
-                        bgColor = Color.YELLOW;
+                }
+                else if (colorStrFilt.length() > 1) {
+                    bgColor = Color.YELLOW;
+                }
+                else {
+                    bgColor = null;
+                }
+
+                if (null != bgColor) {
+                    label.setOpaque(true);
+                    label.setBackground(bgColor);
+
+                    float greyscale = (0.3f * bgColor.getRed()) + (0.59f * bgColor.getGreen())
+                            + (0.11f * bgColor.getBlue());
+                    if (greyscale > 128) {
+                        label.setForeground(Color.BLACK);
                     }
                     else {
-                        bgColor = null;
-                    }
-
-                    if (null != bgColor) {
-                        label.setOpaque(true);
-                        label.setBackground(bgColor);
-
-                        float greyscale = (0.3f * bgColor.getRed()) + (0.59f * bgColor.getGreen())
-                                + (0.11f * bgColor.getBlue());
-                        if (greyscale > 128) {
-                            label.setForeground(Color.BLACK);
-                        }
-                        else {
-                            label.setForeground(Color.WHITE);
-                        }
+                        label.setForeground(Color.WHITE);
                     }
                 }
-
-                mTextBoxLayout.add(label);
-                mTextBoxLayout.repaint();
-                mTextBoxLayout.validate();
             }
+
+            mTextBoxLayout.add(label);
+            mTextBoxLayout.repaint();
+            mTextBoxLayout.validate();
         });
     }
 
@@ -360,7 +302,7 @@ public class NetDraftJClient_ui {
      * 
      * @return
      */
-    public File getSaveFile() {
+    File getSaveFile() {
         JFileChooser fc = new JFileChooser("./");
         fc.setDialogTitle("Save Drafted Cards");
         if (JFileChooser.APPROVE_OPTION == fc.showSaveDialog(mFrame)) {
@@ -374,16 +316,14 @@ public class NetDraftJClient_ui {
     /**
      * TODO doc
      * 
-     * @param packGridLayout
-     * @param textArea
      * @param pack
      */
     void loadPack(int[] pack) {
 
         // First create all of the ImageLabels
-        ArrayList<ImageLabel> labels = new ArrayList<ImageLabel>(pack.length);
-        for (int i = 0; i < pack.length; i++) {
-            final MtgCard card = new MtgCard(pack[i]);
+        ArrayList<ImageLabel> labels = new ArrayList<>(pack.length);
+        for (int cardMultiverseId : pack) {
+            final MtgCard card = new MtgCard(cardMultiverseId);
 
             ImageLabel lblCard = new ImageLabel();
             lblCard.setHorizontalAlignment(SwingConstants.CENTER);
@@ -393,7 +333,7 @@ public class NetDraftJClient_ui {
                 public void mouseClicked(MouseEvent arg0) {
 
                     // Custom button text
-                    Object[] options = { "Yes, please", "No, thanks" };
+                    Object[] options = {"Yes, please", "No, thanks"};
                     int choice = JOptionPane.showOptionDialog(mFrame, "Sure you want to draft " + card.getName() + "?",
                             "Double Checking", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                             options[1]);
@@ -426,51 +366,39 @@ public class NetDraftJClient_ui {
             labels.add(lblCard);
 
             // Queue up a bunch of threads to download the images
-            threadPool.submit(new Runnable() {
-
-                @Override
-                public void run() {
-                    NetDraftJDatabase database = new NetDraftJDatabase();
-                    try {
-                        if (database.loadCard(card)) {
-                            String filename = card.downloadImage();
-                            SwingUtilities.invokeLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    lblCard.setIcon(new ImageIcon(filename));
-                                    lblCard.setHorizontalAlignment(SwingConstants.CENTER);
-                                    lblCard.setVerticalAlignment(SwingConstants.CENTER);
-                                    lblCard.setToolTipText(card.getToolTipText());
-                                    lblCard.repaint();
-                                    lblCard.validate();
-                                }
-                            });
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+            threadPool.submit(() -> {
+                NetDraftJDatabase database = new NetDraftJDatabase();
+                try {
+                    if (database.loadCard(card)) {
+                        String filename = card.downloadImage();
+                        SwingUtilities.invokeLater(() -> {
+                            lblCard.setIcon(new ImageIcon(filename));
+                            lblCard.setHorizontalAlignment(SwingConstants.CENTER);
+                            lblCard.setVerticalAlignment(SwingConstants.CENTER);
+                            lblCard.setToolTipText(card.getToolTipText());
+                            lblCard.repaint();
+                            lblCard.validate();
+                        });
                     }
-                    database.closeConnection();
-
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+                database.closeConnection();
+
             });
         }
 
         // Then add all the labels to the UI
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                // First clear out the grid
-                mPackGridLayout.removeAll();
-                // Then add all the cards
-                for (ImageLabel label : labels) {
-                    mPackGridLayout.add(label);
-                }
-                // Then repaint the UI
-                mPackGridLayout.repaint();
-                mPackGridLayout.validate();
+        SwingUtilities.invokeLater(() -> {
+            // First clear out the grid
+            mPackGridLayout.removeAll();
+            // Then add all the cards
+            for (ImageLabel label : labels) {
+                mPackGridLayout.add(label);
             }
-
+            // Then repaint the UI
+            mPackGridLayout.repaint();
+            mPackGridLayout.validate();
         });
     }
 
@@ -480,12 +408,7 @@ public class NetDraftJClient_ui {
      * @param enabled
      */
     public void setHostMenuItemEnabled(boolean enabled) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mntmHost.setEnabled(enabled);
-            }
-        });
+        SwingUtilities.invokeLater(() -> mntmHost.setEnabled(enabled));
     }
 
     /**
@@ -494,12 +417,7 @@ public class NetDraftJClient_ui {
      * @param enabled
      */
     void setConnectMenuItemEnabled(boolean enabled) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mntmConnect.setEnabled(enabled);
-            }
-        });
+        SwingUtilities.invokeLater(() -> mntmConnect.setEnabled(enabled));
     }
 
     /**
@@ -531,7 +449,7 @@ public class NetDraftJClient_ui {
      * 
      * @return
      */
-    public boolean hasStaticUuid() {
+    boolean hasStaticUuid() {
         return mHasStaticUuid;
     }
 
@@ -540,7 +458,7 @@ public class NetDraftJClient_ui {
      * 
      * @return
      */
-    public long getUuid() {
+    long getUuid() {
         return mStaticUuid;
     }
 

@@ -6,6 +6,7 @@ public class PickRequest {
     private int mPack[];
     private boolean mPicked;
 
+    @SuppressWarnings("unused")
     public PickRequest() {
 
     }

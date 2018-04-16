@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class DraftOverNotification {
     private int mAllPicks[];
 
+    @SuppressWarnings("unused")
     public DraftOverNotification() {
 
     }

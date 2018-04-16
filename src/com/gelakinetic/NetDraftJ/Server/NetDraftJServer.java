@@ -1,6 +1,5 @@
 package com.gelakinetic.NetDraftJ.Server;
 
-import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -30,20 +29,20 @@ public class NetDraftJServer extends Listener {
     }
 
     // UI
-    private NetDraftJServer_ui mUi;
+    private final NetDraftJServer_ui mUi;
 
     // Server information
     private Server server;
     public static final int PORT = 54777;
 
     // Draft state information
-    private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<Integer> cubeList = new ArrayList<>(720);
+    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Integer> cubeList = new ArrayList<>(720);
     private int cubeIdx;
     private int packSize;
     private int numPacks;
     private Direction currentPackDirection = Direction.RIGHT;
-    boolean draftStarted = false;
+    private boolean draftStarted = false;
 
     private boolean mStopDisconnectCheckThread = false;
 
@@ -52,7 +51,7 @@ public class NetDraftJServer extends Listener {
      * 
      * @param netDraftJServer_ui
      */
-    public NetDraftJServer(NetDraftJServer_ui netDraftJServer_ui) {
+    NetDraftJServer(NetDraftJServer_ui netDraftJServer_ui) {
         mUi = netDraftJServer_ui;
         draftStarted = false;
     }
@@ -90,7 +89,7 @@ public class NetDraftJServer extends Listener {
     /**
      * TODO doc
      */
-    protected void sendPlayersPacks() {
+    private void sendPlayersPacks() {
         synchronized (players) {
             for (Player player : players) {
                 player.sendPickRequest(false);
@@ -137,7 +136,7 @@ public class NetDraftJServer extends Listener {
                         if (player.getUuid() == request.getUuid() && player.isDetached()) {
                             reconnected = true;
 
-                            player.initalize(connection, request);
+                            player.initialize(connection, request);
 
                             // Let the player know they've joined
                             connection.sendTCP(new ConnectionResponse(true, null));
@@ -180,7 +179,7 @@ public class NetDraftJServer extends Listener {
                         mUi.appendText(player.getName() + " picked a card");
                     }
                     // Check if any player hasn't made a pick yet
-                    if (false == player.getPicked()) {
+                    if (!player.getPicked()) {
                         allPicked = false;
                     }
                 }
@@ -224,7 +223,7 @@ public class NetDraftJServer extends Listener {
      * 
      * @param dir
      */
-    void shiftPacks(Direction dir) {
+    private void shiftPacks(Direction dir) {
         synchronized (players) {
 
             switch (dir) {
@@ -254,80 +253,71 @@ public class NetDraftJServer extends Listener {
      * 
      * @param ipAddress
      */
-    public void startServer(String ipAddress) {
+    void startServer(String ipAddress) {
 
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                mUi.setButtonEnabled(false);
-                File cubeFile = mUi.pickCubeFile();
-                if (null == cubeFile) {
-                    mUi.appendText("User didn't pick a file");
-                }
-                else {
-                    mUi.appendText("Loading " + cubeFile.getName());
-                    if (false == loadCubeList(cubeFile)) {
-                        mUi.appendText("Failed to open cube file");
-                        return;
-                    }
-                    mUi.appendText(cubeFile.getName() + " loaded");
-                }
-
-                // Start the server!
-                server = new Server();
-                server.start();
-                try {
-                    server.bind(PORT);
-                } catch (IOException e) {
-                    mUi.appendText(e.getMessage());
-                    e.printStackTrace();
+        new Thread(() -> {
+            mUi.setButtonEnabled(false);
+            File cubeFile = mUi.pickCubeFile();
+            if (null == cubeFile) {
+                mUi.appendText("User didn't pick a file");
+            }
+            else {
+                mUi.appendText("Loading " + cubeFile.getName());
+                if (!loadCubeList(cubeFile)) {
+                    mUi.appendText("Failed to open cube file");
                     return;
                 }
-                MessageUtils.registerAll(server.getKryo());
-                server.addListener(NetDraftJServer.this);
+                mUi.appendText(cubeFile.getName() + " loaded");
+            }
 
-                mUi.appendText("Server started on " + ipAddress + ":" + PORT);
-                mUi.setButtonEnabled(true);
-                mUi.setHostMenuItemEnabled(false);
-                draftStarted = false;
+            // Start the server!
+            server = new Server();
+            server.start();
+            try {
+                server.bind(PORT);
+            } catch (IOException e) {
+                mUi.appendText(e.getMessage());
+                e.printStackTrace();
+                return;
+            }
+            MessageUtils.registerAll(server.getKryo());
+            server.addListener(NetDraftJServer.this);
 
-                new Thread(new Runnable() {
+            mUi.appendText("Server started on " + ipAddress + ":" + PORT);
+            mUi.setButtonEnabled(true);
+            mUi.setHostMenuItemEnabled(false);
+            draftStarted = false;
 
-                    @Override
-                    public void run() {
-                        while (true) {
-                            synchronized (players) {
-                                for (int i = 0; i < players.size(); i++) {
-                                    if (!players.get(i).isConnected()) {
-                                        if (!draftStarted) {
-                                            // If they disconnect before the draft starts, drop em
-                                            mUi.appendText(players.get(i).getName() + " left the draft");
-                                            players.remove(i);
-                                            i--;
-                                        }
-                                        else if (!players.get(i).isDetached()) {
-                                            // If they disconnect after the draft starts, wait for a reconnect
-                                            players.get(i).setDetached(true);
-                                            mUi.appendText(
-                                                    players.get(i).getName() + " disconnected. Waiting for reconnect");
-                                        }
-                                    }
+            new Thread(() -> {
+                while (true) {
+                    synchronized (players) {
+                        for (int i = 0; i < players.size(); i++) {
+                            if (players.get(i).isDisconnected()) {
+                                if (!draftStarted) {
+                                    // If they disconnect before the draft starts, drop em
+                                    mUi.appendText(players.get(i).getName() + " left the draft");
+                                    players.remove(i);
+                                    i--;
                                 }
-                            }
-                            try {
-                                Thread.sleep(1000 * 8);
-                            } catch (InterruptedException e) {
-                                return;
-                            }
-                            if (mStopDisconnectCheckThread) {
-                                return;
+                                else if (!players.get(i).isDetached()) {
+                                    // If they disconnect after the draft starts, wait for a reconnect
+                                    players.get(i).setDetached();
+                                    mUi.appendText(
+                                            players.get(i).getName() + " disconnected. Waiting for reconnect");
+                                }
                             }
                         }
                     }
-                }).run();
-                return;
-            }
+                    try {
+                        Thread.sleep(1000 * 8);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                    if (mStopDisconnectCheckThread) {
+                        return;
+                    }
+                }
+            }).run();
         }).start();
     }
 
@@ -379,7 +369,7 @@ public class NetDraftJServer extends Listener {
      * @return
      * @throws UnknownHostException
      */
-    public static String getPublicIp() throws UnknownHostException {
+    public static String getPublicIp() {
         try {
             URL url_name = new URL("http://bot.whatismyipaddress.com");
             BufferedReader sc = new BufferedReader(new InputStreamReader(url_name.openStream()));
@@ -392,7 +382,7 @@ public class NetDraftJServer extends Listener {
     /**
      * TODO doc
      */
-    public void stopServer() {
+    void stopServer() {
         if (null != server) {
             server.stop();
         }
@@ -404,10 +394,9 @@ public class NetDraftJServer extends Listener {
     /**
      * TODO doc
      * 
-     * @param e
      * @return true if the draft started, false otherwise
      */
-    public boolean clickStartGameButton(ActionEvent e) {
+    boolean clickStartGameButton() {
 
         synchronized (players) {
 

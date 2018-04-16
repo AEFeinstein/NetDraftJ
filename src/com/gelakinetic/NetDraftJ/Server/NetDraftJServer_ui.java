@@ -1,22 +1,13 @@
 package com.gelakinetic.NetDraftJ.Server;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
-import javax.swing.JScrollPane;
 
 public class NetDraftJServer_ui {
 
@@ -26,41 +17,36 @@ public class NetDraftJServer_ui {
     private JTextPane mTextPane;
     private JButton btnStartTheGame;
 
-    private NetDraftJClient_ui mClientUi;
-    private JScrollPane scrollPane;
+    private final NetDraftJClient_ui mClientUi;
 
     /**
      * Create the application.
-     * 
-     * @param actionListener
+     *
      */
     public NetDraftJServer_ui(String ipAddress, NetDraftJClient_ui clientUi) {
         mClientUi = clientUi;
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    initialize(ipAddress);
-                    mServer = new NetDraftJServer(NetDraftJServer_ui.this);
-                    mServer.startServer(ipAddress);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                initialize();
+                mServer = new NetDraftJServer(NetDraftJServer_ui.this);
+                mServer.startServer(ipAddress);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
 
     /**
      * Initialize the contents of the frame.
-     * 
-     * @param ipAddress
+     *
      */
-    private void initialize(String ipAddress) {
+    private void initialize() {
         mFrame = new JFrame();
         mFrame.setBounds(100, 100, 450, 300);
-        mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         mFrame.getContentPane().setLayout(new BoxLayout(mFrame.getContentPane(), BoxLayout.Y_AXIS));
 
-        scrollPane = new JScrollPane();
+        JScrollPane scrollPane = new JScrollPane();
         mFrame.getContentPane().add(scrollPane);
 
         mTextPane = new JTextPane();
@@ -69,22 +55,11 @@ public class NetDraftJServer_ui {
         mTextPane.setText("");
 
         btnStartTheGame = new JButton("Start the Game");
-        btnStartTheGame.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (mServer.clickStartGameButton(e)) {
-                            btnStartTheGame.setEnabled(false);
-                        }
-                        ;
-                    }
-                });
+        btnStartTheGame.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            if (mServer.clickStartGameButton()) {
+                btnStartTheGame.setEnabled(false);
             }
-        });
+        }));
         mFrame.getContentPane().add(btnStartTheGame);
         mFrame.setVisible(true);
 
@@ -108,7 +83,7 @@ public class NetDraftJServer_ui {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                showExitDialog(false);
+                showExitDialog();
             }
 
             @Override
@@ -125,18 +100,15 @@ public class NetDraftJServer_ui {
     /**
      * TODO doc
      */
-    private void showExitDialog(boolean isMenu) {
+    private void showExitDialog() {
         int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to close the server?", "Close the Server",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
-            mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            if (isMenu) {
-                mFrame.dispose();
-            }
+            mFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
         else {
-            mFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            mFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         }
     }
 
@@ -145,13 +117,8 @@ public class NetDraftJServer_ui {
      * 
      * @param text
      */
-    public void appendText(String text) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mTextPane.setText(mTextPane.getText() + '\n' + text);
-            }
-        });
+    void appendText(String text) {
+        SwingUtilities.invokeLater(() -> mTextPane.setText(mTextPane.getText() + '\n' + text));
     }
 
     /**
@@ -159,7 +126,7 @@ public class NetDraftJServer_ui {
      * 
      * @return
      */
-    public File pickCubeFile() {
+    File pickCubeFile() {
         // Try to load the cube file
         final JFileChooser fc = new JFileChooser("./");
         if (JFileChooser.APPROVE_OPTION == fc.showOpenDialog(mFrame)) {
@@ -175,14 +142,8 @@ public class NetDraftJServer_ui {
      * 
      * @param enabled
      */
-    public void setButtonEnabled(boolean enabled) {
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                btnStartTheGame.setEnabled(enabled);
-            }
-        });
+    void setButtonEnabled(boolean enabled) {
+        SwingUtilities.invokeLater(() -> btnStartTheGame.setEnabled(enabled));
     }
 
     /**
@@ -190,7 +151,7 @@ public class NetDraftJServer_ui {
      * 
      * @param enabled
      */
-    public void setHostMenuItemEnabled(boolean enabled) {
+    void setHostMenuItemEnabled(boolean enabled) {
         mClientUi.setHostMenuItemEnabled(enabled);
     }
 }

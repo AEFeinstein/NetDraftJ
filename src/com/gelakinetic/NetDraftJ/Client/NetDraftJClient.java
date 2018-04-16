@@ -24,10 +24,10 @@ import com.gelakinetic.NetDraftJ.Messages.PreviousPicksInfo;
 import com.gelakinetic.NetDraftJ.Messages.StartDraftInfo;
 import com.gelakinetic.NetDraftJ.Server.NetDraftJServer;
 
-public class NetDraftJClient extends Listener {
+class NetDraftJClient extends Listener {
 
     // UI parts
-    private NetDraftJClient_ui mUi;
+    private final NetDraftJClient_ui mUi;
 
     // User data
     private Client client;
@@ -35,14 +35,14 @@ public class NetDraftJClient extends Listener {
 
     // Picked cards
     private boolean pickedCard;
-    private ArrayList<String> mAllPicks;
+    private final ArrayList<String> mAllPicks;
 
     /**
      * TODO doc
      * 
      * @param ui
      */
-    public NetDraftJClient(NetDraftJClient_ui ui) {
+    NetDraftJClient(NetDraftJClient_ui ui) {
         this.mUi = ui;
         this.pickedCard = false;
         this.mAllPicks = new ArrayList<>();
@@ -68,6 +68,8 @@ public class NetDraftJClient extends Listener {
             }
             else {
                 mUi.appendText("Connection rejected: " + response.getMessage());
+                mUi.setConnectMenuItemEnabled(true);
+                mUi.setHostMenuItemEnabled(true);
             }
         }
         else if (object instanceof PickRequest) {
@@ -121,7 +123,7 @@ public class NetDraftJClient extends Listener {
      * @param name
      * @param serverIp
      */
-    public void connectToServer(String name, String serverIp) {
+    void connectToServer(String name, String serverIp) {
         if (null == name || name.isEmpty()) {
             mUi.appendText("Name can't be empty");
             return;
@@ -162,8 +164,8 @@ public class NetDraftJClient extends Listener {
      * 
      * @param card
      */
-    public void pickCard(MtgCard card) {
-        if (false == pickedCard) {
+    void pickCard(MtgCard card) {
+        if (!pickedCard) {
             pickedCard = true;
             client.sendTCP(new PickResponse(card.getMultiverseId(), mUuid));
             mAllPicks.add(card.getName());
@@ -175,14 +177,14 @@ public class NetDraftJClient extends Listener {
      * 
      * @return
      */
-    public int getPickedCardCount() {
+    int getPickedCardCount() {
         return mAllPicks.size();
     }
 
     /**
      * TODO doc
      */
-    public void saveDraftedCards() {
+    void saveDraftedCards() {
         // Only save cards if some have been drafted
         if (!mAllPicks.isEmpty()) {
             // Prompt the user to save a file

@@ -11,12 +11,13 @@ import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
 
 public class ConnectionRequest {
 
-    private String mName;
+    private final String mName;
     private long mUuid;
     private long mBuildTimestamp;
 
     private static final String UUID_FILE = "uuid";
 
+    @SuppressWarnings("unused")
     public ConnectionRequest() {
         mName = "";
     }

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class PreviousPicksInfo {
 
-    private int[] mPicks;
+    private final int[] mPicks;
 
+    @SuppressWarnings("unused")
     public PreviousPicksInfo() {
         mPicks = new int[0];
     }

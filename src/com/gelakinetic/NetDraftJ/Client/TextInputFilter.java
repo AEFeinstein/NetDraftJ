@@ -10,9 +10,9 @@ class TextInputFilter extends DocumentFilter {
         USERNAME, IP_ADDRESS
     }
 
-    private inputType mInputType;
+    private final inputType mInputType;
 
-    public TextInputFilter(inputType type) {
+    TextInputFilter(inputType type) {
         mInputType = type;
     }
 
@@ -27,9 +27,6 @@ class TextInputFilter extends DocumentFilter {
 
         if (test(sb.toString())) {
             super.insertString(fb, offset, string, attr);
-        }
-        else {
-            // warn the user and don't allow the insert
         }
     }
 
@@ -64,27 +61,15 @@ class TextInputFilter extends DocumentFilter {
                     return false;
                 }
 
-                if (segments == 4 && text.endsWith(".")) {
-                    return false;
-                }
-                return true;
+                return segments != 4 || !text.endsWith(".");
             }
             case USERNAME: {
                 for (int i = 0; i < text.length(); i++) {
                     char c = text.charAt(i);
-                    if ('A' <= c && c <= 'Z') {
-                        // OK
-                    }
-                    else if ('a' <= c && c <= 'z') {
-                        // OK
-                    }
-                    else if ('0' <= c && c <= '9') {
-                        // OK
-                    }
-                    else if (c == '_') {
-                        // OK
-                    }
-                    else {
+                    if (!('A' <= c && c <= 'Z') &&
+                            !('a' <= c && c <= 'z') &&
+                            !('0' <= c && c <= '9') &&
+                            !(c == '_')) {
                         return false;
                     }
                 }
@@ -108,9 +93,6 @@ class TextInputFilter extends DocumentFilter {
         if (test(sb.toString())) {
             super.replace(fb, offset, length, text, attrs);
         }
-        else {
-            // warn the user and don't allow the insert
-        }
 
     }
 
@@ -123,9 +105,6 @@ class TextInputFilter extends DocumentFilter {
 
         if (test(sb.toString())) {
             super.remove(fb, offset, length);
-        }
-        else {
-            // warn the user and don't allow the insert
         }
 
     }
