@@ -15,7 +15,7 @@ public class NetDraftJServer_ui {
 
     private JFrame mFrame;
     private JTextPane mTextPane;
-    private JButton btnStartTheGame;
+    private JButton mBtnStartTheGame;
 
     private final NetDraftJClient_ui mClientUi;
 
@@ -54,13 +54,13 @@ public class NetDraftJServer_ui {
         mTextPane.setEditable(false);
         mTextPane.setText("");
 
-        btnStartTheGame = new JButton("Start the Game");
-        btnStartTheGame.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+        mBtnStartTheGame = new JButton("Start the Game");
+        mBtnStartTheGame.addActionListener(e -> SwingUtilities.invokeLater(() -> {
             if (mServer.clickStartGameButton()) {
-                btnStartTheGame.setEnabled(false);
+                mBtnStartTheGame.setEnabled(false);
             }
         }));
-        mFrame.getContentPane().add(btnStartTheGame);
+        mFrame.getContentPane().add(mBtnStartTheGame);
         mFrame.setVisible(true);
 
         mFrame.addWindowListener(new WindowListener() {
@@ -98,10 +98,11 @@ public class NetDraftJServer_ui {
     }
 
     /**
-     * TODO doc
+     * Pop a dialog asking the users if they really want to close the server
      */
     private void showExitDialog() {
-        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to close the server?", "Close the Server",
+        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to close the server?",
+                "Close the Server",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -113,18 +114,18 @@ public class NetDraftJServer_ui {
     }
 
     /**
-     * TODO doc
+     * Add text to the server text output window
      * 
-     * @param text
+     * @param text The text to display
      */
     void appendText(String text) {
         SwingUtilities.invokeLater(() -> mTextPane.setText(mTextPane.getText() + '\n' + text));
     }
 
     /**
-     * TODO doc TODO not invoked later
+     * Pop a dialog to ask the user what cube file to load
      * 
-     * @return
+     * @return The File to load the cube from
      */
     File pickCubeFile() {
         // Try to load the cube file
@@ -138,18 +139,18 @@ public class NetDraftJServer_ui {
     }
 
     /**
-     * TODO doc
+     * Enable or disable the "Start the draft" button
      * 
-     * @param enabled
+     * @param enabled true to enable the button, false to disable it
      */
-    void setButtonEnabled(boolean enabled) {
-        SwingUtilities.invokeLater(() -> btnStartTheGame.setEnabled(enabled));
+    void setStartButtonEnabled(boolean enabled) {
+        SwingUtilities.invokeLater(() -> mBtnStartTheGame.setEnabled(enabled));
     }
 
     /**
-     * TODO doc
+     * Enable or disable the "Host" button in the client UI
      * 
-     * @param enabled
+     * @param enabled true to enable the button, false to disable it
      */
     void setHostMenuItemEnabled(boolean enabled) {
         mClientUi.setHostMenuItemEnabled(enabled);

@@ -49,11 +49,11 @@ public class NetDraftJClient_ui {
     private JPanel mPackGridLayout;
     private JPanel mTextBoxLayout;
 
-    private JMenuItem mntmHost;
-    private JMenuItem mntmConnect;
+    private JMenuItem menuBtnHost;
+    private JMenuItem menuBtnConnect;
 
-    private static boolean mHasStaticUuid;
-    private static long mStaticUuid;
+    private static boolean mHasAssignedUuid;
+    private static long mAssignedUuid;
 
     /**
      * Launch the application.
@@ -62,10 +62,10 @@ public class NetDraftJClient_ui {
 
         if (args.length > 0) {
             try {
-                mStaticUuid = Long.parseLong(args[0]);
-                mHasStaticUuid = true;
+                mAssignedUuid = Long.parseLong(args[0]);
+                mHasAssignedUuid = true;
             } catch (Exception e) {
-                mHasStaticUuid = false;
+                mHasAssignedUuid = false;
             }
         }
 
@@ -92,7 +92,6 @@ public class NetDraftJClient_ui {
 
     /**
      * Create the application.
-     *
      */
     private NetDraftJClient_ui() {
         initialize();
@@ -113,8 +112,8 @@ public class NetDraftJClient_ui {
         JMenu mnFile = new JMenu("File");
         menuBar.add(mnFile);
 
-        mntmConnect = new JMenuItem("Connect");
-        mntmConnect.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+        menuBtnConnect = new JMenuItem("Connect");
+        menuBtnConnect.addActionListener(e -> SwingUtilities.invokeLater(() -> {
             JTextField playerName = new JTextField();
             ((PlainDocument) playerName.getDocument())
                     .setDocumentFilter(new TextInputFilter(inputType.USERNAME));
@@ -129,15 +128,15 @@ public class NetDraftJClient_ui {
                 mClient.connectToServer(playerName.getText(), server.getText());
             }
         }));
-        mnFile.add(mntmConnect);
+        mnFile.add(menuBtnConnect);
 
-        mntmHost = new JMenuItem("Host");
-        mntmHost.addActionListener(e -> new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this));
-        mnFile.add(mntmHost);
+        menuBtnHost = new JMenuItem("Host");
+        menuBtnHost.addActionListener(e -> new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this));
+        mnFile.add(menuBtnHost);
 
-        JMenuItem mntmSaveDraftedCards = new JMenuItem("Save Drafted Cards");
-        mntmSaveDraftedCards.addActionListener(e -> mClient.saveDraftedCards());
-        mnFile.add(mntmSaveDraftedCards);
+        JMenuItem menuBtnSaveDraftedCards = new JMenuItem("Save Drafted Cards");
+        menuBtnSaveDraftedCards.addActionListener(e -> mClient.saveDraftedCards());
+        mnFile.add(menuBtnSaveDraftedCards);
 
         JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime(this).toString());
         mnFile.add(mnDate);
@@ -201,10 +200,13 @@ public class NetDraftJClient_ui {
     }
 
     /**
-     * TODO doc
+     * Show a dialog asking the user if they really want to exit
+     *
+     * @param isMenu true if the dialog is shown from the menu, false if the user presses the X button
      */
     private void showExitDialog(boolean isMenu) {
-        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to exit?", "Leaving So Soon?",
+        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to exit?",
+                "Leaving So Soon?",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -219,19 +221,20 @@ public class NetDraftJClient_ui {
     }
 
     /**
-     * TODO doc
+     * Add a String to the text display on the right
      * 
-     * @param string
+     * @param string The String to display, may be HTML
      */
     void appendText(String string) {
         appendText(string, null, null);
     }
 
     /**
-     * TODO doc
+     * Add a String to the text display on the right with a colored background and tooltip text
      * 
-     * @param string
-     * @param tooltipText
+     * @param string The String to display, may be HTML
+     * @param tooltipText The tooltip text to display, may be HTML
+     * @param colorStr The color string of the card displayed consisting of the chars w, u, b, r, and g
      */
     void appendText(String string, String tooltipText, String colorStr) {
         SwingUtilities.invokeLater(() -> {
@@ -244,9 +247,9 @@ public class NetDraftJClient_ui {
             if (null != colorStr) {
                 Color bgColor = null;
 
-                String colorStrFilt = colorStr.replaceAll("[^WUBRGwubrg]", "").toLowerCase();
-                if (colorStrFilt.length() == 1) {
-                    switch (colorStrFilt.charAt(0)) {
+                String colorStrFiltered = colorStr.replaceAll("[^WUBRGwubrg]", "").toLowerCase();
+                if (colorStrFiltered.length() == 1) {
+                    switch (colorStrFiltered.charAt(0)) {
                         case 'w': {
                             bgColor = Color.WHITE;
                             break;
@@ -269,20 +272,17 @@ public class NetDraftJClient_ui {
                         }
                     }
                 }
-                else if (colorStrFilt.length() > 1) {
+                else if (colorStrFiltered.length() > 1) {
                     bgColor = Color.YELLOW;
-                }
-                else {
-                    bgColor = null;
                 }
 
                 if (null != bgColor) {
                     label.setOpaque(true);
                     label.setBackground(bgColor);
 
-                    float greyscale = (0.3f * bgColor.getRed()) + (0.59f * bgColor.getGreen())
+                    float greyScale = (0.3f * bgColor.getRed()) + (0.59f * bgColor.getGreen())
                             + (0.11f * bgColor.getBlue());
-                    if (greyscale > 128) {
+                    if (greyScale > 128) {
                         label.setForeground(Color.BLACK);
                     }
                     else {
@@ -298,9 +298,9 @@ public class NetDraftJClient_ui {
     }
 
     /**
-     * TODO doc TODO not invoked later
+     * Pop a dialog to ask the user where to save a file
      * 
-     * @return
+     * @return The File to save data to
      */
     File getSaveFile() {
         JFileChooser fc = new JFileChooser("./");
@@ -314,9 +314,9 @@ public class NetDraftJClient_ui {
     }
 
     /**
-     * TODO doc
+     * Load a pack's images when the server sends a pack to the client
      * 
-     * @param pack
+     * @param pack An array of multiverse IDs for a given pack
      */
     void loadPack(int[] pack) {
 
@@ -403,26 +403,28 @@ public class NetDraftJClient_ui {
     }
 
     /**
-     * TODO doc
+     * Enable or disable the "Host" button in the menu
      * 
-     * @param enabled
+     * @param enabled true to enable the "Host" button, false to disable it
      */
     public void setHostMenuItemEnabled(boolean enabled) {
-        SwingUtilities.invokeLater(() -> mntmHost.setEnabled(enabled));
+        SwingUtilities.invokeLater(() -> menuBtnHost.setEnabled(enabled));
     }
 
     /**
-     * TODO doc
+     * Enable or disable the "Connect" button in the menu
      * 
-     * @param enabled
+     * @param enabled true to enable the "Connect" button, false to disable it
      */
     void setConnectMenuItemEnabled(boolean enabled) {
-        SwingUtilities.invokeLater(() -> mntmConnect.setEnabled(enabled));
+        SwingUtilities.invokeLater(() -> menuBtnConnect.setEnabled(enabled));
     }
 
     /**
-     * @param obj
-     * @return The date this class file was built
+     * Get the date this JAR was built from the manifest file
+     *
+     * @param obj An object to get resources through, can be anything
+     * @return The date this JAR was built, or the epoch if this isn't running from a JAR
      */
     public static Date getClassBuildTime(Object obj) {
         try {
@@ -433,6 +435,7 @@ public class NetDraftJClient_ui {
                     // If it throws an exception, the while loop will continue executing
                     Manifest manifest = new Manifest(resources.nextElement().openStream());
                     String buildDate = manifest.getMainAttributes().getValue("Built-Date");
+                    //noinspection SpellCheckingInspection
                     return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(buildDate);
                 } catch (IOException | ParseException | NullPointerException E) {
                     // Some error, keep looking through manifests
@@ -445,27 +448,23 @@ public class NetDraftJClient_ui {
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return True if this launch has a UUID assigned from the command line arguments, false otherwise
      */
-    boolean hasStaticUuid() {
-        return mHasStaticUuid;
+    boolean hasAssignedUuid() {
+        return mHasAssignedUuid;
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return The assigned UUID from the command line arguments
      */
-    long getUuid() {
-        return mStaticUuid;
+    long getAssignedUuid() {
+        return mAssignedUuid;
     }
 
     /**
-     * TODO doc
+     * Show an error dialog with the given message
      * 
-     * @param message
+     * @param message The message to display in the error dialog
      */
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(mFrame, message, "Error", JOptionPane.ERROR_MESSAGE);

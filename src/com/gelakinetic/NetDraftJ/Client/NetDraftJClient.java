@@ -30,32 +30,32 @@ class NetDraftJClient extends Listener {
     private final NetDraftJClient_ui mUi;
 
     // User data
-    private Client client;
+    private Client mClient;
     private long mUuid;
 
     // Picked cards
-    private boolean pickedCard;
+    private boolean mPickedCard;
     private final ArrayList<String> mAllPicks;
 
     /**
-     * TODO doc
+     * Construct a client to power the given UI
      * 
-     * @param ui
+     * @param ui The UI this client will display everything in
      */
     NetDraftJClient(NetDraftJClient_ui ui) {
         this.mUi = ui;
-        this.pickedCard = false;
+        this.mPickedCard = false;
         this.mAllPicks = new ArrayList<>();
-        if (ui.hasStaticUuid()) {
-            this.mUuid = ui.getUuid();
+        if (ui.hasAssignedUuid()) {
+            this.mUuid = ui.getAssignedUuid();
         }
     }
 
     /**
-     * TODO doc
-     * 
-     * @param connection
-     * @param object
+     * This is called whenever a TCP message is received from the server
+     *
+     * @param connection The connection which received the TCP Message
+     * @param object The de-serialized TCP message
      */
     @Override
     public void received(Connection connection, Object object) {
@@ -75,7 +75,7 @@ class NetDraftJClient extends Listener {
         else if (object instanceof PickRequest) {
             PickRequest response = (PickRequest) object;
             mUi.loadPack(response.getPack());
-            pickedCard = response.getPicked();
+            mPickedCard = response.getPicked();
         }
         else if (object instanceof StartDraftInfo) {
             StartDraftInfo sdi = (StartDraftInfo) object;
@@ -118,10 +118,10 @@ class NetDraftJClient extends Listener {
     }
 
     /**
-     * TODO doc
+     * Attempt to connect to the server at the given IP address with the given username
      * 
-     * @param name
-     * @param serverIp
+     * @param name The username to connect to the server with
+     * @param serverIp The String representation of the dotted decimal IP address
      */
     void connectToServer(String name, String serverIp) {
         if (null == name || name.isEmpty()) {
@@ -133,21 +133,21 @@ class NetDraftJClient extends Listener {
             return;
         }
         try {
-            client = new Client();
-            client.start();
-            client.connect(5000, serverIp, NetDraftJServer.PORT);
-            MessageUtils.registerAll(client.getKryo());
-            client.addListener(this);
+            mClient = new Client();
+            mClient.start();
+            mClient.connect(5000, serverIp, NetDraftJServer.PORT);
+            MessageUtils.registerAll(mClient.getKryo());
+            mClient.addListener(this);
 
-            if (client.isConnected()) {
+            if (mClient.isConnected()) {
                 ConnectionRequest request;
-                if (mUi.hasStaticUuid()) {
+                if (mUi.hasAssignedUuid()) {
                     request = new ConnectionRequest(name, mUuid);
                 }
                 else {
                     request = new ConnectionRequest(name, mUi);
                 }
-                client.sendTCP(request);
+                mClient.sendTCP(request);
                 mUuid = request.getUuid();
             }
             else {
@@ -160,29 +160,27 @@ class NetDraftJClient extends Listener {
     }
 
     /**
-     * TODO doc
+     * Pick a card out of the current pack, tell the server, and add the card to the list of picked cards
      * 
-     * @param card
+     * @param card The card which was picked
      */
     void pickCard(MtgCard card) {
-        if (!pickedCard) {
-            pickedCard = true;
-            client.sendTCP(new PickResponse(card.getMultiverseId(), mUuid));
+        if (!mPickedCard) {
+            mPickedCard = true;
+            mClient.sendTCP(new PickResponse(card.getMultiverseId(), mUuid));
             mAllPicks.add(card.getName());
         }
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return The number of picked cards so far
      */
     int getPickedCardCount() {
         return mAllPicks.size();
     }
 
     /**
-     * TODO doc
+     * Pop open a dialog to ask the user where to save the .dec file after a draft, then save it
      */
     void saveDraftedCards() {
         // Only save cards if some have been drafted

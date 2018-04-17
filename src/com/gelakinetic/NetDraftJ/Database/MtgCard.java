@@ -47,27 +47,27 @@ public class MtgCard {
     private String mMagicCardsInfoSetCode = null;
 
     /**
-     * TODO doc
+     * Create a magic card with the given name
      * 
-     * @param name
+     * @param name The name for this object
      */
     public MtgCard(String name) {
         mName = name;
     }
 
     /**
-     * TODO doc
+     * Create a magic card with the given multiverse ID
      * 
-     * @param multiverseId
+     * @param multiverseId The multiverse ID for this object
      */
     public MtgCard(int multiverseId) {
         mMultiverseId = multiverseId;
     }
 
     /**
-     * TODO doc
+     * Build the HTML tooltip text for this card, which is basically all the information about it
      * 
-     * @return
+     * @return The HTML formatted String with all this card's information
      */
     public String getToolTipText() {
         StringBuilder sb = new StringBuilder();
@@ -121,10 +121,10 @@ public class MtgCard {
     }
 
     /**
-     * TODO doc
+     * Convert a double representation of a power, toughness, or loyalty into the String representation
      * 
-     * @param stat
-     * @return
+     * @param stat The stat to convert
+     * @return The String representation of this stat
      */
     private static String getPrintedPTL(double stat) {
         if (stat == STAR) {
@@ -165,9 +165,9 @@ public class MtgCard {
     }
 
     /**
-     * TODO doc
+     * Build and return this card's power & toughness or Loyalty String
      * 
-     * @return
+     * @return The power & toughness String, or null if the card doesn't have one
      */
     private String getPTLString() {
         if (mPower != NO_ONE_CARES || mToughness != NO_ONE_CARES) {
@@ -182,7 +182,7 @@ public class MtgCard {
     }
 
     /**
-     * Jumps through hoops and returns a correctly formatted URL for magiccards.info's image.
+     * Jumps through hoops and returns a correctly formatted URL for MagicCards.info's image.
      *
      * @return a URL to the card's image
      */
@@ -234,7 +234,7 @@ public class MtgCard {
     }
 
     /**
-     * Easily gets the uri for the image for a card by multiverseid.
+     * Easily gets the uri for the image for a card by multiverse ID.
      *
      * @return uri of the card image
      */
@@ -243,37 +243,31 @@ public class MtgCard {
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return The String URL to this card's image on Gatherer
      */
     private String getGathererPicUrl() {
         return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + mMultiverseId + "&type=card";
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return The card's name
      */
     public String getName() {
         return mName;
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return THe card's multiverse ID
      */
     public int getMultiverseId() {
         return mMultiverseId;
     }
 
     /**
-     * TODO doc
+     * Fill in this card's data from the result of a SQLite query
      * 
-     * @param resultSet
-     * @throws SQLException
+     * @param resultSet The result of a SQLite query
+     * @throws SQLException if there's a database error
      */
     boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
         if (!resultSet.isClosed()) {
@@ -284,10 +278,12 @@ public class MtgCard {
             mSuperType = resultSet.getString(resultSet.findColumn("supertype"));
             mSubType = resultSet.getString(resultSet.findColumn("subtype"));
             mColor = resultSet.getString(resultSet.findColumn("color"));
+            //noinspection SpellCheckingInspection
             mManaCost = resultSet.getString(resultSet.findColumn("manacost"));
             mPower = resultSet.getDouble(resultSet.findColumn("power"));
             mToughness = resultSet.getDouble(resultSet.findColumn("toughness"));
             mLoyalty = resultSet.getDouble(resultSet.findColumn("loyalty"));
+            //noinspection SpellCheckingInspection
             mText = resultSet.getString(resultSet.findColumn("cardtext"));
 
             mFlavor = resultSet.getString(resultSet.findColumn("flavor"));
@@ -302,9 +298,9 @@ public class MtgCard {
     }
 
     /**
-     * TODO doc
+     * Download and save an image of this card, then return a String path to that image
      * 
-     * @return
+     * @return A String path to where this image was downloaded
      */
     public String downloadImage() {
         String cardLanguage = "en";
@@ -334,12 +330,12 @@ public class MtgCard {
                     /* Try downloading the image from Scryfall next */
                     picUrl = new URL(getScryfallImageUri());
                     /*
-                     * If this fails, try next time with the Magiccards.info version
+                     * If this fails, try next time with the MagicCards.info version
                      */
                     triedScryfall = true;
                 }
                 else if (!triedMtgi) {
-                    /* Try downloading the image from magiccards.info next */
+                    /* Try downloading the image from MagicCards.info next */
                     picUrl = new URL(getMtgiPicUrl(cardLanguage));
                     /* If this fails, try next time with the gatherer version */
                     triedMtgi = true;
@@ -356,9 +352,9 @@ public class MtgCard {
                     Files.createDirectory(Paths.get("cache"));
                 }
                 Files.copy(picUrl.openStream(), output, StandardCopyOption.REPLACE_EXISTING);
-                long filesize = new File(output.toString()).length();
-                if (10000 > filesize) {
-                    throw new Exception("Image too small, " + picUrl.toString() + ", " + filesize);
+                long fileSize = new File(output.toString()).length();
+                if (5000 > fileSize) {
+                    throw new Exception("Image too small, " + picUrl.toString() + ", " + fileSize);
                 }
 
                 /* Gatherer is always tried last. If that fails, give up */
@@ -388,9 +384,7 @@ public class MtgCard {
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * @return This card's color as a String with the chars w, u, b, r, g, c, a, and l
      */
     public String getColor() {
         return this.mColor;

@@ -5,26 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4f26f36-cbd2-43d9-840d-4e2e1c2c4de2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/NetDraftJ.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionResponse.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionResponse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickRequest.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickResponse.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickResponse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PreviousPicksInfo.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PreviousPicksInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Adam.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,7 +28,28 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="TextInputFilter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
+              <folding>
+                <element signature="e#434#435#0" expanded="true" />
+                <element signature="e#467#468#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -46,31 +60,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GradleLocalSettings">
-    <option name="externalProjectsViewState">
-      <projects_view />
-    </option>
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/lib/kryonet-2.21-all.jar!/com/esotericsoftware/kryonet/Connection.class" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/StartDraftInfo.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PreviousPicksInfo.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickResponse.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickRequest.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionResponse.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" />
       </list>
     </option>
   </component>
@@ -106,22 +115,26 @@
     </entry>
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="NetDraftJ" type="58d84e3e:PackageViewProjectNode" />
+              <item name="NetDraftJ" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="58d84e3e:PackageViewProjectNode" />
+              <item name="NetDraftJ" type="616d4139:PackageViewModuleNode" />
+              <item name="com.gelakinetic.NetDraftJ" type="1f31426a:PackageElementNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -129,21 +142,74 @@
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
               <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="Database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="Messages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name="Server" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="NetDraftJ" type="cbb8eebc:String" user="NetDraftJ" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/build.xml" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="netdraftj" />
-    <property name="SearchEverywhereHistoryKey" value="connectionreq&#9;FILE&#9;file://C:/Users/AFeinstein/Personal/git/NetDraftJ/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java" />
+    <property name="SearchEverywhereHistoryKey" value="project struct&#9;ACTION&#9;ShowProjectStructureSettings&#10;connectionreq&#9;FILE&#9;file://C:/Users/AFeinstein/Personal/git/NetDraftJ/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -157,7 +223,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.RunProgram">
+  <component name="RunManager" selected="Application.Application">
     <configuration name="BuildJar" type="AntRunConfiguration" factoryName="Ant Target">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="create_run_jar" />
       <method>
@@ -165,29 +231,18 @@
       </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <module />
+    </configuration>
+    <configuration name="Application" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" />
+      <module name="NetDraftJ" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" />
@@ -197,30 +252,13 @@
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="singleModule" />
       </option>
-      <envs />
       <patterns />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SUITE_NAME" />
@@ -233,25 +271,32 @@
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="singleModule" />
       </option>
       <option name="USE_DEFAULT_REPORTERS" value="false" />
       <option name="PROPERTIES_FILE" />
-      <envs />
       <properties />
       <listeners />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Ant Target.BuildJar" />
-      <item index="1" class="java.lang.String" itemvalue="Application.RunProgram" />
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <list>
+      <item itemvalue="Ant Target.BuildJar" />
+      <item itemvalue="Application.Application" />
     </list>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -267,39 +312,36 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
+    <frame x="54" y="-8" width="1874" height="1216" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3286004" sideWeight="0.50215286" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.49784714" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2497309" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25578833" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32150102" sideWeight="0.4967707" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.337487" sideWeight="0.49784714" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24381055" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49944875" weight="0.3283859" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.51102537" side_tool="true" visible="true" weight="0.32745826" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49730894" weight="0.32788375" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Designer" order="2" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25578833" />
+      <window_info active="true" anchor="bottom" id="Inspection Results" order="7" sideWeight="0.48897463" visible="true" weight="0.32745826" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49558985" weight="0.33673468" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" visible="true" weight="0.18577729" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25578833" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -327,171 +369,272 @@
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
-          <caret line="75" column="32" lean-forward="false" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="32" />
-          <folding />
+          <caret line="75" column="32" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/kryonet-2.21-all.jar!/com/esotericsoftware/kryonet/Connection.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
-          <caret line="39" column="19" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
-          <folding />
+          <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/javax/swing/JOptionPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="370" column="30" lean-forward="false" selection-start-line="370" selection-start-column="30" selection-end-line="370" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/javax/swing/JOptionPane.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NDJC_UI.java">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NDJC_UI.form">
+      <provider selected="true" editor-type-id="ui-designer" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java">
+    <entry file="jar://$PROJECT_DIR$/lib/kryonet-2.21-all.jar!/moo/Moo.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="26" column="6" lean-forward="false" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="6" lean-forward="false" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1867">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6746">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="119">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/StartDraftInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PreviousPicksInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickResponse.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/MessageUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionResponse.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+          <folding>
+            <element signature="e#567#568#0" expanded="true" />
+            <element signature="e#597#598#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-323">
+          <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1343">
+          <caret line="85" column="26" lean-forward="true" selection-start-line="85" selection-start-column="26" selection-end-line="85" selection-end-column="26" />
+          <folding>
+            <element signature="e#714#758#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="286" selection-start-line="286" selection-end-line="286" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-734">
+          <caret line="109" column="21" selection-start-line="109" selection-start-column="21" selection-end-line="109" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-823">
+          <caret line="385" column="37" lean-forward="true" selection-start-line="385" selection-start-column="37" selection-end-line="385" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1832">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="307" column="52" selection-start-line="307" selection-start-column="52" selection-end-line="307" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="154" column="47" lean-forward="true" selection-start-line="154" selection-start-column="47" selection-end-line="154" selection-end-column="47" />
+          <folding>
+            <element signature="e#1404#1405#0" expanded="true" />
+            <element signature="e#1433#1434#0" expanded="true" />
+            <element signature="e#1546#1547#0" expanded="true" />
+            <element signature="e#1585#1586#0" expanded="true" />
+            <element signature="e#1621#1622#0" expanded="true" />
+            <element signature="e#1649#1650#0" expanded="true" />
+            <element signature="e#1794#1795#0" expanded="true" />
+            <element signature="e#1826#1827#0" expanded="true" />
+            <element signature="e#2193#2194#0" expanded="true" />
+            <element signature="e#2257#2258#0" expanded="true" />
+            <element signature="e#2288#2289#0" expanded="true" />
+            <element signature="e#2316#2317#0" expanded="true" />
+            <element signature="e#2343#2344#0" expanded="true" />
+            <element signature="e#2373#2374#0" expanded="true" />
+            <element signature="e#2395#2396#0" expanded="true" />
+            <element signature="e#2423#2424#0" expanded="true" />
+            <element signature="e#2455#2456#0" expanded="true" />
+            <element signature="e#2504#2505#0" expanded="true" />
+            <element signature="e#2905#2906#0" expanded="true" />
+            <element signature="e#2939#2940#0" expanded="true" />
+            <element signature="e#2967#2968#0" expanded="true" />
+            <element signature="e#3001#3002#0" expanded="true" />
+            <element signature="e#3218#3219#0" expanded="true" />
+            <element signature="e#3284#3285#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
+          <folding>
+            <element signature="e#434#435#0" expanded="true" />
+            <element signature="e#467#468#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>NetDraftJ</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

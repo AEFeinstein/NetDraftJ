@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,81 +31,85 @@ public class NetDraftJServer extends Listener {
     private final NetDraftJServer_ui mUi;
 
     // Server information
-    private Server server;
+    private Server mServer;
     public static final int PORT = 54777;
 
     // Draft state information
-    private final ArrayList<Player> players = new ArrayList<>();
-    private final ArrayList<Integer> cubeList = new ArrayList<>(720);
-    private int cubeIdx;
-    private int packSize;
-    private int numPacks;
-    private Direction currentPackDirection = Direction.RIGHT;
-    private boolean draftStarted = false;
+    private final ArrayList<Player> mPlayers = new ArrayList<>();
+    private final ArrayList<Integer> mCubeList = new ArrayList<>(720);
+    private int mCubeIdx;
+    private int mPackSize;
+    private int mNumPacks;
+    private Direction mCurrentPackDirection = Direction.RIGHT;
+    private boolean mDraftStarted;
 
     private boolean mStopDisconnectCheckThread = false;
 
     /**
-     * TODO doc
+     * Create a new server with the given UI
      * 
-     * @param netDraftJServer_ui
+     * @param netDraftJServer_ui The UI which this server will display info in
      */
     NetDraftJServer(NetDraftJServer_ui netDraftJServer_ui) {
         mUi = netDraftJServer_ui;
-        draftStarted = false;
+        mDraftStarted = false;
     }
 
     /**
-     * TODO doc
+     * Deal out the packs to all the players. This can't be called if there are no packs left.
+     * This doesn't send the TCP messages to any connected players.
      */
     private void dealPacks() {
 
-        synchronized (players) {
+        synchronized (mPlayers) {
             // Mark another pack as dealt
-            numPacks--;
+            mNumPacks--;
 
             // Logging
-            mUi.appendText("Deal out the next pack, " + numPacks + " pack(s) left");
+            mUi.appendText("Deal out the next pack, " + mNumPacks + " pack(s) left");
 
             // Reverse the pack direction
-            if (currentPackDirection == Direction.LEFT) {
-                currentPackDirection = Direction.RIGHT;
+            if (mCurrentPackDirection == Direction.LEFT) {
+                mCurrentPackDirection = Direction.RIGHT;
             }
             else {
-                currentPackDirection = Direction.LEFT;
+                mCurrentPackDirection = Direction.LEFT;
             }
 
             // Deal out the packs
-            for (Player player : players) {
+            for (Player player : mPlayers) {
                 player.clearPack();
-                for (int packIdx = 0; packIdx < packSize; packIdx++) {
-                    player.addCardToPack(cubeList.get(cubeIdx++));
+                for (int packIdx = 0; packIdx < mPackSize; packIdx++) {
+                    player.addCardToPack(mCubeList.get(mCubeIdx++));
                 }
             }
         }
     }
 
     /**
-     * TODO doc
+     * Send the dealt packs to all the connected players, asking for which card they're picking
      */
     private void sendPlayersPacks() {
-        synchronized (players) {
-            for (Player player : players) {
+        synchronized (mPlayers) {
+            for (Player player : mPlayers) {
                 player.sendPickRequest(false);
             }
         }
     }
 
     /**
-     * TODO doc
+     * Callback called whenever any TCP message is received from a player
+     *
+     * @param connection The connection which received the message
+     * @param object The de-serialized object from the TCP message
      */
     @Override
     public void received(Connection connection, Object object) {
-        synchronized (players) {
+        synchronized (mPlayers) {
 
             if (object instanceof ConnectionRequest) {
                 ConnectionRequest request = (ConnectionRequest) object;
-                if (!draftStarted) {
+                if (!mDraftStarted) {
                     // Draft hasn't started, so let the player join
 
                     if (request.getBuildTimestamp() == NetDraftJClient_ui.getClassBuildTime(this).getTime()) {
@@ -119,7 +122,7 @@ public class NetDraftJServer extends Listener {
 
                         // Save the player's information
                         Player player = new Player(connection, request);
-                        players.add(player);
+                        mPlayers.add(player);
                     }
                     else {
                         // Logging
@@ -132,7 +135,7 @@ public class NetDraftJServer extends Listener {
                 }
                 else {
                     boolean reconnected = false;
-                    for (Player player : players) {
+                    for (Player player : mPlayers) {
                         if (player.getUuid() == request.getUuid() && player.isDetached()) {
                             reconnected = true;
 
@@ -142,7 +145,7 @@ public class NetDraftJServer extends Listener {
                             connection.sendTCP(new ConnectionResponse(true, null));
 
                             // Send the reconnected player their seating info
-                            player.sendSeatingOrder(players);
+                            player.sendSeatingOrder(mPlayers);
 
                             // Send picked list
                             player.sendPreviousPicks();
@@ -171,7 +174,7 @@ public class NetDraftJServer extends Listener {
                 boolean allPicked = true;
 
                 // Find the player reporting a pick
-                for (Player player : players) {
+                for (Player player : mPlayers) {
                     if (response.getUuid() == player.getUuid()) {
                         // Mark that card as picked
                         player.pickCard(response.getPick());
@@ -187,8 +190,8 @@ public class NetDraftJServer extends Listener {
                 // If all players have made their picks
                 if (allPicked) {
                     // If the packs are empty and there are more to be drafted
-                    if (players.get(0).getPack().size() == 0) {
-                        if (numPacks > 0) {
+                    if (mPlayers.get(0).getPack().size() == 0) {
+                        if (mNumPacks > 0) {
 
                             // deal new ones
                             dealPacks();
@@ -198,18 +201,18 @@ public class NetDraftJServer extends Listener {
                             // Logging
                             mUi.appendText("Draft over");
 
-                            for (Player player : players) {
+                            for (Player player : mPlayers) {
                                 player.sendDraftOverNotification();
                             }
                         }
                     }
                     else {
                         // Logging
-                        mUi.appendText("Pass the packs, " + players.get(0).getPack().size() + " cards left");
+                        mUi.appendText("Pass the packs, " + mPlayers.get(0).getPack().size() + " cards left");
 
                         // If everyone picked and there are still packs in cards,
                         // shift them
-                        shiftPacks(currentPackDirection);
+                        shiftPacks(mCurrentPackDirection);
                         // Then send them to the players for picking
                         sendPlayersPacks();
                     }
@@ -219,28 +222,28 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * TODO doc
+     * Shift the packs either LEFT or RIGHT after all picks have been made
      * 
-     * @param dir
+     * @param dir The direction to shift the packs
      */
     private void shiftPacks(Direction dir) {
-        synchronized (players) {
+        synchronized (mPlayers) {
 
             switch (dir) {
                 case LEFT: {
-                    ArrayList<Integer> packZero = players.get(0).getPack();
-                    for (int i = 0; i < players.size() - 1; i++) {
-                        players.get(i).setPack(players.get(i + 1).getPack());
+                    ArrayList<Integer> packZero = mPlayers.get(0).getPack();
+                    for (int i = 0; i < mPlayers.size() - 1; i++) {
+                        mPlayers.get(i).setPack(mPlayers.get(i + 1).getPack());
                     }
-                    players.get(players.size() - 1).setPack(packZero);
+                    mPlayers.get(mPlayers.size() - 1).setPack(packZero);
                     break;
                 }
                 case RIGHT: {
-                    ArrayList<Integer> lastPack = players.get(players.size() - 1).getPack();
-                    for (int i = players.size() - 1; i > 0; i--) {
-                        players.get(i).setPack(players.get(i - 1).getPack());
+                    ArrayList<Integer> lastPack = mPlayers.get(mPlayers.size() - 1).getPack();
+                    for (int i = mPlayers.size() - 1; i > 0; i--) {
+                        mPlayers.get(i).setPack(mPlayers.get(i - 1).getPack());
                     }
-                    players.get(0).setPack(lastPack);
+                    mPlayers.get(0).setPack(lastPack);
 
                     break;
                 }
@@ -249,14 +252,15 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * TODO doc
+     * Start a new Thread which the Server will run in. Ask the user what cube to load first, and load it.
+     * Loading a cube can take a while. Start another Thread to periodically check for client disconnects.
      * 
-     * @param ipAddress
+     * @param ipAddress The String representation of the dotted decimal IP address
      */
     void startServer(String ipAddress) {
 
         new Thread(() -> {
-            mUi.setButtonEnabled(false);
+            mUi.setStartButtonEnabled(false);
             File cubeFile = mUi.pickCubeFile();
             if (null == cubeFile) {
                 mUi.appendText("User didn't pick a file");
@@ -271,39 +275,39 @@ public class NetDraftJServer extends Listener {
             }
 
             // Start the server!
-            server = new Server();
-            server.start();
+            mServer = new Server();
+            mServer.start();
             try {
-                server.bind(PORT);
+                mServer.bind(PORT);
             } catch (IOException e) {
                 mUi.appendText(e.getMessage());
                 e.printStackTrace();
                 return;
             }
-            MessageUtils.registerAll(server.getKryo());
-            server.addListener(NetDraftJServer.this);
+            MessageUtils.registerAll(mServer.getKryo());
+            mServer.addListener(NetDraftJServer.this);
 
             mUi.appendText("Server started on " + ipAddress + ":" + PORT);
-            mUi.setButtonEnabled(true);
+            mUi.setStartButtonEnabled(true);
             mUi.setHostMenuItemEnabled(false);
-            draftStarted = false;
+            mDraftStarted = false;
 
             new Thread(() -> {
                 while (true) {
-                    synchronized (players) {
-                        for (int i = 0; i < players.size(); i++) {
-                            if (players.get(i).isDisconnected()) {
-                                if (!draftStarted) {
+                    synchronized (mPlayers) {
+                        for (int i = 0; i < mPlayers.size(); i++) {
+                            if (mPlayers.get(i).isDisconnected()) {
+                                if (!mDraftStarted) {
                                     // If they disconnect before the draft starts, drop em
-                                    mUi.appendText(players.get(i).getName() + " left the draft");
-                                    players.remove(i);
+                                    mUi.appendText(mPlayers.get(i).getName() + " left the draft");
+                                    mPlayers.remove(i);
                                     i--;
                                 }
-                                else if (!players.get(i).isDetached()) {
+                                else if (!mPlayers.get(i).isDetached()) {
                                     // If they disconnect after the draft starts, wait for a reconnect
-                                    players.get(i).setDetached();
+                                    mPlayers.get(i).setDetached();
                                     mUi.appendText(
-                                            players.get(i).getName() + " disconnected. Waiting for reconnect");
+                                            mPlayers.get(i).getName() + " disconnected. Waiting for reconnect");
                                 }
                             }
                         }
@@ -322,10 +326,10 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * TODO doc
+     * Load a cube from a file, which is a plaintext list of cards
      * 
-     * @param cubeFile
-     * @return
+     * @param cubeFile The file to read and load cards from
+     * @return true if the cube was loaded, false if the cube couldn't be loaded
      */
     private boolean loadCubeList(File cubeFile) {
         try {
@@ -339,7 +343,7 @@ public class NetDraftJServer extends Listener {
             while ((line = fileReader.readLine()) != null) {
                 MtgCard card = new MtgCard(line);
                 if (database.loadCard(card)) {
-                    cubeList.add(card.getMultiverseId());
+                    mCubeList.add(card.getMultiverseId());
                 }
             }
 
@@ -347,12 +351,12 @@ public class NetDraftJServer extends Listener {
             fileReader.close();
             database.closeConnection();
 
-            if (cubeList.isEmpty()) {
+            if (mCubeList.isEmpty()) {
                 return false;
             }
 
             // Shuffle the cube
-            Collections.shuffle(cubeList);
+            Collections.shuffle(mCubeList);
 
             // Return the shuffled multiverseIDs
             return true;
@@ -364,10 +368,9 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * TODO doc
+     * Get this computer's public IP address using the whatIsMyIpAddress.com service
      * 
-     * @return
-     * @throws UnknownHostException
+     * @return This computer's public IP address, i.e. the router's IP address, or null if there's an Exception
      */
     public static String getPublicIp() {
         try {
@@ -380,29 +383,31 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * TODO doc
+     * Stop the server, halt the disconnection checking thread, and re-enable the menu "Host" button
      */
     void stopServer() {
-        if (null != server) {
-            server.stop();
+        if (null != mServer) {
+            mServer.stop();
         }
-        server = null;
+        mServer = null;
         mUi.setHostMenuItemEnabled(true);
         mStopDisconnectCheckThread = true;
     }
 
     /**
-     * TODO doc
+     * Start the draft. Ensure the UUIDs are unique, shuffle the seating, send the seating orders to all connected
+     * players, figure out the pack size and number of packs, deal out the first packs, and send the packs to all
+     * players
      * 
      * @return true if the draft started, false otherwise
      */
     boolean clickStartGameButton() {
 
-        synchronized (players) {
+        synchronized (mPlayers) {
 
-            // Make sure uuids are actually unique
-            for (Player one : players) {
-                for (Player two : players) {
+            // Make sure UUIDs are actually unique
+            for (Player one : mPlayers) {
+                for (Player two : mPlayers) {
                     if (one != two) {
                         if (one.getUuid() == two.getUuid()) {
                             // Logging
@@ -414,28 +419,28 @@ public class NetDraftJServer extends Listener {
             }
 
             // Mark the draft as started
-            draftStarted = true;
+            mDraftStarted = true;
 
             // Randomize seating
-            Collections.shuffle(players);
+            Collections.shuffle(mPlayers);
 
             // Tell everyone the seating order
-            for (Player player : players) {
-                player.sendSeatingOrder(players);
+            for (Player player : mPlayers) {
+                player.sendSeatingOrder(mPlayers);
             }
 
             // Logging
             mUi.appendText("Send the seating orders");
 
             // Figure out pack size and number of packs
-            packSize = (players.size() * 2) - 1;
-            numPacks = (int) Math.ceil(45 / (float) packSize);
+            mPackSize = (mPlayers.size() * 2) - 1;
+            mNumPacks = (int) Math.ceil(45 / (float) mPackSize);
 
-            if (packSize * numPacks > cubeList.size()) {
-                int cardsPerPlayer = (int) Math.floor(cubeList.size() / (double) players.size());
-                packSize = (int) Math.floor(cardsPerPlayer / 3.0f);
+            if (mPackSize * mNumPacks > mCubeList.size()) {
+                int cardsPerPlayer = (int) Math.floor(mCubeList.size() / (double) mPlayers.size());
+                mPackSize = (int) Math.floor(cardsPerPlayer / 3.0f);
             }
-            cubeIdx = 0;
+            mCubeIdx = 0;
 
             // Deal out the packs
             dealPacks();

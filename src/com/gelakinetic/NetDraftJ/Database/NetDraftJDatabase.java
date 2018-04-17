@@ -13,7 +13,7 @@ public class NetDraftJDatabase {
     private Connection mDbConnection = null;
 
     /**
-     * TODO doc
+     * Create a new database object and connect it to the database file
      */
     public NetDraftJDatabase() {
         try {
@@ -24,10 +24,9 @@ public class NetDraftJDatabase {
     }
 
     /**
-     * TODO doc
-     * 
-     * @return
+     * Try to connect to a database file, either in the res folder or bundled in the JAR
      */
+    @SuppressWarnings("SpellCheckingInspection")
     private void openConnection() throws SQLException, ClassNotFoundException {
         if ((new File("res\\mtg.sqlite")).exists()) {
             /* Open up the database */
@@ -42,7 +41,7 @@ public class NetDraftJDatabase {
     }
 
     /**
-     * TODO doc
+     * Close the database connection
      */
     public void closeConnection() {
         /* Close the database */
@@ -50,19 +49,18 @@ public class NetDraftJDatabase {
             try {
                 mDbConnection.close();
             } catch (SQLException e) {
-                /* For exceptions, just print them out and exit cleanly */
-                System.exit(0);
+                /* For exceptions, just print them out */
                 e.printStackTrace();
             }
         }
     }
 
     /**
-     * TODO doc
+     * Load a card from the database based on either the card's name or multiverse ID
      * 
-     * @param card
-     * @return
-     * @throws SQLException
+     * @param card A card with either a name or multiverse ID to be filled in
+     * @return true if the card's data was filled in, false if there was an error
+     * @throws SQLException if there's a database exception
      */
     public boolean loadCard(MtgCard card) throws SQLException {
 
@@ -74,7 +72,8 @@ public class NetDraftJDatabase {
         Statement statement = mDbConnection.createStatement();
 
         String sqlStatement;
-        PreparedStatement pstmt;
+        PreparedStatement preparedStatement;
+        //noinspection SpellCheckingInspection
         sqlStatement = "SELECT "
                 // Multiverse ID
                 + "cards.multiverseID, "
@@ -106,9 +105,9 @@ public class NetDraftJDatabase {
                 + "cards.watermark, "
                 // Set code
                 + "sets.code AS set_code, "
-                // Set code (magiccards.info)
+                // Set code (magicCards.info)
                 + "sets.code_mtgi AS set_code_mtgi, "
-                // Set code (magiccards.info)
+                // Set code (magicCards.info)
                 + "sets.suggest_text_1 AS set_name "
                 // Join the tables on set code
                 + "FROM (cards JOIN sets ON cards.expansion = sets.code) "
@@ -120,13 +119,13 @@ public class NetDraftJDatabase {
         if (card.getName() != null && !card.getName().isEmpty()) {
             sqlStatement += "(cards.suggest_text_1 = ?) ";
             sqlStatement += orderLogic;
-            pstmt = mDbConnection.prepareStatement(sqlStatement);
-            pstmt.setString(1, card.getName());
+            preparedStatement = mDbConnection.prepareStatement(sqlStatement);
+            preparedStatement.setString(1, card.getName());
         }
         else if (card.getMultiverseId() != 0) {
             sqlStatement += "(cards.multiverseID = " + card.getMultiverseId() + ") ";
             sqlStatement += orderLogic;
-            pstmt = mDbConnection.prepareStatement(sqlStatement);
+            preparedStatement = mDbConnection.prepareStatement(sqlStatement);
         }
         else {
             /* Clean up */
@@ -134,14 +133,14 @@ public class NetDraftJDatabase {
             return false;
         }
 
-        ResultSet resultSet = pstmt.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-        boolean retval = card.setDataFromQuery(resultSet);
+        boolean returnVal = card.setDataFromQuery(resultSet);
 
         /* Clean up */
         resultSet.close();
         statement.close();
 
-        return retval;
+        return returnVal;
     }
 }
