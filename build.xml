@@ -14,6 +14,7 @@
 		<pathelement location="lib/kryonet-2.21-all.jar" />
 		<pathelement location="lib/commons-io-2.6.jar" />
 		<pathelement location="lib/miglayout15-swing.jar" />
+		<pathelement location="lib/imgscalr-lib-4.2.jar" />
 	</path>
 	<target name="init">
 		<mkdir dir="bin" />
@@ -88,6 +89,7 @@
 			<zipfileset excludes="META-INF/*.SF" src="./lib/kryonet-2.21-all.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="./lib/commons-io-2.6.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="./lib/miglayout15-swing.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/imgscalr-lib-4.2.jar" />
 		</jar>
 	</target>
 </project>

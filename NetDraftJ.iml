@@ -52,7 +52,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="miglayout15-swing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/miglayout15-swing.jar!/" />
@@ -61,5 +61,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="imgscalr-lib-4.2" level="project" />
   </component>
 </module>

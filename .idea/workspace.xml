@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4f26f36-cbd2-43d9-840d-4e2e1c2c4de2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Adam.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/imgscalr_lib_4_2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/MtgCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NetDraftJ.iml" beforeDir="false" afterPath="$PROJECT_DIR$/NetDraftJ.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/imgscalr/Scalr.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,7 +21,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TextInputFilter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TextInputFilter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="595">
@@ -38,6 +30,15 @@
                 <element signature="e#434#435#0" expanded="true" />
                 <element signature="e#467#468#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="500">
+              <caret line="92" selection-start-line="92" selection-end-line="92" />
             </state>
           </provider>
         </entry>
@@ -55,6 +56,7 @@
     <findStrings>
       <find>jar</find>
       <find>isconn</find>
+      <find>kryonet</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -80,6 +82,7 @@
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" />
+        <option value="$PROJECT_DIR$/build.xml" />
       </list>
     </option>
   </component>
@@ -145,41 +148,12 @@
             <path>
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
               <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
               <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="Database" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="Messages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -204,12 +178,17 @@
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="netdraftj" />
     <property name="SearchEverywhereHistoryKey" value="project struct&#9;ACTION&#9;ShowProjectStructureSettings&#10;connectionreq&#9;FILE&#9;file://C:/Users/AFeinstein/Personal/git/NetDraftJ/src/com/gelakinetic/NetDraftJ/Messages/ConnectionRequest.java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/sqlite-jdbc-3.21.0.jar!/" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Adam\git\NetDraftJ\lib" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -223,7 +202,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="JAR Application.NetDraftJ.jar">
     <configuration name="BuildJar" type="AntRunConfiguration" factoryName="Ant Target">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="create_run_jar" />
       <method>
@@ -257,6 +236,9 @@
         <value defaultName="singleModule" />
       </option>
       <patterns />
+    </configuration>
+    <configuration name="NetDraftJ.jar" type="JarApplication" factoryName="JAR Application" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/NetDraftJ.jar" />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -296,7 +278,13 @@
     <list>
       <item itemvalue="Ant Target.BuildJar" />
       <item itemvalue="Application.Application" />
+      <item itemvalue="JAR Application.NetDraftJ.jar" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JAR Application.NetDraftJ.jar" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -309,6 +297,14 @@
       <option name="presentableId" value="Default" />
       <updated>1523892911917</updated>
     </task>
+    <task id="LOCAL-00001" summary="Javadoc&#10;&#10;Prefixed all class variables with m&#10;Fixed all typos&#10;A little non-javadoc linting too&#10;Don't close the program on a database error&#10;Don't send a player's picks back from the server at the end of a draft">
+      <created>1523933385376</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1523933385377</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -319,15 +315,15 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49944875" weight="0.3283859" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.51102537" side_tool="true" visible="true" weight="0.32745826" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5033076" side_tool="true" visible="true" weight="0.32745826" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49730894" weight="0.32788375" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4966924" visible="true" weight="0.32745826" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25578833" />
-      <window_info active="true" anchor="bottom" id="Inspection Results" order="7" sideWeight="0.48897463" visible="true" weight="0.32745826" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49558985" weight="0.33673468" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25578833" />
+      <window_info anchor="bottom" id="Inspection Results" order="7" sideWeight="0.48842338" weight="0.32745826" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4950386" weight="0.33673468" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" visible="true" weight="0.18577729" />
       <window_info id="UI Designer" order="2" />
@@ -342,6 +338,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Javadoc&#10;&#10;Prefixed all class variables with m&#10;Fixed all typos&#10;A little non-javadoc linting too&#10;Don't close the program on a database error&#10;Don't send a player's picks back from the server at the end of a draft" />
+    <option name="LAST_COMMIT_MESSAGE" value="Javadoc&#10;&#10;Prefixed all class variables with m&#10;Fixed all typos&#10;A little non-javadoc linting too&#10;Don't close the program on a database error&#10;Don't send a player's picks back from the server at the end of a draft" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -366,13 +366,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="75" column="32" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/kryonet-2.21-all.jar!/com/esotericsoftware/kryonet/Connection.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
@@ -559,6 +552,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
@@ -576,7 +576,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -599,6 +599,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
+          <last-edited>10</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -615,7 +616,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
