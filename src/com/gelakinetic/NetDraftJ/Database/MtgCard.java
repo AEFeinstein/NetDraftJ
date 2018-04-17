@@ -49,7 +49,8 @@ public class MtgCard {
     /**
      * Create a magic card with the given name
      * 
-     * @param name The name for this object
+     * @param name
+     *            The name for this object
      */
     public MtgCard(String name) {
         mName = name;
@@ -58,7 +59,8 @@ public class MtgCard {
     /**
      * Create a magic card with the given multiverse ID
      * 
-     * @param multiverseId The multiverse ID for this object
+     * @param multiverseId
+     *            The multiverse ID for this object
      */
     public MtgCard(int multiverseId) {
         mMultiverseId = multiverseId;
@@ -123,7 +125,8 @@ public class MtgCard {
     /**
      * Convert a double representation of a power, toughness, or loyalty into the String representation
      * 
-     * @param stat The stat to convert
+     * @param stat
+     *            The stat to convert
      * @return The String representation of this stat
      */
     private static String getPrintedPTL(double stat) {
@@ -266,8 +269,10 @@ public class MtgCard {
     /**
      * Fill in this card's data from the result of a SQLite query
      * 
-     * @param resultSet The result of a SQLite query
-     * @throws SQLException if there's a database error
+     * @param resultSet
+     *            The result of a SQLite query
+     * @throws SQLException
+     *             if there's a database error
      */
     boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
         if (!resultSet.isClosed()) {
@@ -278,12 +283,12 @@ public class MtgCard {
             mSuperType = resultSet.getString(resultSet.findColumn("supertype"));
             mSubType = resultSet.getString(resultSet.findColumn("subtype"));
             mColor = resultSet.getString(resultSet.findColumn("color"));
-            //noinspection SpellCheckingInspection
+            // noinspection SpellCheckingInspection
             mManaCost = resultSet.getString(resultSet.findColumn("manacost"));
             mPower = resultSet.getDouble(resultSet.findColumn("power"));
             mToughness = resultSet.getDouble(resultSet.findColumn("toughness"));
             mLoyalty = resultSet.getDouble(resultSet.findColumn("loyalty"));
-            //noinspection SpellCheckingInspection
+            // noinspection SpellCheckingInspection
             mText = resultSet.getString(resultSet.findColumn("cardtext"));
 
             mFlavor = resultSet.getString(resultSet.findColumn("flavor"));

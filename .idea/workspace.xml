@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4f26f36-cbd2-43d9-840d-4e2e1c2c4de2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/imgscalr_lib_4_2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetDraftJ.iml" beforeDir="false" afterPath="$PROJECT_DIR$/NetDraftJ.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/imgscalr/Scalr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,24 +18,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TextInputFilter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java">
+      <file leaf-file-name="build.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
-              <folding>
-                <element signature="e#434#435#0" expanded="true" />
-                <element signature="e#467#468#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="225">
+              <caret line="47" column="23" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.xml">
+      <file leaf-file-name="ImageLabel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="92" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="68">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
             </state>
           </provider>
         </entry>
@@ -73,7 +66,6 @@
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/PickRequest.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/ConnectionResponse.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Messages/DraftOverNotification.java" />
-        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/NetDraftJClient_ui.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/NetDraftJServer_ui.java" />
@@ -83,6 +75,7 @@
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Server/Player.java" />
         <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/TextInputFilter.java" />
         <option value="$PROJECT_DIR$/build.xml" />
+        <option value="$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java" />
       </list>
     </option>
   </component>
@@ -117,6 +110,9 @@
       </profile-state>
     </entry>
   </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -144,6 +140,11 @@
             <path>
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
               <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
@@ -304,25 +305,31 @@
       <option name="project" value="LOCAL" />
       <updated>1523933385377</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Switch imgscalr to a jar library">
+      <created>1523933917637</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1523933917637</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1216" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49944875" weight="0.3283859" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5033076" side_tool="true" visible="true" weight="0.32745826" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5121279" side_tool="true" visible="true" weight="0.32745826" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4966924" visible="true" weight="0.32745826" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4966924" weight="0.32745826" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25578833" />
-      <window_info anchor="bottom" id="Inspection Results" order="7" sideWeight="0.48842338" weight="0.32745826" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25578833" />
+      <window_info active="true" anchor="bottom" id="Inspection Results" order="7" sideWeight="0.4878721" visible="true" weight="0.32745826" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4950386" weight="0.33673468" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" visible="true" weight="0.18577729" />
@@ -341,7 +348,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Javadoc&#10;&#10;Prefixed all class variables with m&#10;Fixed all typos&#10;A little non-javadoc linting too&#10;Don't close the program on a database error&#10;Don't send a player's picks back from the server at the end of a draft" />
-    <option name="LAST_COMMIT_MESSAGE" value="Javadoc&#10;&#10;Prefixed all class variables with m&#10;Fixed all typos&#10;A little non-javadoc linting too&#10;Don't close the program on a database error&#10;Don't send a player's picks back from the server at the end of a draft" />
+    <MESSAGE value="Switch imgscalr to a jar library" />
+    <option name="LAST_COMMIT_MESSAGE" value="Switch imgscalr to a jar library" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -447,13 +455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-323">
-          <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Database/NetDraftJDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1343">
@@ -552,10 +553,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/imgscalr_lib_4_2.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="225">
+          <caret line="47" column="23" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -576,7 +587,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>No facets are configured</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -635,6 +646,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>imgscalr-lib-4.2</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

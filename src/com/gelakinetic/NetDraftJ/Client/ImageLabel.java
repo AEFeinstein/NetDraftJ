@@ -18,18 +18,19 @@ class ImageLabel extends JLabel {
 
     /**
      * Creates a JLabel instance with no image and with an empty string for the title. The label is centered vertically
-     * in its display area. The label's contents, once set, will be displayed on the leading edge of the label's
-     * display area.
+     * in its display area. The label's contents, once set, will be displayed on the leading edge of the label's display
+     * area.
      */
     ImageLabel() {
         super();
     }
 
     /**
-     * Defines the icon this component will display. If the value of icon is null, nothing is displayed.
-     * The default value of this property is null.
+     * Defines the icon this component will display. If the value of icon is null, nothing is displayed. The default
+     * value of this property is null.
      *
-     * @param icon the default icon this component will display
+     * @param icon
+     *            the default icon this component will display
      */
     public void setIcon(Icon icon) {
         super.setIcon(icon);
@@ -48,7 +49,8 @@ class ImageLabel extends JLabel {
      * Subclasses can just override this method, as always. A subclass that just wants to specialize the UI (look and
      * feel) delegate's paint method should just override paintComponent.
      *
-     * @param graphics the Graphics context in which to paint
+     * @param graphics
+     *            the Graphics context in which to paint
      */
     @Override
     public void paint(Graphics graphics) {

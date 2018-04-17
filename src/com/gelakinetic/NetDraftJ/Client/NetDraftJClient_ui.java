@@ -24,7 +24,26 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.jar.Manifest;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.PlainDocument;
 
@@ -74,8 +93,8 @@ public class NetDraftJClient_ui {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                    | UnsupportedLookAndFeelException e) {
-                e.printStackTrace();
+                    | UnsupportedLookAndFeelException e1) {
+                e1.printStackTrace();
             }
 
             // Show tooltips virtually forever
@@ -115,11 +134,9 @@ public class NetDraftJClient_ui {
         menuBtnConnect = new JMenuItem("Connect");
         menuBtnConnect.addActionListener(e -> SwingUtilities.invokeLater(() -> {
             JTextField playerName = new JTextField();
-            ((PlainDocument) playerName.getDocument())
-                    .setDocumentFilter(new TextInputFilter(inputType.USERNAME));
+            ((PlainDocument) playerName.getDocument()).setDocumentFilter(new TextInputFilter(inputType.USERNAME));
             JTextField server = new JTextField();
-            ((PlainDocument) server.getDocument())
-                    .setDocumentFilter(new TextInputFilter(inputType.IP_ADDRESS));
+            ((PlainDocument) server.getDocument()).setDocumentFilter(new TextInputFilter(inputType.IP_ADDRESS));
             final JComponent[] inputs = new JComponent[] { new JLabel("Username"), playerName,
                     new JLabel("Server IP Address"), server };
             int result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
@@ -131,7 +148,8 @@ public class NetDraftJClient_ui {
         mnFile.add(menuBtnConnect);
 
         menuBtnHost = new JMenuItem("Host");
-        menuBtnHost.addActionListener(e -> new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this));
+        menuBtnHost
+                .addActionListener(e -> new NetDraftJServer_ui(NetDraftJServer.getPublicIp(), NetDraftJClient_ui.this));
         mnFile.add(menuBtnHost);
 
         JMenuItem menuBtnSaveDraftedCards = new JMenuItem("Save Drafted Cards");
@@ -202,11 +220,11 @@ public class NetDraftJClient_ui {
     /**
      * Show a dialog asking the user if they really want to exit
      *
-     * @param isMenu true if the dialog is shown from the menu, false if the user presses the X button
+     * @param isMenu
+     *            true if the dialog is shown from the menu, false if the user presses the X button
      */
     private void showExitDialog(boolean isMenu) {
-        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to exit?",
-                "Leaving So Soon?",
+        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to exit?", "Leaving So Soon?",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -223,7 +241,8 @@ public class NetDraftJClient_ui {
     /**
      * Add a String to the text display on the right
      * 
-     * @param string The String to display, may be HTML
+     * @param string
+     *            The String to display, may be HTML
      */
     void appendText(String string) {
         appendText(string, null, null);
@@ -232,9 +251,12 @@ public class NetDraftJClient_ui {
     /**
      * Add a String to the text display on the right with a colored background and tooltip text
      * 
-     * @param string The String to display, may be HTML
-     * @param tooltipText The tooltip text to display, may be HTML
-     * @param colorStr The color string of the card displayed consisting of the chars w, u, b, r, and g
+     * @param string
+     *            The String to display, may be HTML
+     * @param tooltipText
+     *            The tooltip text to display, may be HTML
+     * @param colorStr
+     *            The color string of the card displayed consisting of the chars w, u, b, r, and g
      */
     void appendText(String string, String tooltipText, String colorStr) {
         SwingUtilities.invokeLater(() -> {
@@ -316,7 +338,8 @@ public class NetDraftJClient_ui {
     /**
      * Load a pack's images when the server sends a pack to the client
      * 
-     * @param pack An array of multiverse IDs for a given pack
+     * @param pack
+     *            An array of multiverse IDs for a given pack
      */
     void loadPack(int[] pack) {
 
@@ -333,7 +356,7 @@ public class NetDraftJClient_ui {
                 public void mouseClicked(MouseEvent arg0) {
 
                     // Custom button text
-                    Object[] options = {"Yes, please", "No, thanks"};
+                    Object[] options = { "Yes, please", "No, thanks" };
                     int choice = JOptionPane.showOptionDialog(mFrame, "Sure you want to draft " + card.getName() + "?",
                             "Double Checking", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
                             options[1]);
@@ -405,7 +428,8 @@ public class NetDraftJClient_ui {
     /**
      * Enable or disable the "Host" button in the menu
      * 
-     * @param enabled true to enable the "Host" button, false to disable it
+     * @param enabled
+     *            true to enable the "Host" button, false to disable it
      */
     public void setHostMenuItemEnabled(boolean enabled) {
         SwingUtilities.invokeLater(() -> menuBtnHost.setEnabled(enabled));
@@ -414,7 +438,8 @@ public class NetDraftJClient_ui {
     /**
      * Enable or disable the "Connect" button in the menu
      * 
-     * @param enabled true to enable the "Connect" button, false to disable it
+     * @param enabled
+     *            true to enable the "Connect" button, false to disable it
      */
     void setConnectMenuItemEnabled(boolean enabled) {
         SwingUtilities.invokeLater(() -> menuBtnConnect.setEnabled(enabled));
@@ -423,7 +448,8 @@ public class NetDraftJClient_ui {
     /**
      * Get the date this JAR was built from the manifest file
      *
-     * @param obj An object to get resources through, can be anything
+     * @param obj
+     *            An object to get resources through, can be anything
      * @return The date this JAR was built, or the epoch if this isn't running from a JAR
      */
     public static Date getClassBuildTime(Object obj) {
@@ -435,7 +461,7 @@ public class NetDraftJClient_ui {
                     // If it throws an exception, the while loop will continue executing
                     Manifest manifest = new Manifest(resources.nextElement().openStream());
                     String buildDate = manifest.getMainAttributes().getValue("Built-Date");
-                    //noinspection SpellCheckingInspection
+                    // noinspection SpellCheckingInspection
                     return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(buildDate);
                 } catch (IOException | ParseException | NullPointerException E) {
                     // Some error, keep looking through manifests
@@ -464,7 +490,8 @@ public class NetDraftJClient_ui {
     /**
      * Show an error dialog with the given message
      * 
-     * @param message The message to display in the error dialog
+     * @param message
+     *            The message to display in the error dialog
      */
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(mFrame, message, "Error", JOptionPane.ERROR_MESSAGE);

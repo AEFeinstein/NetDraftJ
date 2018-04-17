@@ -40,7 +40,8 @@ class NetDraftJClient extends Listener {
     /**
      * Construct a client to power the given UI
      * 
-     * @param ui The UI this client will display everything in
+     * @param ui
+     *            The UI this client will display everything in
      */
     NetDraftJClient(NetDraftJClient_ui ui) {
         this.mUi = ui;
@@ -54,8 +55,10 @@ class NetDraftJClient extends Listener {
     /**
      * This is called whenever a TCP message is received from the server
      *
-     * @param connection The connection which received the TCP Message
-     * @param object The de-serialized TCP message
+     * @param connection
+     *            The connection which received the TCP Message
+     * @param object
+     *            The de-serialized TCP message
      */
     @Override
     public void received(Connection connection, Object object) {
@@ -120,8 +123,10 @@ class NetDraftJClient extends Listener {
     /**
      * Attempt to connect to the server at the given IP address with the given username
      * 
-     * @param name The username to connect to the server with
-     * @param serverIp The String representation of the dotted decimal IP address
+     * @param name
+     *            The username to connect to the server with
+     * @param serverIp
+     *            The String representation of the dotted decimal IP address
      */
     void connectToServer(String name, String serverIp) {
         if (null == name || name.isEmpty()) {
@@ -162,7 +167,8 @@ class NetDraftJClient extends Listener {
     /**
      * Pick a card out of the current pack, tell the server, and add the card to the list of picked cards
      * 
-     * @param card The card which was picked
+     * @param card
+     *            The card which was picked
      */
     void pickCard(MtgCard card) {
         if (!mPickedCard) {

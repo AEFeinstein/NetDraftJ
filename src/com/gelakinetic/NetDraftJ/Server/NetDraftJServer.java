@@ -48,7 +48,8 @@ public class NetDraftJServer extends Listener {
     /**
      * Create a new server with the given UI
      * 
-     * @param netDraftJServer_ui The UI which this server will display info in
+     * @param netDraftJServer_ui
+     *            The UI which this server will display info in
      */
     NetDraftJServer(NetDraftJServer_ui netDraftJServer_ui) {
         mUi = netDraftJServer_ui;
@@ -56,8 +57,8 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Deal out the packs to all the players. This can't be called if there are no packs left.
-     * This doesn't send the TCP messages to any connected players.
+     * Deal out the packs to all the players. This can't be called if there are no packs left. This doesn't send the TCP
+     * messages to any connected players.
      */
     private void dealPacks() {
 
@@ -100,8 +101,10 @@ public class NetDraftJServer extends Listener {
     /**
      * Callback called whenever any TCP message is received from a player
      *
-     * @param connection The connection which received the message
-     * @param object The de-serialized object from the TCP message
+     * @param connection
+     *            The connection which received the message
+     * @param object
+     *            The de-serialized object from the TCP message
      */
     @Override
     public void received(Connection connection, Object object) {
@@ -224,7 +227,8 @@ public class NetDraftJServer extends Listener {
     /**
      * Shift the packs either LEFT or RIGHT after all picks have been made
      * 
-     * @param dir The direction to shift the packs
+     * @param dir
+     *            The direction to shift the packs
      */
     private void shiftPacks(Direction dir) {
         synchronized (mPlayers) {
@@ -252,10 +256,11 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Start a new Thread which the Server will run in. Ask the user what cube to load first, and load it.
-     * Loading a cube can take a while. Start another Thread to periodically check for client disconnects.
+     * Start a new Thread which the Server will run in. Ask the user what cube to load first, and load it. Loading a
+     * cube can take a while. Start another Thread to periodically check for client disconnects.
      * 
-     * @param ipAddress The String representation of the dotted decimal IP address
+     * @param ipAddress
+     *            The String representation of the dotted decimal IP address
      */
     void startServer(String ipAddress) {
 
@@ -306,8 +311,7 @@ public class NetDraftJServer extends Listener {
                                 else if (!mPlayers.get(i).isDetached()) {
                                     // If they disconnect after the draft starts, wait for a reconnect
                                     mPlayers.get(i).setDetached();
-                                    mUi.appendText(
-                                            mPlayers.get(i).getName() + " disconnected. Waiting for reconnect");
+                                    mUi.appendText(mPlayers.get(i).getName() + " disconnected. Waiting for reconnect");
                                 }
                             }
                         }
@@ -328,7 +332,8 @@ public class NetDraftJServer extends Listener {
     /**
      * Load a cube from a file, which is a plaintext list of cards
      * 
-     * @param cubeFile The file to read and load cards from
+     * @param cubeFile
+     *            The file to read and load cards from
      * @return true if the cube was loaded, false if the cube couldn't be loaded
      */
     private boolean loadCubeList(File cubeFile) {

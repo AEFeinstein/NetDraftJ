@@ -5,7 +5,15 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
 
@@ -101,8 +109,7 @@ public class NetDraftJServer_ui {
      * Pop a dialog asking the users if they really want to close the server
      */
     private void showExitDialog() {
-        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to close the server?",
-                "Close the Server",
+        int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to close the server?", "Close the Server",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -116,7 +123,8 @@ public class NetDraftJServer_ui {
     /**
      * Add text to the server text output window
      * 
-     * @param text The text to display
+     * @param text
+     *            The text to display
      */
     void appendText(String text) {
         SwingUtilities.invokeLater(() -> mTextPane.setText(mTextPane.getText() + '\n' + text));
@@ -141,7 +149,8 @@ public class NetDraftJServer_ui {
     /**
      * Enable or disable the "Start the draft" button
      * 
-     * @param enabled true to enable the button, false to disable it
+     * @param enabled
+     *            true to enable the button, false to disable it
      */
     void setStartButtonEnabled(boolean enabled) {
         SwingUtilities.invokeLater(() -> mBtnStartTheGame.setEnabled(enabled));
@@ -150,7 +159,8 @@ public class NetDraftJServer_ui {
     /**
      * Enable or disable the "Host" button in the client UI
      * 
-     * @param enabled true to enable the button, false to disable it
+     * @param enabled
+     *            true to enable the button, false to disable it
      */
     void setHostMenuItemEnabled(boolean enabled) {
         mClientUi.setHostMenuItemEnabled(enabled);

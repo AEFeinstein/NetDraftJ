@@ -20,18 +20,24 @@ public class Player {
 
     /**
      * Create a Player object with a Connection and the ConnectionRequest from that player
-     * @param connection The TCP connection the player connected on
-     * @param request The request with the player's UUID and name
+     * 
+     * @param connection
+     *            The TCP connection the player connected on
+     * @param request
+     *            The request with the player's UUID and name
      */
     Player(Connection connection, ConnectionRequest request) {
         this.initialize(connection, request);
     }
 
     /**
-     * Initialize a Player object with a Connection and the ConnectionRequest from that player. This may be
-     * called for a reconnected player and it will not disrupt the packs or picks.
-     * @param connection The TCP connection the player connected on
-     * @param request The request with the player's UUID and name
+     * Initialize a Player object with a Connection and the ConnectionRequest from that player. This may be called for a
+     * reconnected player and it will not disrupt the packs or picks.
+     * 
+     * @param connection
+     *            The TCP connection the player connected on
+     * @param request
+     *            The request with the player's UUID and name
      */
     void initialize(Connection connection, ConnectionRequest request) {
         this.mConnection = connection;
@@ -56,7 +62,9 @@ public class Player {
 
     /**
      * Add a card to the current pack
-     * @param multiverseId The multiverse ID of the card to add to the pack
+     * 
+     * @param multiverseId
+     *            The multiverse ID of the card to add to the pack
      */
     void addCardToPack(Integer multiverseId) {
         mPack.add(multiverseId);
@@ -71,7 +79,9 @@ public class Player {
 
     /**
      * Set the entire pack to the pack argument. This doesn't copy contents. Used when shifting packs.
-     * @param lastPack The ArrayList to set the current pack to.
+     * 
+     * @param lastPack
+     *            The ArrayList to set the current pack to.
      */
     void setPack(ArrayList<Integer> lastPack) {
         mPack = lastPack;
@@ -79,7 +89,9 @@ public class Player {
 
     /**
      * Send a TCP message to this players asking what card to pick out of the current pack
-     * @param isReconnect true if this is a reconnection, false otherwise
+     * 
+     * @param isReconnect
+     *            true if this is a reconnection, false otherwise
      */
     void sendPickRequest(boolean isReconnect) {
         if (!isReconnect) {
@@ -90,7 +102,9 @@ public class Player {
 
     /**
      * Pick a card from the current pack, moving it from the pack to the picks
-     * @param multiverseId The multiverse ID of the card to move from the pack to the picks
+     * 
+     * @param multiverseId
+     *            The multiverse ID of the card to move from the pack to the picks
      */
     void pickCard(Integer multiverseId) {
         mPicked = true;
@@ -149,7 +163,9 @@ public class Player {
 
     /**
      * Send the seating order to this player
-     * @param players An ArrayList of Players which is ordered in the seating order
+     * 
+     * @param players
+     *            An ArrayList of Players which is ordered in the seating order
      */
     void sendSeatingOrder(ArrayList<Player> players) {
         StartDraftInfo sdi = new StartDraftInfo();

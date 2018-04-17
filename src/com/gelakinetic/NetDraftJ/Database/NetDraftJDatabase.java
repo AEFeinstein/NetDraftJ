@@ -58,9 +58,11 @@ public class NetDraftJDatabase {
     /**
      * Load a card from the database based on either the card's name or multiverse ID
      * 
-     * @param card A card with either a name or multiverse ID to be filled in
+     * @param card
+     *            A card with either a name or multiverse ID to be filled in
      * @return true if the card's data was filled in, false if there was an error
-     * @throws SQLException if there's a database exception
+     * @throws SQLException
+     *             if there's a database exception
      */
     public boolean loadCard(MtgCard card) throws SQLException {
 
@@ -73,7 +75,7 @@ public class NetDraftJDatabase {
 
         String sqlStatement;
         PreparedStatement preparedStatement;
-        //noinspection SpellCheckingInspection
+        // noinspection SpellCheckingInspection
         sqlStatement = "SELECT "
                 // Multiverse ID
                 + "cards.multiverseID, "
