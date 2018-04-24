@@ -15,10 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -156,7 +153,7 @@ public class NetDraftJClient_ui {
         menuBtnSaveDraftedCards.addActionListener(e -> mClient.saveDraftedCards());
         mnFile.add(menuBtnSaveDraftedCards);
 
-        JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime(this).toString());
+        JMenuItem mnDate = new JMenuItem("Built On " + getClassBuildTime(this));
         mnFile.add(mnDate);
 
         JMenuItem mnExit = new JMenuItem("Exit");
@@ -452,7 +449,7 @@ public class NetDraftJClient_ui {
      *            An object to get resources through, can be anything
      * @return The date this JAR was built, or the epoch if this isn't running from a JAR
      */
-    public static Date getClassBuildTime(Object obj) {
+    public static String getClassBuildTime(Object obj) {
         try {
             Enumeration<URL> resources = obj.getClass().getClassLoader().getResources("META-INF/MANIFEST.MF");
             while (resources.hasMoreElements()) {
@@ -460,17 +457,19 @@ public class NetDraftJClient_ui {
                     // Open a manifest, check if it has the Built-Date
                     // If it throws an exception, the while loop will continue executing
                     Manifest manifest = new Manifest(resources.nextElement().openStream());
-                    String buildDate = manifest.getMainAttributes().getValue("Built-Date");
-                    // noinspection SpellCheckingInspection
-                    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(buildDate);
-                } catch (IOException | ParseException | NullPointerException E) {
+                    String time = manifest.getMainAttributes().getValue("Built-Date");
+                    if(null == time) {
+                        throw new NullPointerException("debug build");
+                    }
+                    return time;
+                } catch (IOException | NullPointerException E) {
                     // Some error, keep looking through manifests
                 }
             }
         } catch (IOException E) {
             // Couldn't read resources, probably a debug build
         }
-        return new Date(0);
+        return "Today";
     }
 
     /**

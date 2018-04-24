@@ -115,7 +115,7 @@ public class NetDraftJServer extends Listener {
                 if (!mDraftStarted) {
                     // Draft hasn't started, so let the player join
 
-                    if (request.getBuildTimestamp() == NetDraftJClient_ui.getClassBuildTime(this).getTime()) {
+                    if (request.getBuildTimestamp().equals(NetDraftJClient_ui.getClassBuildTime(this))) {
 
                         // Logging
                         mUi.appendText(request.getUuid() + ": " + request.getName() + " joined the draft");

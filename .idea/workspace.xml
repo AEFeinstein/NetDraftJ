@@ -4,7 +4,9 @@
     <option name="CUSTOM_SCOPE_NAME" value="NetDraftJ" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4f26f36-cbd2-43d9-840d-4e2e1c2c4de2" name="Default" comment="" />
+    <list default="true" id="e4f26f36-cbd2-43d9-840d-4e2e1c2c4de2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+              <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -148,11 +150,6 @@
             <path>
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
               <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NetDraftJ" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="NetDraftJ" type="b2602c69:ProjectViewProjectNode" />
@@ -317,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1523933917637</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add imgscalr lib to intellij build">
+      <created>1523935465045</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1523935465045</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -325,15 +329,16 @@
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49889746" visible="true" weight="0.3283859" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49889746" weight="0.3283859" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5011025" side_tool="true" visible="true" weight="0.3283859" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50441015" side_tool="true" visible="true" weight="0.32745826" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49614114" weight="0.32745826" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49558985" weight="0.32745826" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25854465" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4950386" weight="0.33673468" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" visible="true" weight="0.18577729" />
       <window_info id="UI Designer" order="2" />
@@ -343,7 +348,6 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info active="true" anchor="bottom" id="Inspection Results" order="7" sideWeight="0.4878721" visible="true" weight="0.32745826" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4950386" weight="0.33673468" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
     </layout>
@@ -354,7 +358,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Javadoc&#10;&#10;Prefixed all class variables with m&#10;Fixed all typos&#10;A little non-javadoc linting too&#10;Don't close the program on a database error&#10;Don't send a player's picks back from the server at the end of a draft" />
     <MESSAGE value="Switch imgscalr to a jar library" />
-    <option name="LAST_COMMIT_MESSAGE" value="Switch imgscalr to a jar library" />
+    <MESSAGE value="Add imgscalr lib to intellij build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add imgscalr lib to intellij build" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -461,6 +466,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+          <folding>
+            <element signature="e#567#568#0" expanded="true" />
+            <element signature="e#597#598#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -468,6 +477,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1343">
           <caret line="85" column="26" lean-forward="true" selection-start-line="85" selection-start-column="26" selection-end-line="85" selection-end-column="26" />
+          <folding>
+            <element signature="e#714#758#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -482,6 +494,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-734">
           <caret line="109" column="21" selection-start-line="109" selection-start-column="21" selection-end-line="109" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -506,6 +521,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="307" column="52" selection-start-line="307" selection-start-column="52" selection-end-line="307" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -513,6 +531,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
           <caret line="154" column="47" lean-forward="true" selection-start-line="154" selection-start-column="47" selection-end-line="154" selection-end-column="47" />
+          <folding>
+            <element signature="e#1404#1405#0" expanded="true" />
+            <element signature="e#1433#1434#0" expanded="true" />
+            <element signature="e#1546#1547#0" expanded="true" />
+            <element signature="e#1585#1586#0" expanded="true" />
+            <element signature="e#1621#1622#0" expanded="true" />
+            <element signature="e#1649#1650#0" expanded="true" />
+            <element signature="e#1794#1795#0" expanded="true" />
+            <element signature="e#1826#1827#0" expanded="true" />
+            <element signature="e#2193#2194#0" expanded="true" />
+            <element signature="e#2257#2258#0" expanded="true" />
+            <element signature="e#2288#2289#0" expanded="true" />
+            <element signature="e#2316#2317#0" expanded="true" />
+            <element signature="e#2343#2344#0" expanded="true" />
+            <element signature="e#2373#2374#0" expanded="true" />
+            <element signature="e#2395#2396#0" expanded="true" />
+            <element signature="e#2423#2424#0" expanded="true" />
+            <element signature="e#2455#2456#0" expanded="true" />
+            <element signature="e#2504#2505#0" expanded="true" />
+            <element signature="e#2905#2906#0" expanded="true" />
+            <element signature="e#2939#2940#0" expanded="true" />
+            <element signature="e#2967#2968#0" expanded="true" />
+            <element signature="e#3001#3002#0" expanded="true" />
+            <element signature="e#3218#3219#0" expanded="true" />
+            <element signature="e#3284#3285#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -520,6 +564,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
           <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
+          <folding>
+            <element signature="e#434#435#0" expanded="true" />
+            <element signature="e#467#468#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -533,7 +581,7 @@
     <entry file="file://$PROJECT_DIR$/src/com/gelakinetic/NetDraftJ/Client/ImageLabel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+          <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
         </state>
       </provider>
     </entry>
