@@ -185,58 +185,6 @@ public class MtgCard {
     }
 
     /**
-     * Jumps through hoops and returns a correctly formatted URL for MagicCards.info's image.
-     *
-     * @return a URL to the card's image
-     */
-    private String getMtgiPicUrl(String language) {
-
-        final String mtgiExtras = "http://magiccards.info/extras/";
-        String picURL;
-        if (mSuperType.toLowerCase().contains("Ongoing".toLowerCase()) ||
-        /* extra space to not confuse with planeswalker */
-                mSuperType.toLowerCase().contains("Plane ".toLowerCase())
-                || mSuperType.toLowerCase().contains("Phenomenon".toLowerCase())
-                || mSuperType.toLowerCase().contains("Scheme".toLowerCase())) {
-            switch (mSetCode) {
-                case "PC2":
-                    picURL = mtgiExtras + "plane/planechase-2012-edition/" + mName + ".jpg";
-                    picURL = picURL.replace(" ", "-").replace("?", "").replace(",", "").replace("'", "").replace("!",
-                            "");
-                    break;
-                case "PCH":
-                    if (mName.equalsIgnoreCase("tazeem")) {
-                        mName = "tazeem-release-promo";
-                    }
-                    else if (mName.equalsIgnoreCase("celestine reef")) {
-                        mName = "celestine-reef-pre-release-promo";
-                    }
-                    else if (mName.equalsIgnoreCase("horizon boughs")) {
-                        mName = "horizon-boughs-gateway-promo";
-                    }
-                    picURL = mtgiExtras + "plane/planechase/" + mName + ".jpg";
-                    picURL = picURL.replace(" ", "-").replace("?", "").replace(",", "").replace("'", "").replace("!",
-                            "");
-                    break;
-                case "ARC":
-                    picURL = mtgiExtras + "scheme/archenemy/" + mName + ".jpg";
-                    picURL = picURL.replace(" ", "-").replace("?", "").replace(",", "").replace("'", "").replace("!",
-                            "");
-                    break;
-                default:
-                    picURL = "http://magiccards.info/scans/" + language + "/" + mMagicCardsInfoSetCode + "/"
-                            + mCardNumber + ".jpg";
-                    break;
-            }
-        }
-        else {
-            picURL = "http://magiccards.info/scans/" + language + "/" + mMagicCardsInfoSetCode + "/" + mCardNumber
-                    + ".jpg";
-        }
-        return picURL.toLowerCase(Locale.ENGLISH);
-    }
-
-    /**
      * Easily gets the uri for the image for a card by multiverse ID.
      *
      * @return uri of the card image
@@ -320,7 +268,6 @@ public class MtgCard {
         /* Download the image */
         boolean bRetry = true;
 
-        boolean triedMtgi = false;
         boolean triedGatherer = false;
         boolean triedScryfall = false;
 
@@ -338,12 +285,6 @@ public class MtgCard {
                      * If this fails, try next time with the MagicCards.info version
                      */
                     triedScryfall = true;
-                }
-                else if (!triedMtgi) {
-                    /* Try downloading the image from MagicCards.info next */
-                    picUrl = new URL(getMtgiPicUrl(cardLanguage));
-                    /* If this fails, try next time with the gatherer version */
-                    triedMtgi = true;
                 }
                 else {
                     /* Try downloading the image from gatherer */

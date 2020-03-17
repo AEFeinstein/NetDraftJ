@@ -57,8 +57,8 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Deal out the packs to all the players. This can't be called if there are no packs left. This doesn't send the TCP
-     * messages to any connected players.
+     * Deal out the packs to all the players. This can't be called if there are no
+     * packs left. This doesn't send the TCP messages to any connected players.
      */
     private void dealPacks() {
 
@@ -88,7 +88,8 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Send the dealt packs to all the connected players, asking for which card they're picking
+     * Send the dealt packs to all the connected players, asking for which card
+     * they're picking
      */
     private void sendPlayersPacks() {
         synchronized (mPlayers) {
@@ -256,8 +257,9 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Start a new Thread which the Server will run in. Ask the user what cube to load first, and load it. Loading a
-     * cube can take a while. Start another Thread to periodically check for client disconnects.
+     * Start a new Thread which the Server will run in. Ask the user what cube to
+     * load first, and load it. Loading a cube can take a while. Start another
+     * Thread to periodically check for client disconnects.
      * 
      * @param ipAddress
      *            The String representation of the dotted decimal IP address
@@ -345,10 +347,18 @@ public class NetDraftJServer extends Listener {
 
             // Read the file and fill in extra info from the database, save the
             // multiverseID
+            int cardsLoaded = 0;
             while ((line = fileReader.readLine()) != null) {
-                MtgCard card = new MtgCard(line);
+                MtgCard card = new MtgCard(line.split(" // ")[0]);
                 if (database.loadCard(card)) {
                     mCubeList.add(card.getMultiverseId());
+                    cardsLoaded++;
+                    if (cardsLoaded % 50 == 0) {
+                        mUi.appendText("Loaded " + cardsLoaded + " cards");
+                    }
+                }
+                else {
+                    mUi.appendText("Failed to load \"" + line + "\"");
                 }
             }
 
@@ -375,7 +385,8 @@ public class NetDraftJServer extends Listener {
     /**
      * Get this computer's public IP address using the whatIsMyIpAddress.com service
      * 
-     * @return This computer's public IP address, i.e. the router's IP address, or null if there's an Exception
+     * @return This computer's public IP address, i.e. the router's IP address, or
+     *         null if there's an Exception
      */
     public static String getPublicIp() {
         try {
@@ -388,7 +399,8 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Stop the server, halt the disconnection checking thread, and re-enable the menu "Host" button
+     * Stop the server, halt the disconnection checking thread, and re-enable the
+     * menu "Host" button
      */
     void stopServer() {
         if (null != mServer) {
@@ -400,9 +412,9 @@ public class NetDraftJServer extends Listener {
     }
 
     /**
-     * Start the draft. Ensure the UUIDs are unique, shuffle the seating, send the seating orders to all connected
-     * players, figure out the pack size and number of packs, deal out the first packs, and send the packs to all
-     * players
+     * Start the draft. Ensure the UUIDs are unique, shuffle the seating, send the
+     * seating orders to all connected players, figure out the pack size and number
+     * of packs, deal out the first packs, and send the packs to all players
      * 
      * @return true if the draft started, false otherwise
      */
