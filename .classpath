@@ -8,7 +8,11 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/NetDraftJ/lib/kryonet-doc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/commons-io-2.6.jar" sourcepath="lib/commons-io-2.6-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/NetDraftJ/lib/commons-io-2.6-javadoc.jar!/"/>
@@ -16,5 +20,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="lib/imgscalr-lib-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.8.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

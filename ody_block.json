@@ -1,0 +1,28 @@
+{
+   "limitedPacks":[
+      {
+         "setCode":"OD",
+         "distribution":{
+            "C":11,
+            "U":3,
+            "R":1
+         }
+      },
+      {
+         "setCode":"TO",
+         "distribution":{
+            "C":11,
+            "U":3,
+            "R":1
+         }
+      },
+      {
+         "setCode":"JU",
+         "distribution":{
+            "C":11,
+            "U":3,
+            "R":1
+         }
+      }
+   ]
+}

@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NetDraftJDatabase {
 
@@ -26,7 +28,6 @@ public class NetDraftJDatabase {
     /**
      * Try to connect to a database file, either in the res folder or bundled in the JAR
      */
-    @SuppressWarnings("SpellCheckingInspection")
     private void openConnection() throws SQLException, ClassNotFoundException {
         if ((new File("res\\mtg.sqlite")).exists()) {
             /* Open up the database */
@@ -144,5 +145,45 @@ public class NetDraftJDatabase {
         statement.close();
 
         return returnVal;
+    }
+    
+    /**
+     * Query for all cards of a given rarity in a given set and return a list
+     * of multiverseIDs
+     * 
+     * @param set    The set to search for cards from
+     * @param rarity The rarity of the cards to find
+     * @return A list of multiverseIDs, or null if the query fails
+     * @throws SQLException if there's a database exception
+     */
+    public List<Integer> getListBySetAndRarity(String set, char rarity) throws SQLException
+    {
+        if (null == mDbConnection) {
+            return null;
+        }
+
+        // Perform the query
+        String sqlStatement = "SELECT multiverseID "
+        		+ "FROM cards JOIN sets ON (cards.expansion = sets.code) "
+        		+ "WHERE cards.expansion = '" + set + "' AND cards.rarity = " + (int)rarity + " AND cards.supertype != 'Basic Land'";
+        PreparedStatement preparedStatement = mDbConnection.prepareStatement(sqlStatement);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        // Allocate an ArrayList to store the results
+        ArrayList<Integer> mIds = new ArrayList<Integer>();
+
+        // Find the column index, just once
+        int colIdx = resultSet.findColumn("multiverseID");
+        
+        // Copy all multiverse IDs to the ArrayList
+        while(!resultSet.isAfterLast()) {
+        	mIds.add(resultSet.getInt(colIdx));
+        	resultSet.next();
+        }
+
+        // Clean up
+        resultSet.close();
+
+        return mIds;
     }
 }

@@ -2,6 +2,7 @@ package com.gelakinetic.NetDraftJ.Server;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +10,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -20,6 +24,10 @@ import com.gelakinetic.NetDraftJ.Messages.ConnectionRequest;
 import com.gelakinetic.NetDraftJ.Messages.ConnectionResponse;
 import com.gelakinetic.NetDraftJ.Messages.MessageUtils;
 import com.gelakinetic.NetDraftJ.Messages.PickResponse;
+import com.gelakinetic.NetDraftJ.Server.LimitedDraftPacks.LimitedPack;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 public class NetDraftJServer extends Listener {
 
@@ -44,6 +52,10 @@ public class NetDraftJServer extends Listener {
     private boolean mDraftStarted;
 
     private boolean mStopDisconnectCheckThread = false;
+
+	private LimitedDraftPacks mLimitedInfo;
+	
+	private Random mRand = new Random();
 
     /**
      * Create a new server with the given UI
@@ -77,13 +89,54 @@ public class NetDraftJServer extends Listener {
                 mCurrentPackDirection = Direction.LEFT;
             }
 
-            // Deal out the packs
-            for (Player player : mPlayers) {
-                player.clearPack();
-                for (int packIdx = 0; packIdx < mPackSize; packIdx++) {
-                    player.addCardToPack(mCubeList.get(mCubeIdx++));
-                }
-            }
+
+            if(mCubeList.size() > 0) {
+	            // Deal out the cube packs
+	            for (Player player : mPlayers) {
+	                player.clearPack();
+	                for (int packIdx = 0; packIdx < mPackSize; packIdx++) {
+	                    player.addCardToPack(mCubeList.get(mCubeIdx++));
+	                }
+	            }
+        	}
+        	else {
+        		
+        		int packIdx = mLimitedInfo.limitedPacks.size() - mNumPacks - 1;
+        		LimitedPack li = mLimitedInfo.limitedPacks.get(packIdx);
+
+                try {
+	                NetDraftJDatabase database = new NetDraftJDatabase();
+	                HashMap<Character, List<Integer>> cardPool = new HashMap<Character, List<Integer>>();
+	                for(Character rarity : li.distribution.keySet()) {
+							cardPool.put(rarity, database.getListBySetAndRarity(li.setCode, rarity));
+	                }
+	                database.closeConnection();
+
+	        		// Dealing limited packs. Gotta create these first
+		            for (Player player : mPlayers) {
+		                player.clearPack();
+		                char rarityOrder[] = {'C', 'U', 'R'};
+		                for(char rarity : rarityOrder) {
+		                	if(cardPool.containsKey(rarity)) {
+		                		
+		                		// If this is the rare slot and mythics exist
+		                		if('R' == rarity && cardPool.containsKey('M')) {
+		                			// There's a one-in-eight chance a mythic replaces a rare
+		                			if (mRand.nextInt() % 8 == 0) {
+		                				rarity = 'M';
+		                			}
+		                		}
+			                	Collections.shuffle(cardPool.get(rarity));
+			                	for(int i = 0; i < li.distribution.get(rarity); i++) {
+			                		player.addCardToPack(cardPool.get(rarity).get(i));
+			                	}
+		                	}
+		                }
+		            }
+                } catch (SQLException e) {
+					e.printStackTrace();
+				}
+        	}
         }
     }
 
@@ -271,14 +324,29 @@ public class NetDraftJServer extends Listener {
             File cubeFile = mUi.pickCubeFile();
             if (null == cubeFile) {
                 mUi.appendText("User didn't pick a file");
+                return;
             }
-            else {
+            else if(cubeFile.getName().toLowerCase().endsWith("json")) {
+            	// Load the JSON for packs
+                mUi.appendText("Loading " + cubeFile.getName());
+                if (!loadLimitedPackList(cubeFile)) {
+                    mUi.appendText("Failed to open limited pack file");
+                    return;
+                }
+                mUi.appendText(cubeFile.getName() + " loaded");
+            }
+            else if(cubeFile.getName().toLowerCase().endsWith("txt")) {
+            	// Load the plain text for cube
                 mUi.appendText("Loading " + cubeFile.getName());
                 if (!loadCubeList(cubeFile)) {
                     mUi.appendText("Failed to open cube file");
                     return;
                 }
                 mUi.appendText(cubeFile.getName() + " loaded");
+            }
+            else {
+                mUi.appendText("User didn't pick a .txt or .json file");            	
+                return;
             }
 
             // Start the server!
@@ -331,6 +399,24 @@ public class NetDraftJServer extends Listener {
         }).start();
     }
 
+    /**
+     * 
+     * @param limitedPackFile
+     * @return
+     */
+    private boolean loadLimitedPackList(File limitedPackFile)
+    {
+    	try {
+			mLimitedInfo = (new Gson()).fromJson(new FileReader(limitedPackFile), LimitedDraftPacks.class);
+			mNumPacks = mLimitedInfo.limitedPacks.size();
+			mCubeList.clear();
+		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+    	return true;
+    }
+    
     /**
      * Load a cube from a file, which is a plaintext list of cards
      * 
@@ -450,13 +536,19 @@ public class NetDraftJServer extends Listener {
             mUi.appendText("Send the seating orders");
 
             // Figure out pack size and number of packs
-            mPackSize = (mPlayers.size() * 2) - 1;
-            mNumPacks = (int) Math.ceil(45 / (float) mPackSize);
-
-            if (mPackSize * mNumPacks > mCubeList.size()) {
-                int cardsPerPlayer = (int) Math.floor(mCubeList.size() / (double) mPlayers.size());
-                mPackSize = (int) Math.floor(cardsPerPlayer / 3.0f);
+            if(mCubeList.size() > 0) {
+	            mPackSize = (mPlayers.size() * 2) - 1;
+	            mNumPacks = (int) Math.ceil(45 / (float) mPackSize);
+	            if (mPackSize * mNumPacks > mCubeList.size()) {
+	                int cardsPerPlayer = (int) Math.floor(mCubeList.size() / (double) mPlayers.size());
+	                mPackSize = (int) Math.floor(cardsPerPlayer / 3.0f);
+	            }
             }
+            else {
+            	mNumPacks = mLimitedInfo.limitedPacks.size();
+            	mPackSize = 0; // Doesn't matter
+            }
+
             mCubeIdx = 0;
 
             // Deal out the packs
