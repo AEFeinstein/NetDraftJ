@@ -177,7 +177,11 @@ public class NetDraftJDatabase {
         
         // Copy all multiverse IDs to the ArrayList
         while(!resultSet.isAfterLast()) {
-        	mIds.add(resultSet.getInt(colIdx));
+        	// Make sure this is unique
+        	int multiverseId = resultSet.getInt(colIdx);
+        	if(!mIds.contains(multiverseId)) {
+        		mIds.add(multiverseId);
+        	}
         	resultSet.next();
         }
 

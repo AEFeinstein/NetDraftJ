@@ -128,7 +128,13 @@ public class NetDraftJServer extends Listener {
 		                		}
 			                	Collections.shuffle(cardPool.get(rarity));
 			                	for(int i = 0; i < li.distribution.get(rarity); i++) {
-			                		player.addCardToPack(cardPool.get(rarity).get(i));
+			                		int mid = cardPool.get(rarity).get(i);
+			                		if(!player.getPack().contains(mid)) {
+				                		player.addCardToPack(mid);			                			
+			                		}
+			                		else {
+			                			i--;
+			                		}
 			                	}
 		                	}
 		                }
