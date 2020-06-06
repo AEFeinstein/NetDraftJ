@@ -15,6 +15,7 @@
 		<pathelement location="lib/commons-io-2.6.jar" />
 		<pathelement location="lib/miglayout15-swing.jar" />
 		<pathelement location="lib/imgscalr-lib-4.2.jar" />
+		<pathelement location="lib/gson-2.8.6.jar" />
 	</path>
 	<target name="init">
 		<mkdir dir="bin" />
@@ -90,6 +91,7 @@
 			<zipfileset excludes="META-INF/*.SF" src="./lib/commons-io-2.6.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="./lib/miglayout15-swing.jar" />
 			<zipfileset excludes="META-INF/*.SF" src="./lib/imgscalr-lib-4.2.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="./lib/gson-2.8.6.jar" />
 		</jar>
 	</target>
 </project>
