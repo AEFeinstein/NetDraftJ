@@ -172,6 +172,19 @@ public class NetDraftJServer extends Listener {
                 if (!mDraftStarted) {
                     // Draft hasn't started, so let the player join
 
+                    // First make sure this player's name isn't in use already
+                    for (Player p : mPlayers) {
+                        if (p.getName().equalsIgnoreCase(request.getName())) {
+                            // Logging
+                            mUi.appendText(
+                                    "Rejected (name already in use)" + request.getUuid() + ": " + request.getName());
+
+                            // Let the player know they've been rejected
+                            connection.sendTCP(new ConnectionResponse(false, "Name already in use"));
+                            return;
+                        }
+                    }
+
                     if (request.getBuildTimestamp().equals(NetDraftJClient_ui.getClassBuildTime(this))) {
 
                         // Logging
