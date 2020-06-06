@@ -12,9 +12,9 @@ The Windows executable can be built with `make clean all`. The dependencies are
 
 ## Features
 
-NetDraftJ supports drafting cubes, which are supplied as a plaintext list of cards. See `[LegacyCube.txt](https://github.com/AEFeinstein/NetDraftJ/blob/master/LegacyCube.txt)` for an example.
+NetDraftJ supports drafting cubes, which are supplied as a plaintext list of cards. See [`LegacyCube.txt`](https://github.com/AEFeinstein/NetDraftJ/blob/master/LegacyCube.txt) for an example.
 
-NetDraftJ also supports drafting packs, which supplied as JSON. See `[ody_block.json](https://github.com/AEFeinstein/NetDraftJ/blob/master/ody_block.json)` for an example. Mythics replace rares at a 1/8 rate, if the set contains mythics. `'T'` is the rarity for timeshifted cards.
+NetDraftJ also supports drafting packs, which supplied as JSON. See [`ody_block.json`](https://github.com/AEFeinstein/NetDraftJ/blob/master/ody_block.json) for an example. Mythics replace rares at a 1/8 rate, if the set contains mythics. `'T'` is the rarity for timeshifted cards.
 
 For reference, the values for `setCode` are:
 
