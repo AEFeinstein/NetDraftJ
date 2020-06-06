@@ -32,6 +32,8 @@
 	</target>
 	<target name="clean">
 		<delete dir="bin" />
+		<delete file="NetDraftJ.jar" />
+		<delete file="NetDraftJ.exe" />
 	</target>
 	<target depends="clean" name="cleanall" />
 	<target depends="build-subprojects,build-project" name="build" />
