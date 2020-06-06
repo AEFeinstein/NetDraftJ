@@ -20,13 +20,15 @@ public class NetDraftJDatabase {
     public NetDraftJDatabase() {
         try {
             this.openConnection();
-        } catch (SQLException | ClassNotFoundException e) {
+        }
+        catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Try to connect to a database file, either in the res folder or bundled in the JAR
+     * Try to connect to a database file, either in the res folder or bundled in the
+     * JAR
      */
     private void openConnection() throws SQLException, ClassNotFoundException {
         if ((new File("res\\mtg.sqlite")).exists()) {
@@ -49,7 +51,8 @@ public class NetDraftJDatabase {
         if (mDbConnection != null) {
             try {
                 mDbConnection.close();
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 /* For exceptions, just print them out */
                 e.printStackTrace();
             }
@@ -57,13 +60,12 @@ public class NetDraftJDatabase {
     }
 
     /**
-     * Load a card from the database based on either the card's name or multiverse ID
+     * Load a card from the database based on either the card's name or multiverse
+     * ID
      * 
-     * @param card
-     *            A card with either a name or multiverse ID to be filled in
+     * @param card A card with either a name or multiverse ID to be filled in
      * @return true if the card's data was filled in, false if there was an error
-     * @throws SQLException
-     *             if there's a database exception
+     * @throws SQLException if there's a database exception
      */
     public boolean loadCard(MtgCard card) throws SQLException {
 
@@ -72,9 +74,9 @@ public class NetDraftJDatabase {
         }
 
         /* Perform the query */
-        Statement statement = mDbConnection.createStatement();
+        Statement         statement = mDbConnection.createStatement();
 
-        String sqlStatement;
+        String            sqlStatement;
         PreparedStatement preparedStatement;
         // noinspection SpellCheckingInspection
         sqlStatement = "SELECT "
@@ -138,7 +140,7 @@ public class NetDraftJDatabase {
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        boolean returnVal = card.setDataFromQuery(resultSet);
+        boolean   returnVal = card.setDataFromQuery(resultSet);
 
         /* Clean up */
         resultSet.close();
@@ -146,43 +148,42 @@ public class NetDraftJDatabase {
 
         return returnVal;
     }
-    
+
     /**
-     * Query for all cards of a given rarity in a given set and return a list
-     * of multiverseIDs
+     * Query for all cards of a given rarity in a given set and return a list of
+     * multiverseIDs
      * 
      * @param set    The set to search for cards from
      * @param rarity The rarity of the cards to find
      * @return A list of multiverseIDs, or null if the query fails
      * @throws SQLException if there's a database exception
      */
-    public List<Integer> getListBySetAndRarity(String set, char rarity) throws SQLException
-    {
+    public List<Integer> getListBySetAndRarity(String set, char rarity) throws SQLException {
         if (null == mDbConnection) {
             return null;
         }
 
         // Perform the query
-        String sqlStatement = "SELECT multiverseID "
-        		+ "FROM cards JOIN sets ON (cards.expansion = sets.code) "
-        		+ "WHERE cards.expansion = '" + set + "' AND cards.rarity = " + (int)rarity + " AND cards.supertype != 'Basic Land'";
-        PreparedStatement preparedStatement = mDbConnection.prepareStatement(sqlStatement);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        String             sqlStatement      = "SELECT multiverseID "
+                + "FROM cards JOIN sets ON (cards.expansion = sets.code) " + "WHERE cards.expansion = '" + set
+                + "' AND cards.rarity = " + (int) rarity + " AND cards.supertype != 'Basic Land'";
+        PreparedStatement  preparedStatement = mDbConnection.prepareStatement(sqlStatement);
+        ResultSet          resultSet         = preparedStatement.executeQuery();
 
         // Allocate an ArrayList to store the results
-        ArrayList<Integer> mIds = new ArrayList<Integer>();
+        ArrayList<Integer> mIds              = new ArrayList<Integer>();
 
         // Find the column index, just once
-        int colIdx = resultSet.findColumn("multiverseID");
-        
+        int                colIdx            = resultSet.findColumn("multiverseID");
+
         // Copy all multiverse IDs to the ArrayList
-        while(!resultSet.isAfterLast()) {
-        	// Make sure this is unique
-        	int multiverseId = resultSet.getInt(colIdx);
-        	if(!mIds.contains(multiverseId)) {
-        		mIds.add(multiverseId);
-        	}
-        	resultSet.next();
+        while (!resultSet.isAfterLast()) {
+            // Make sure this is unique
+            int multiverseId = resultSet.getInt(colIdx);
+            if (!mIds.contains(multiverseId)) {
+                mIds.add(multiverseId);
+            }
+            resultSet.next();
         }
 
         // Clean up

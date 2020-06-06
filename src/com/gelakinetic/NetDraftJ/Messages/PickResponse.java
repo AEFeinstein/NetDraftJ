@@ -2,7 +2,7 @@ package com.gelakinetic.NetDraftJ.Messages;
 
 public class PickResponse {
     private long mUuid;
-    private int mPick;
+    private int  mPick;
 
     @SuppressWarnings("unused")
     public PickResponse() {

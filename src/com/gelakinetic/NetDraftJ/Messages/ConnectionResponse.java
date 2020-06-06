@@ -3,7 +3,7 @@ package com.gelakinetic.NetDraftJ.Messages;
 public class ConnectionResponse {
 
     private final boolean mConnectionStatus;
-    private final String mMessage;
+    private final String  mMessage;
 
     @SuppressWarnings("unused")
     public ConnectionResponse() {

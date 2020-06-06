@@ -11,9 +11,9 @@ import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
 
 public class ConnectionRequest {
 
-    private final String mName;
-    private long mUuid;
-    private String mBuildTimestamp;
+    private final String        mName;
+    private long                mUuid;
+    private String              mBuildTimestamp;
 
     private static final String UUID_FILE = "uuid";
 
@@ -30,14 +30,16 @@ public class ConnectionRequest {
             BufferedReader br = new BufferedReader(new FileReader(UUID_FILE));
             mUuid = Long.parseLong(br.readLine());
             br.close();
-        } catch (NumberFormatException | IOException e) {
+        }
+        catch (NumberFormatException | IOException e) {
             // If that fails, generate a new one and save it
             mUuid = new Random(System.currentTimeMillis()).nextLong();
             try {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(UUID_FILE));
                 bw.write(Long.toString(mUuid));
                 bw.close();
-            } catch (IOException e1) {
+            }
+            catch (IOException e1) {
                 mUi.showErrorDialog(
                         "Cannot write UUID file. Please move NetDraftJ somewhere with write permissions and restart it.");
                 e1.printStackTrace();

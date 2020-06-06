@@ -59,17 +59,17 @@ public class NetDraftJClient_ui {
     private static final ExecutorService threadPool = Executors
             .newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    private final NetDraftJClient mClient;
+    private final NetDraftJClient        mClient;
 
-    private JFrame mFrame;
-    private JPanel mPackGridLayout;
-    private JPanel mTextBoxLayout;
+    private JFrame                       mFrame;
+    private JPanel                       mPackGridLayout;
+    private JPanel                       mTextBoxLayout;
 
-    private JMenuItem menuBtnHost;
-    private JMenuItem menuBtnConnect;
+    private JMenuItem                    menuBtnHost;
+    private JMenuItem                    menuBtnConnect;
 
-    private static boolean mHasAssignedUuid;
-    private static long mAssignedUuid;
+    private static boolean               mHasAssignedUuid;
+    private static long                  mAssignedUuid;
 
     /**
      * Launch the application.
@@ -80,7 +80,8 @@ public class NetDraftJClient_ui {
             try {
                 mAssignedUuid = Long.parseLong(args[0]);
                 mHasAssignedUuid = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 mHasAssignedUuid = false;
             }
         }
@@ -89,7 +90,8 @@ public class NetDraftJClient_ui {
 
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+            }
+            catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                     | UnsupportedLookAndFeelException e1) {
                 e1.printStackTrace();
             }
@@ -100,7 +102,8 @@ public class NetDraftJClient_ui {
             try {
                 NetDraftJClient_ui window = new NetDraftJClient_ui();
                 window.mFrame.setVisible(true);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -136,7 +139,7 @@ public class NetDraftJClient_ui {
             ((PlainDocument) server.getDocument()).setDocumentFilter(new TextInputFilter(inputType.IP_ADDRESS));
             final JComponent[] inputs = new JComponent[] { new JLabel("Username"), playerName,
                     new JLabel("Server IP Address"), server };
-            int result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
+            int                result = JOptionPane.showConfirmDialog(null, inputs, "Connect to a Draft",
                     JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
                 mClient.connectToServer(playerName.getText(), server.getText());
@@ -217,8 +220,8 @@ public class NetDraftJClient_ui {
     /**
      * Show a dialog asking the user if they really want to exit
      *
-     * @param isMenu
-     *            true if the dialog is shown from the menu, false if the user presses the X button
+     * @param isMenu true if the dialog is shown from the menu, false if the user
+     *               presses the X button
      */
     private void showExitDialog(boolean isMenu) {
         int confirmed = JOptionPane.showConfirmDialog(null, "Sure you want to exit?", "Leaving So Soon?",
@@ -238,22 +241,20 @@ public class NetDraftJClient_ui {
     /**
      * Add a String to the text display on the right
      * 
-     * @param string
-     *            The String to display, may be HTML
+     * @param string The String to display, may be HTML
      */
     void appendText(String string) {
         appendText(string, null, null);
     }
 
     /**
-     * Add a String to the text display on the right with a colored background and tooltip text
+     * Add a String to the text display on the right with a colored background and
+     * tooltip text
      * 
-     * @param string
-     *            The String to display, may be HTML
-     * @param tooltipText
-     *            The tooltip text to display, may be HTML
-     * @param colorStr
-     *            The color string of the card displayed consisting of the chars w, u, b, r, and g
+     * @param string      The String to display, may be HTML
+     * @param tooltipText The tooltip text to display, may be HTML
+     * @param colorStr    The color string of the card displayed consisting of the
+     *                    chars w, u, b, r, and g
      */
     void appendText(String string, String tooltipText, String colorStr) {
         SwingUtilities.invokeLater(() -> {
@@ -264,31 +265,31 @@ public class NetDraftJClient_ui {
                 label.setToolTipText(tooltipText);
             }
             if (null != colorStr) {
-                Color bgColor = null;
+                Color  bgColor          = null;
 
                 String colorStrFiltered = colorStr.replaceAll("[^WUBRGwubrg]", "").toLowerCase();
                 if (colorStrFiltered.length() == 1) {
                     switch (colorStrFiltered.charAt(0)) {
-                        case 'w': {
-                            bgColor = Color.WHITE;
-                            break;
-                        }
-                        case 'u': {
-                            bgColor = Color.BLUE;
-                            break;
-                        }
-                        case 'b': {
-                            bgColor = Color.BLACK;
-                            break;
-                        }
-                        case 'r': {
-                            bgColor = Color.RED;
-                            break;
-                        }
-                        case 'g': {
-                            bgColor = Color.GREEN.darker();
-                            break;
-                        }
+                    case 'w': {
+                        bgColor = Color.WHITE;
+                        break;
+                    }
+                    case 'u': {
+                        bgColor = Color.BLUE;
+                        break;
+                    }
+                    case 'b': {
+                        bgColor = Color.BLACK;
+                        break;
+                    }
+                    case 'r': {
+                        bgColor = Color.RED;
+                        break;
+                    }
+                    case 'g': {
+                        bgColor = Color.GREEN.darker();
+                        break;
+                    }
                     }
                 }
                 else if (colorStrFiltered.length() > 1) {
@@ -335,17 +336,16 @@ public class NetDraftJClient_ui {
     /**
      * Load a pack's images when the server sends a pack to the client
      * 
-     * @param pack
-     *            An array of multiverse IDs for a given pack
+     * @param pack An array of multiverse IDs for a given pack
      */
     void loadPack(int[] pack) {
 
         // First create all of the ImageLabels
         ArrayList<ImageLabel> labels = new ArrayList<>(pack.length);
         for (int cardMultiverseId : pack) {
-            final MtgCard card = new MtgCard(cardMultiverseId);
+            final MtgCard card    = new MtgCard(cardMultiverseId);
 
-            ImageLabel lblCard = new ImageLabel();
+            ImageLabel    lblCard = new ImageLabel();
             lblCard.setHorizontalAlignment(SwingConstants.CENTER);
             lblCard.setVerticalAlignment(SwingConstants.CENTER);
             lblCard.addMouseListener(new MouseAdapter() {
@@ -354,29 +354,29 @@ public class NetDraftJClient_ui {
 
                     // Custom button text
                     Object[] options = { "Yes, please", "No, thanks" };
-                    int choice = JOptionPane.showOptionDialog(mFrame, "Sure you want to draft " + card.getName() + "?",
-                            "Double Checking", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
-                            options[1]);
+                    int      choice  = JOptionPane.showOptionDialog(mFrame,
+                            "Sure you want to draft " + card.getName() + "?", "Double Checking",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
                     switch (choice) {
-                        case JOptionPane.YES_OPTION: {
-                            mPackGridLayout.remove(lblCard);
-                            synchronized (mPackGridLayout.getTreeLock()) {
-                                for (Component component : mPackGridLayout.getComponents()) {
-                                    for (MouseListener ml : component.getMouseListeners()) {
-                                        component.removeMouseListener(ml);
-                                    }
+                    case JOptionPane.YES_OPTION: {
+                        mPackGridLayout.remove(lblCard);
+                        synchronized (mPackGridLayout.getTreeLock()) {
+                            for (Component component : mPackGridLayout.getComponents()) {
+                                for (MouseListener ml : component.getMouseListeners()) {
+                                    component.removeMouseListener(ml);
                                 }
                             }
-                            mClient.pickCard(card);
-                            appendText(mClient.getPickedCardCount() + ":  " + card.getName(), card.getToolTipText(),
-                                    card.getColor());
-                            break;
                         }
-                        default:
-                        case JOptionPane.NO_OPTION: {
-                            break;
-                        }
+                        mClient.pickCard(card);
+                        appendText(mClient.getPickedCardCount() + ":  " + card.getName(), card.getToolTipText(),
+                                card.getColor());
+                        break;
+                    }
+                    default:
+                    case JOptionPane.NO_OPTION: {
+                        break;
+                    }
                     }
                     mPackGridLayout.repaint();
                     mPackGridLayout.validate();
@@ -400,7 +400,8 @@ public class NetDraftJClient_ui {
                             lblCard.validate();
                         });
                     }
-                } catch (SQLException e) {
+                }
+                catch (SQLException e) {
                     e.printStackTrace();
                 }
                 database.closeConnection();
@@ -425,8 +426,7 @@ public class NetDraftJClient_ui {
     /**
      * Enable or disable the "Host" button in the menu
      * 
-     * @param enabled
-     *            true to enable the "Host" button, false to disable it
+     * @param enabled true to enable the "Host" button, false to disable it
      */
     public void setHostMenuItemEnabled(boolean enabled) {
         SwingUtilities.invokeLater(() -> menuBtnHost.setEnabled(enabled));
@@ -435,8 +435,7 @@ public class NetDraftJClient_ui {
     /**
      * Enable or disable the "Connect" button in the menu
      * 
-     * @param enabled
-     *            true to enable the "Connect" button, false to disable it
+     * @param enabled true to enable the "Connect" button, false to disable it
      */
     void setConnectMenuItemEnabled(boolean enabled) {
         SwingUtilities.invokeLater(() -> menuBtnConnect.setEnabled(enabled));
@@ -445,9 +444,9 @@ public class NetDraftJClient_ui {
     /**
      * Get the date this JAR was built from the manifest file
      *
-     * @param obj
-     *            An object to get resources through, can be anything
-     * @return The date this JAR was built, or the epoch if this isn't running from a JAR
+     * @param obj An object to get resources through, can be anything
+     * @return The date this JAR was built, or the epoch if this isn't running from
+     *         a JAR
      */
     public static String getClassBuildTime(Object obj) {
         try {
@@ -457,23 +456,26 @@ public class NetDraftJClient_ui {
                     // Open a manifest, check if it has the Built-Date
                     // If it throws an exception, the while loop will continue executing
                     Manifest manifest = new Manifest(resources.nextElement().openStream());
-                    String time = manifest.getMainAttributes().getValue("Built-Date");
-                    if(null == time) {
+                    String   time     = manifest.getMainAttributes().getValue("Built-Date");
+                    if (null == time) {
                         throw new NullPointerException("debug build");
                     }
                     return time;
-                } catch (IOException | NullPointerException E) {
+                }
+                catch (IOException | NullPointerException E) {
                     // Some error, keep looking through manifests
                 }
             }
-        } catch (IOException E) {
+        }
+        catch (IOException E) {
             // Couldn't read resources, probably a debug build
         }
         return "Today";
     }
 
     /**
-     * @return True if this launch has a UUID assigned from the command line arguments, false otherwise
+     * @return True if this launch has a UUID assigned from the command line
+     *         arguments, false otherwise
      */
     boolean hasAssignedUuid() {
         return mHasAssignedUuid;
@@ -489,8 +491,7 @@ public class NetDraftJClient_ui {
     /**
      * Show an error dialog with the given message
      * 
-     * @param message
-     *            The message to display in the error dialog
+     * @param message The message to display in the error dialog
      */
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(mFrame, message, "Error", JOptionPane.ERROR_MESSAGE);

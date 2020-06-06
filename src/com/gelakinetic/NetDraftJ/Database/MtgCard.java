@@ -14,43 +14,42 @@ import java.util.Locale;
 public class MtgCard {
 
     /* Special values for KEY_POWER and KEY_TOUGHNESS */
-    private static final int STAR = -1000;
-    private static final int ONE_PLUS_STAR = -1001;
-    private static final int TWO_PLUS_STAR = -1002;
-    private static final int SEVEN_MINUS_STAR = -1003;
-    private static final int STAR_SQUARED = -1004;
-    private static final int NO_ONE_CARES = -1005;
-    private static final int X = -1006;
-    private static final float QUESTION_MARK = -1007;
-    private static final float INFINITY = 1000000000;
+    private static final int   STAR                   = -1000;
+    private static final int   ONE_PLUS_STAR          = -1001;
+    private static final int   TWO_PLUS_STAR          = -1002;
+    private static final int   SEVEN_MINUS_STAR       = -1003;
+    private static final int   STAR_SQUARED           = -1004;
+    private static final int   NO_ONE_CARES           = -1005;
+    private static final int   X                      = -1006;
+    private static final float QUESTION_MARK          = -1007;
+    private static final float INFINITY               = 1000000000;
 
-    private int mMultiverseId = 0;
-    private String mCardNumber = null;
+    private int                mMultiverseId          = 0;
+    private String             mCardNumber            = null;
 
-    private String mName = null;
-    private String mManaCost = null;
-    private String mSuperType = null;
-    private String mSubType = null;
-    private String mColor = null;
+    private String             mName                  = null;
+    private String             mManaCost              = null;
+    private String             mSuperType             = null;
+    private String             mSubType               = null;
+    private String             mColor                 = null;
 
-    private String mText = null;
+    private String             mText                  = null;
 
-    private double mToughness = NO_ONE_CARES;
-    private double mPower = NO_ONE_CARES;
-    private double mLoyalty = NO_ONE_CARES;
+    private double             mToughness             = NO_ONE_CARES;
+    private double             mPower                 = NO_ONE_CARES;
+    private double             mLoyalty               = NO_ONE_CARES;
 
-    private String mFlavor = null;
-    private String mArtist = null;
-    private String mWatermark = null;
+    private String             mFlavor                = null;
+    private String             mArtist                = null;
+    private String             mWatermark             = null;
 
-    private String mSetCode = null;
-    private String mMagicCardsInfoSetCode = null;
+    private String             mSetCode               = null;
+    private String             mMagicCardsInfoSetCode = null;
 
     /**
      * Create a magic card with the given name
      * 
-     * @param name
-     *            The name for this object
+     * @param name The name for this object
      */
     public MtgCard(String name) {
         mName = name;
@@ -59,15 +58,15 @@ public class MtgCard {
     /**
      * Create a magic card with the given multiverse ID
      * 
-     * @param multiverseId
-     *            The multiverse ID for this object
+     * @param multiverseId The multiverse ID for this object
      */
     public MtgCard(int multiverseId) {
         mMultiverseId = multiverseId;
     }
 
     /**
-     * Build the HTML tooltip text for this card, which is basically all the information about it
+     * Build the HTML tooltip text for this card, which is basically all the
+     * information about it
      * 
      * @return The HTML formatted String with all this card's information
      */
@@ -123,10 +122,10 @@ public class MtgCard {
     }
 
     /**
-     * Convert a double representation of a power, toughness, or loyalty into the String representation
+     * Convert a double representation of a power, toughness, or loyalty into the
+     * String representation
      * 
-     * @param stat
-     *            The stat to convert
+     * @param stat The stat to convert
      * @return The String representation of this stat
      */
     private static String getPrintedPTL(double stat) {
@@ -217,10 +216,8 @@ public class MtgCard {
     /**
      * Fill in this card's data from the result of a SQLite query
      * 
-     * @param resultSet
-     *            The result of a SQLite query
-     * @throws SQLException
-     *             if there's a database error
+     * @param resultSet The result of a SQLite query
+     * @throws SQLException if there's a database error
      */
     boolean setDataFromQuery(ResultSet resultSet) throws SQLException {
         if (!resultSet.isClosed()) {
@@ -251,14 +248,15 @@ public class MtgCard {
     }
 
     /**
-     * Download and save an image of this card, then return a String path to that image
+     * Download and save an image of this card, then return a String path to that
+     * image
      * 
      * @return A String path to where this image was downloaded
      */
     public String downloadImage() {
         String cardLanguage = "en";
 
-        String mImageKey = Integer.toString(getMultiverseId()) + cardLanguage;
+        String mImageKey    = Integer.toString(getMultiverseId()) + cardLanguage;
 
         /* Check disk cache in background thread first */
         if (Files.exists(Paths.get("cache", mImageKey))) {
@@ -266,7 +264,7 @@ public class MtgCard {
         }
 
         /* Download the image */
-        boolean bRetry = true;
+        boolean bRetry        = true;
 
         boolean triedGatherer = false;
         boolean triedScryfall = false;
@@ -310,13 +308,15 @@ public class MtgCard {
 
                 return output.toString();
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 /* Something went wrong */
                 e.printStackTrace();
 
                 try {
                     Files.delete(output);
-                } catch (IOException e1) {
+                }
+                catch (IOException e1) {
                     e1.printStackTrace();
                 }
 
@@ -330,7 +330,8 @@ public class MtgCard {
     }
 
     /**
-     * @return This card's color as a String with the chars w, u, b, r, g, c, a, and l
+     * @return This card's color as a String with the chars w, u, b, r, g, c, a, and
+     *         l
      */
     public String getColor() {
         return this.mColor;

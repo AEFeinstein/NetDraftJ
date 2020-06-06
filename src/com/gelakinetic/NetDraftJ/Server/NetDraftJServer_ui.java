@@ -19,11 +19,11 @@ import com.gelakinetic.NetDraftJ.Client.NetDraftJClient_ui;
 
 public class NetDraftJServer_ui {
 
-    private NetDraftJServer mServer;
+    private NetDraftJServer          mServer;
 
-    private JFrame mFrame;
-    private JTextPane mTextPane;
-    private JButton mBtnStartTheGame;
+    private JFrame                   mFrame;
+    private JTextPane                mTextPane;
+    private JButton                  mBtnStartTheGame;
 
     private final NetDraftJClient_ui mClientUi;
 
@@ -38,7 +38,8 @@ public class NetDraftJServer_ui {
                 initialize();
                 mServer = new NetDraftJServer(NetDraftJServer_ui.this);
                 mServer.startServer(ipAddress);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -123,8 +124,7 @@ public class NetDraftJServer_ui {
     /**
      * Add text to the server text output window
      * 
-     * @param text
-     *            The text to display
+     * @param text The text to display
      */
     void appendText(String text) {
         SwingUtilities.invokeLater(() -> mTextPane.setText(mTextPane.getText() + '\n' + text));
@@ -149,8 +149,7 @@ public class NetDraftJServer_ui {
     /**
      * Enable or disable the "Start the draft" button
      * 
-     * @param enabled
-     *            true to enable the button, false to disable it
+     * @param enabled true to enable the button, false to disable it
      */
     void setStartButtonEnabled(boolean enabled) {
         SwingUtilities.invokeLater(() -> mBtnStartTheGame.setEnabled(enabled));
@@ -159,8 +158,7 @@ public class NetDraftJServer_ui {
     /**
      * Enable or disable the "Host" button in the client UI
      * 
-     * @param enabled
-     *            true to enable the button, false to disable it
+     * @param enabled true to enable the button, false to disable it
      */
     void setHostMenuItemEnabled(boolean enabled) {
         mClientUi.setHostMenuItemEnabled(enabled);

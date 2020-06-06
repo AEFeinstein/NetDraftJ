@@ -3,7 +3,7 @@ package com.gelakinetic.NetDraftJ.Messages;
 import java.util.ArrayList;
 
 public class PickRequest {
-    private int mPack[];
+    private int     mPack[];
     private boolean mPicked;
 
     @SuppressWarnings("unused")

@@ -30,18 +30,17 @@ class NetDraftJClient extends Listener {
     private final NetDraftJClient_ui mUi;
 
     // User data
-    private Client mClient;
-    private long mUuid;
+    private Client                   mClient;
+    private long                     mUuid;
 
     // Picked cards
-    private boolean mPickedCard;
-    private final ArrayList<String> mAllPicks;
+    private boolean                  mPickedCard;
+    private final ArrayList<String>  mAllPicks;
 
     /**
      * Construct a client to power the given UI
      * 
-     * @param ui
-     *            The UI this client will display everything in
+     * @param ui The UI this client will display everything in
      */
     NetDraftJClient(NetDraftJClient_ui ui) {
         this.mUi = ui;
@@ -55,10 +54,8 @@ class NetDraftJClient extends Listener {
     /**
      * This is called whenever a TCP message is received from the server
      *
-     * @param connection
-     *            The connection which received the TCP Message
-     * @param object
-     *            The de-serialized TCP message
+     * @param connection The connection which received the TCP Message
+     * @param object     The de-serialized TCP message
      */
     @Override
     public void received(Connection connection, Object object) {
@@ -82,7 +79,7 @@ class NetDraftJClient extends Listener {
         }
         else if (object instanceof StartDraftInfo) {
             StartDraftInfo sdi = (StartDraftInfo) object;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder  sb  = new StringBuilder();
             sb.append("<html>Seating Order<br>");
             sb.append("-------------<br>");
             for (String player : sdi.getSeatingOrder()) {
@@ -96,7 +93,7 @@ class NetDraftJClient extends Listener {
         }
         else if (object instanceof PreviousPicksInfo) {
             // Load up the previous pick information
-            PreviousPicksInfo ppi = (PreviousPicksInfo) object;
+            PreviousPicksInfo ppi      = (PreviousPicksInfo) object;
 
             NetDraftJDatabase database = new NetDraftJDatabase();
 
@@ -104,7 +101,8 @@ class NetDraftJClient extends Listener {
                 MtgCard card = new MtgCard(multiverseId);
                 try {
                     database.loadCard(card);
-                } catch (SQLException e) {
+                }
+                catch (SQLException e) {
                     e.printStackTrace();
                 }
                 mUi.appendText(card.getName(), card.getToolTipText(), card.getColor());
@@ -121,12 +119,11 @@ class NetDraftJClient extends Listener {
     }
 
     /**
-     * Attempt to connect to the server at the given IP address with the given username
+     * Attempt to connect to the server at the given IP address with the given
+     * username
      * 
-     * @param name
-     *            The username to connect to the server with
-     * @param serverIp
-     *            The String representation of the dotted decimal IP address
+     * @param name     The username to connect to the server with
+     * @param serverIp The String representation of the dotted decimal IP address
      */
     void connectToServer(String name, String serverIp) {
         if (null == name || name.isEmpty()) {
@@ -158,17 +155,18 @@ class NetDraftJClient extends Listener {
             else {
                 mUi.appendText("Connection failed");
             }
-        } catch (NumberFormatException | IOException e) {
+        }
+        catch (NumberFormatException | IOException e) {
             e.printStackTrace();
             mUi.appendText("EXCEPTION: " + e.getMessage());
         }
     }
 
     /**
-     * Pick a card out of the current pack, tell the server, and add the card to the list of picked cards
+     * Pick a card out of the current pack, tell the server, and add the card to the
+     * list of picked cards
      * 
-     * @param card
-     *            The card which was picked
+     * @param card The card which was picked
      */
     void pickCard(MtgCard card) {
         if (!mPickedCard) {
@@ -186,7 +184,8 @@ class NetDraftJClient extends Listener {
     }
 
     /**
-     * Pop open a dialog to ask the user where to save the .dec file after a draft, then save it
+     * Pop open a dialog to ask the user where to save the .dec file after a draft,
+     * then save it
      */
     void saveDraftedCards() {
         // Only save cards if some have been drafted
@@ -215,7 +214,8 @@ class NetDraftJClient extends Listener {
                     bw.write("1 " + cardName + '\n');
                 }
                 bw.close();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 mUi.appendText("Drafted cards not saved, please copy them to a plaintext .dec file");
                 e.printStackTrace();
             }
