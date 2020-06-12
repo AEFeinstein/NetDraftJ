@@ -496,4 +496,14 @@ public class NetDraftJClient_ui {
     public void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(mFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
+    
+    /**
+     * Show an info dialog with the given message
+     * 
+     * @param title   The title to display
+     * @param message The message to display
+     */
+    public void showInfoDialog(String title, String message) {
+        JOptionPane.showMessageDialog(mFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
 }

@@ -114,7 +114,11 @@ class NetDraftJClient extends Listener {
             // DraftOverNotification don = (DraftOverNotification) object;
 
             mUi.appendText("<html><br>Draft is complete.<br><br></html>");
-            this.saveDraftedCards();
+            if(!OSValidator.isMac()) {
+                this.saveDraftedCards();
+            } else {
+                mUi.showInfoDialog("Remember to Save", "Remember to save the cards you drafted");
+            }
         }
     }
 
