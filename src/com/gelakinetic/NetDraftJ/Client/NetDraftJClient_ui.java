@@ -56,8 +56,8 @@ import net.miginfocom.swing.MigLayout;
 
 public class NetDraftJClient_ui {
 
-    private static final ExecutorService threadPool = Executors
-            .newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(1);
+    // Runtime.getRuntime().availableProcessors()
 
     private final NetDraftJClient        mClient;
 
