@@ -132,6 +132,13 @@ public class NetDraftJDatabase {
             sqlStatement += orderLogic;
             preparedStatement = mDbConnection.prepareStatement(sqlStatement);
         }
+        else if(null != card.getNumber() && null != card.getSetCode()) {
+            sqlStatement += "(cards.number = ? AND cards.expansion = ?)";
+            sqlStatement += orderLogic;
+            preparedStatement = mDbConnection.prepareStatement(sqlStatement);
+            preparedStatement.setString(1, card.getNumber());
+            preparedStatement.setString(2, card.getSetCode());
+        }
         else {
             /* Clean up */
             statement.close();

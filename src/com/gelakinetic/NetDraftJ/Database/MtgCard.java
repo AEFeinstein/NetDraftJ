@@ -45,6 +45,7 @@ public class MtgCard {
 
     private String             mSetCode               = null;
     private String             mMagicCardsInfoSetCode = null;
+    private String             mToolTipText           = null;
 
     /**
      * Create a magic card with the given name
@@ -70,55 +71,85 @@ public class MtgCard {
      * 
      * @return The HTML formatted String with all this card's information
      */
-    public String getToolTipText() {
-        StringBuilder sb = new StringBuilder();
+    public String getToolTipText(boolean addHtmlTag) {
 
-        sb.append("<html>");
-        sb.append(mName);
-        sb.append("<br>");
+        if (null == mToolTipText) {
+            StringBuilder sb = new StringBuilder();
 
-        if (!mManaCost.isEmpty()) {
-            sb.append(mManaCost);
+            if (addHtmlTag) {
+                sb.append("<html>");
+            }
+            sb.append(mName);
             sb.append("<br>");
-        }
 
-        sb.append(mSuperType);
-        if (!mSubType.isEmpty()) {
-            sb.append(" - ");
-            sb.append(mSubType);
-        }
-        sb.append("<br>");
+            if (!mManaCost.isEmpty()) {
+                sb.append(mManaCost);
+                sb.append("<br>");
+            }
 
-        if (!mText.isEmpty()) {
-            sb.append(mText);
+            sb.append(mSuperType);
+            if (!mSubType.isEmpty()) {
+                sb.append(" - ");
+                sb.append(mSubType);
+            }
             sb.append("<br>");
-        }
 
-        String ptl = getPTLString();
-        if (null != ptl) {
-            sb.append(ptl);
-            sb.append("<br>");
-        }
+            if (!mText.isEmpty()) {
+                sb.append(mText);
+                sb.append("<br>");
+            }
 
-        if (!mFlavor.isEmpty()) {
-            sb.append("<i>");
-            sb.append(mFlavor);
-            sb.append("</i><br>");
-        }
+            String ptl = getPTLString();
+            if (null != ptl) {
+                sb.append(ptl);
+                sb.append("<br>");
+            }
 
-        if (!mArtist.isEmpty()) {
-            sb.append("Artist: ");
-            sb.append(mArtist);
-            sb.append("<br>");
-        }
+            if (!mFlavor.isEmpty()) {
+                sb.append("<i>");
+                sb.append(mFlavor);
+                sb.append("</i><br>");
+            }
 
-        if (!mWatermark.isEmpty()) {
-            sb.append("Watermark: ");
-            sb.append(mWatermark);
-            sb.append("<br>");
+            if (!mArtist.isEmpty()) {
+                sb.append("Artist: ");
+                sb.append(mArtist);
+                sb.append("<br>");
+            }
+
+            if (!mWatermark.isEmpty()) {
+                sb.append("Watermark: ");
+                sb.append(mWatermark);
+                sb.append("<br>");
+            }
+
+            if (this.mCardNumber.toLowerCase().contains("a")) {
+                try {
+                    MtgCard otherSide = new MtgCard(null);
+                    otherSide.mSetCode = this.mSetCode;
+                    if (this.mCardNumber.toLowerCase().contains("a")) {
+                        otherSide.mCardNumber = this.mCardNumber.replace('a', 'b');
+                    }
+                    else {
+                        otherSide.mCardNumber = this.mCardNumber.replace('b', 'a');
+                    }
+                    NetDraftJDatabase db = new NetDraftJDatabase();
+                    db.loadCard(otherSide);
+                    sb.append("===================<br>");
+                    sb.append(otherSide.getToolTipText(false));
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (addHtmlTag) {
+                sb.append("</html>");
+            }
+
+            mToolTipText = sb.toString();
         }
-        sb.append("</html>");
-        return sb.toString();
+        return mToolTipText;
     }
 
     /**
@@ -335,5 +366,19 @@ public class MtgCard {
      */
     public String getColor() {
         return this.mColor;
+    }
+
+    /**
+     * @return This card's number
+     */
+    public String getNumber() {
+        return this.mCardNumber;
+    }
+
+    /**
+     * @return This card's set code
+     */
+    public String getSetCode() {
+        return this.mSetCode;
     }
 }

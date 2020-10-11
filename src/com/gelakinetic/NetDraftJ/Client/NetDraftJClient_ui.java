@@ -369,7 +369,7 @@ public class NetDraftJClient_ui {
                             }
                         }
                         mClient.pickCard(card);
-                        appendText(mClient.getPickedCardCount() + ":  " + card.getName(), card.getToolTipText(),
+                        appendText(mClient.getPickedCardCount() + ":  " + card.getName(), card.getToolTipText(true),
                                 card.getColor());
                         break;
                     }
@@ -395,7 +395,7 @@ public class NetDraftJClient_ui {
                             lblCard.setIcon(new ImageIcon(filename));
                             lblCard.setHorizontalAlignment(SwingConstants.CENTER);
                             lblCard.setVerticalAlignment(SwingConstants.CENTER);
-                            lblCard.setToolTipText(card.getToolTipText());
+                            lblCard.setToolTipText(card.getToolTipText(true));
                             lblCard.repaint();
                             lblCard.validate();
                         });

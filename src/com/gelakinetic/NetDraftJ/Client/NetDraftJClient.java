@@ -105,7 +105,7 @@ class NetDraftJClient extends Listener {
                 catch (SQLException e) {
                     e.printStackTrace();
                 }
-                mUi.appendText(card.getName(), card.getToolTipText(), card.getColor());
+                mUi.appendText(card.getName(), card.getToolTipText(true), card.getColor());
                 mAllPicks.add(card.getName());
             }
             database.closeConnection();
