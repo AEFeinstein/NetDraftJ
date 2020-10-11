@@ -106,7 +106,7 @@ public class NetDraftJServer extends Listener {
                     NetDraftJDatabase                 database = new NetDraftJDatabase();
                     HashMap<Character, List<Integer>> cardPool = new HashMap<Character, List<Integer>>();
                     for (Character rarity : li.distribution.keySet()) {
-                        cardPool.put(rarity, database.getListBySetAndRarity(li.setCode, rarity));
+                        cardPool.put(rarity, database.getListBySetAndRarity(li.setCode, rarity, li.maxCardNumber));
                     }
                     database.closeConnection();
 

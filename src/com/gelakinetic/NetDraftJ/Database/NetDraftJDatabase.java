@@ -132,7 +132,7 @@ public class NetDraftJDatabase {
             sqlStatement += orderLogic;
             preparedStatement = mDbConnection.prepareStatement(sqlStatement);
         }
-        else if(null != card.getNumber() && null != card.getSetCode()) {
+        else if (null != card.getNumber() && null != card.getSetCode()) {
             sqlStatement += "(cards.number = ? AND cards.expansion = ?)";
             sqlStatement += orderLogic;
             preparedStatement = mDbConnection.prepareStatement(sqlStatement);
@@ -160,18 +160,20 @@ public class NetDraftJDatabase {
      * Query for all cards of a given rarity in a given set and return a list of
      * multiverseIDs
      * 
-     * @param set    The set to search for cards from
-     * @param rarity The rarity of the cards to find
+     * @param set           The set to search for cards from
+     * @param rarity        The rarity of the cards to find
+     * @param maxCardNumber The largest card number to put in a pack, used to filter
+     *                      out alt-arts
      * @return A list of multiverseIDs, or null if the query fails
      * @throws SQLException if there's a database exception
      */
-    public List<Integer> getListBySetAndRarity(String set, char rarity) throws SQLException {
+    public List<Integer> getListBySetAndRarity(String set, char rarity, int maxCardNumber) throws SQLException {
         if (null == mDbConnection) {
             return null;
         }
 
         // Perform the query
-        String             sqlStatement      = "SELECT multiverseID "
+        String             sqlStatement      = "SELECT multiverseID, number "
                 + "FROM cards JOIN sets ON (cards.expansion = sets.code) " + "WHERE cards.expansion = '" + set
                 + "' AND cards.rarity = " + (int) rarity
                 + " AND cards.supertype != 'Basic Land' AND cards.number NOT LIKE '%b'";
@@ -182,13 +184,17 @@ public class NetDraftJDatabase {
         ArrayList<Integer> mIds              = new ArrayList<Integer>();
 
         // Find the column index, just once
-        int                colIdx            = resultSet.findColumn("multiverseID");
+        int                mIdColIdx         = resultSet.findColumn("multiverseID");
+        int                numColIdx         = resultSet.findColumn("number");
 
         // Copy all multiverse IDs to the ArrayList
         while (!resultSet.isAfterLast()) {
             // Make sure this is unique
-            int multiverseId = resultSet.getInt(colIdx);
-            if (!mIds.contains(multiverseId)) {
+            int    multiverseId = resultSet.getInt(mIdColIdx);
+            String number       = resultSet.getString(numColIdx);
+            int    cardNum      = Integer.parseInt(number.replaceAll("[A-Za-z]", ""));
+
+            if ((maxCardNumber <= 0 || cardNum <= maxCardNumber) && !mIds.contains(multiverseId)) {
                 mIds.add(multiverseId);
             }
             resultSet.next();
