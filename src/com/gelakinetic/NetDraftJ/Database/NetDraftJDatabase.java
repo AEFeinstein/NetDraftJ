@@ -166,7 +166,8 @@ public class NetDraftJDatabase {
         // Perform the query
         String             sqlStatement      = "SELECT multiverseID "
                 + "FROM cards JOIN sets ON (cards.expansion = sets.code) " + "WHERE cards.expansion = '" + set
-                + "' AND cards.rarity = " + (int) rarity + " AND cards.supertype != 'Basic Land'";
+                + "' AND cards.rarity = " + (int) rarity
+                + " AND cards.supertype != 'Basic Land' AND cards.number NOT LIKE '%b'";
         PreparedStatement  preparedStatement = mDbConnection.prepareStatement(sqlStatement);
         ResultSet          resultSet         = preparedStatement.executeQuery();
 
